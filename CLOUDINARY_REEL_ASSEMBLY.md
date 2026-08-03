@@ -26,7 +26,7 @@ Create one dedicated scenario named **Reel Production — Cloudinary Assembly**.
 2. Reject the run with `Needs Media` when there is no usable video or still asset. Never invent a visual asset.
 3. Ask OpenAI for a concise English voice-over and subtitle text from the approved Reel Brief.
 4. Use OpenAI TTS to create the English MP3. Upload it to Cloudinary as a `video` resource in `reels/<content-record-id>/narration/`.
-5. Build SRT from the approved caption timings. Upload it as a `raw` Cloudinary resource in `reels/<content-record-id>/subtitles/`.
+5. Build SRT from the approved scene caption segments and scene durations. The tested local command `npm run plan:cloudinary` outputs the exact UTF-8 SRT, so the Make route must preserve its timing convention. Upload it as a `raw` Cloudinary resource in `reels/<content-record-id>/subtitles/`.
 6. Build a Cloudinary transformation from the ordered source public IDs:
    - normalize each asset to `1080x1920` before splicing;
    - trim video scenes to their approved start/end offsets;

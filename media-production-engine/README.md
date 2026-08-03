@@ -15,6 +15,17 @@ OPENAI_TTS_VOICE=coral
 
 Without those variables the development engine keeps using its mock voice for local tests.
 
+## Cloudinary planning helper
+
+The production route remains Make + Cloudinary, but the repository includes a deterministic local helper for validating the same asset inputs before a Make acceptance run. It creates the final delivery URL and a scene-timed SRT without contacting OpenAI or Cloudinary:
+
+```powershell
+'{"narrationPublicId":"reels/rec123/v1/narration","subtitlesPublicId":"reels/rec123/v1/subtitles.en","scenes":[...]}' |
+  npm run plan:cloudinary
+```
+
+Every scene must reference a durable `https://res.cloudinary.com/.../upload/...` URL, use the approved `sequence`, and include either `stillDuration` (photo/render) or `trimStart`/`trimEnd` (video). Include the approved `subtitleSegment` for each scene to produce an SRT suitable for Cloudinary's `l_subtitles` layer.
+
 ## Source media and final assets
 
 Scenes can use local paths for development or approved HTTPS source URLs. The local fallback permits existing Cloudinary source URLs only (`res.cloudinary.com`), downloads them into the persistent run directory, and refuses unapproved hosts. Do not deploy this service for the current MVP; follow `CLOUDINARY_REEL_ASSEMBLY.md` for the production path.

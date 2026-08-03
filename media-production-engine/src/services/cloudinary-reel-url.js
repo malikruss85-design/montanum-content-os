@@ -1,4 +1,5 @@
 const CLOUDINARY_RESOURCE_TYPES = new Set(['image', 'video']);
+import { buildSceneSrt } from './srt.js';
 
 function requirePositiveNumber(value, label) {
   const number = Number(value);
@@ -72,7 +73,7 @@ function sceneDuration(scene) {
 }
 
 /** Converts approved Content/Media Scene data into the exact deterministic Cloudinary assembly plan. */
-export function createCloudinaryReelAssemblyPlan({ scenes, narrationPublicId, subtitlesPublicId }) {
+export function createCloudinaryReelAssemblyPlan({ scenes, narrationPublicId, subtitlesPublicId, includeSrt = false }) {
   if (!Array.isArray(scenes) || scenes.length === 0) throw new Error('at least one scene is required');
   const mapped = scenes.map(scene => {
     const source = parseCloudinaryDeliveryUrl(scene.sourcePath);
@@ -90,7 +91,8 @@ export function createCloudinaryReelAssemblyPlan({ scenes, narrationPublicId, su
     cloudName: [...cloudNames][0],
     scenes: mapped,
     expectedDurationSeconds: mapped.reduce((total, scene) => total + scene.durationSeconds, 0),
-    finalReelUrl: buildCloudinaryReelUrl({ cloudName: [...cloudNames][0], scenes: mapped, narrationPublicId, subtitlesPublicId })
+    finalReelUrl: buildCloudinaryReelUrl({ cloudName: [...cloudNames][0], scenes: mapped, narrationPublicId, subtitlesPublicId }),
+    ...(includeSrt ? { srt: buildSceneSrt(scenes) } : {})
   };
 }
 
