@@ -13,7 +13,8 @@ On a machine with Docker Desktop:
 ```powershell
 cd 'C:\Users\malik\OneDrive\Desktop\Montanum Content OS\media-production-engine'
 Copy-Item .env.example .env
-# Set a unique MPE_API_TOKEN in .env
+# Set a unique MPE_API_TOKEN in .env. To use the live English voice, also set
+# MPE_TTS_PROVIDER=openai and OPENAI_API_KEY in this local-only file.
 docker compose up --build
 ```
 

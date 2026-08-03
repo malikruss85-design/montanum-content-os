@@ -1,23 +1,31 @@
 import { validateCommand } from '../contracts.js';
-import { inputSignature, stableRunId } from '../ids.js';
+import { inputSignature, stableAssetId, stableRunId } from '../ids.js';
+import { postAuthenticatedCallback } from '../callbacks.js';
 import { MockTtsAdapter } from './mock-tts.js';
 import { OpenAiTtsAdapter } from './openai-tts.js';
 import { LocalReelRenderer } from './renderer.js';
 
 export class ProductionService {
   constructor({ config, repository, logger }) { this.config = config; this.repository = repository; this.logger = logger; this.tts = config.ttsProvider === 'openai' ? new OpenAiTtsAdapter(config) : new MockTtsAdapter(config); this.renderer = new LocalReelRenderer(config); }
+  async notify(run, eventType, outputAssets = [], error = undefined) {
+    if (!this.config.callbackUrl) return;
+    const payload = { eventId: stableAssetId(`${run.runId}:${eventType}`), eventType, productionRunId: run.runId, contentId: run.contentId, status: run.status, outputAssets, ...(error ? { error } : {}), occurredAt: new Date().toISOString() };
+    try { await postAuthenticatedCallback(this.config, payload); await this.logger.info('callback_delivered', { runId: run.runId, eventType }); }
+    catch (callbackError) { await this.logger.error('callback_delivery_failed', { runId: run.runId, eventType, error: callbackError.message }); }
+  }
   async start(command) {
     const validated = validateCommand(command); const runId = stableRunId(validated.idempotencyKey); const signature = inputSignature(validated); const existing = await this.repository.findByRunId(runId);
     if (existing) { if (existing.inputSignature !== signature) throw new Error('Idempotency key was reused with different input'); return { run: existing, duplicate: true }; }
     const run = { runId, contentId: validated.contentId, bundleId: validated.bundleId, idempotencyKey: validated.idempotencyKey, inputSignature: signature, status: 'running', scenes: validated.scenes, createdAt: new Date().toISOString(), approval: { status: 'invalidated', reason: 'new production' }, assets: [] };
-    await this.repository.save(run); await this.logger.info('production_started', { runId, contentId: run.contentId });
+    await this.repository.save(run); await this.logger.info('production_started', { runId, contentId: run.contentId }); await this.notify(run, 'run_queued');
     try {
       const durationSeconds = validated.scenes.reduce((sum, scene) => sum + (['original_photo', 'render'].includes(scene.sourceAssetType) ? scene.stillDuration : scene.trimEnd - scene.trimStart), 0);
       const narration = await this.tts.synthesize({ requestId: runId, durationSeconds, text: validated.voiceOverScript });
+      await this.notify(run, 'narration_ready', [narration]);
       const rendered = await this.renderer.render({ runId, scenes: validated.scenes, narration, subtitleText: validated.subtitleText });
       const validation = await this.renderer.validate(rendered.finalAsset.storageReference);
-      Object.assign(run, { status: 'succeeded', completedAt: new Date().toISOString(), assets: [narration, rendered.subtitleAsset, rendered.finalAsset], validation }); await this.repository.save(run); await this.logger.info('production_succeeded', { runId, validation }); return { run, duplicate: false };
-    } catch (error) { run.status = 'failed'; run.error = { message: error.message, retryable: true }; run.completedAt = new Date().toISOString(); await this.repository.save(run); await this.logger.error('production_failed', { runId, error: error.message }); throw error; }
+      Object.assign(run, { status: 'succeeded', completedAt: new Date().toISOString(), assets: [narration, rendered.subtitleAsset, rendered.finalAsset], validation }); await this.repository.save(run); await this.logger.info('production_succeeded', { runId, validation }); await this.notify(run, 'final_render_ready', run.assets); return { run, duplicate: false };
+    } catch (error) { run.status = 'failed'; run.error = { message: error.message, retryable: true }; run.completedAt = new Date().toISOString(); await this.repository.save(run); await this.logger.error('production_failed', { runId, error: error.message }); await this.notify(run, 'run_failed', [], { code: 'production_failed', message: error.message, retryable: true }); throw error; }
   }
   async invalidateApproval(runId, sceneVersion) { const run = await this.repository.findByRunId(runId); if (!run) throw new Error('Production run not found'); run.approval = { status: 'invalidated', reason: 'scene_version_changed', sceneVersion, invalidatedAt: new Date().toISOString() }; await this.repository.save(run); return run; }
 }

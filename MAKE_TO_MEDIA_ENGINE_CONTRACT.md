@@ -14,71 +14,39 @@ Make must not embed source-media transformation code, long-polling loops, provid
 
 ## Commands from Make
 
-### Create/refresh a production plan
-
-```json
-{
-  "command": "plan_production",
-  "idempotency_key": "content-id:brief-version",
-  "content_id": "Airtable Content record ID",
-  "bundle_id": "Airtable Content Bundle record ID",
-  "target_profile": "instagram_reel_9x16",
-  "callback": { "type": "webhook", "reference": "Make callback token" }
-}
-```
-
-### Start approved production
+### Start production (implemented endpoint)
 
 ```json
 {
   "command": "start_production",
-  "idempotency_key": "content-id:scene-version:profile",
-  "content_id": "Airtable Content record ID",
-  "scene_version": 1,
-  "target_profile": "instagram_reel_9x16",
-  "preview_required": true,
-  "callback": { "type": "webhook", "reference": "Make callback token" }
+  "idempotencyKey": "content-id:scene-version:profile",
+  "contentId": "Airtable Content record ID",
+  "bundleId": "Airtable Content Bundle record ID",
+  "renderingProfile": { "profileId": "instagram_reel_9x16", "width": 1080, "height": 1920, "aspectRatio": "9:16" },
+  "voiceOverScript": "English narration produced by the Reel brief",
+  "subtitleText": "English subtitles",
+  "scenes": [
+    { "sceneId": "Airtable Media Scene record ID", "sequence": 1, "sourceAssetId": "Airtable Bundle Media record ID", "sourceAssetType": "original_video", "sourcePath": "provider-approved local path or signed asset URL", "trimStart": 0, "trimEnd": 5, "outputAspectRatio": "9:16", "fitMode": "cover" }
+  ]
 }
 ```
 
-### Request retry
-
-```json
-{
-  "command": "retry_run",
-  "idempotency_key": "existing-run-id:retry-number",
-  "production_run_id": "stable engine run ID",
-  "callback": { "type": "webhook", "reference": "Make callback token" }
-}
-```
-
-### Confirm approval / invalidate approval
-
-```json
-{
-  "command": "set_approval",
-  "idempotency_key": "content-id:final-asset-id:approval-action",
-  "content_id": "Airtable Content record ID",
-  "final_asset_id": "Media Asset ID",
-  "action": "approve|request_revision",
-  "actor_reference": "Telegram/Airtable user reference"
-}
-```
+The current engine exposes `POST /v1/productions` for this command and `POST /v1/productions/{runId}/invalidate-approval` for a scene change. Planning, retry and operator approval are handled by Make/Airtable in this phase.
 
 ## Callback events to Make
 
 ```json
 {
-  "event_id": "stable-event-id",
-  "event_type": "run_queued|narration_ready|scene_rendered|final_render_ready|validation_failed|run_failed|approval_invalidated",
-  "production_run_id": "stable engine run ID",
-  "content_id": "Airtable Content record ID",
+  "eventId": "stable-event-id",
+  "eventType": "run_queued|narration_ready|final_render_ready|run_failed",
+  "productionRunId": "stable engine run ID",
+  "contentId": "Airtable Content record ID",
   "status": "",
-  "output_assets": [
-    { "asset_id": "", "asset_class": "narration|subtitle|final_publication", "preview_url": "", "storage_reference": "" }
+  "outputAssets": [
+    { "assetId": "", "assetClass": "narration|subtitle|final_publication", "storageReference": "" }
   ],
   "error": { "code": "", "message": "", "retryable": false },
-  "occurred_at": "ISO-8601 timestamp"
+  "occurredAt": "ISO-8601 timestamp"
 }
 ```
 
@@ -88,8 +56,8 @@ Make records the event, updates the concise Reel production fields on the target
 
 - Commands and callbacks use authenticated HTTPS requests with rotating secrets kept in Make connections/secret storage and engine secret storage.
 - Every callback is verified using signature/timestamp or an equivalent replay-safe mechanism.
-- `event_id` is deduplicated by Make before Airtable/Telegram side effects.
-- `idempotency_key` is passed unchanged from Make to the engine and stored with the run.
+- `eventId` is deduplicated by Make before Airtable/Telegram side effects.
+- `idempotencyKey` is passed unchanged from Make to the engine and stored with the run.
 - No API key, provider secret, private source URL, or raw Telegram token is included in Airtable error fields or Telegram messages.
 
 ## Airtable status mapping
