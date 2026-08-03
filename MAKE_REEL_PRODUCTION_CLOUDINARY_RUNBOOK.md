@@ -77,6 +77,10 @@ The remaining deterministic step needs cumulative scene timing and a Cloudinary 
 
 The saved module receives the Content record's `Scene Plan JSON`, the validated `Bundle Media` array, and the generated narration URL. It derives the narration folder/public ID and returns `srt`, a base64 SRT data URI, `subtitlesPublicId`, `finalReelUrl`, and `expectedDurationSeconds`. It must not call OpenAI, Cloudinary, Telegram, or Instagram itself. The following standard modules will upload the returned SRT as `raw` and request the returned final Cloudinary URL.
 
+### Current Cloudinary connector limitation
+
+The available Make Cloudinary **Upload a Resource** module exposes only `image` and `video` resource types; it cannot upload the required SRT as Cloudinary `raw`. Do not upload the SRT as video: `l_subtitles` requires a raw `.srt` asset. The safe next integration is an HTTP request to Cloudinary's raw upload endpoint, using an unsigned upload preset restricted to SRT files. Creating that preset is an account-level Cloudinary action and is the only remaining manual setup item before the branch can be fully wired.
+
 ## One-record acceptance test
 
 1. Create or select a dedicated test Content record with real, approved Cloudinary source media and status `Brief Ready` / readiness `Ready`.
