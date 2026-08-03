@@ -1,0 +1,2849 @@
+{
+    "name": "Scheduler: Written to Scheduled",
+    "flow": [
+        {
+            "id": 1,
+            "module": "airtable:ActionSearchRecords",
+            "version": 3,
+            "parameters": {
+                "__IMTCONN__": 7879047
+            },
+            "mapper": {
+                "base": "appGVBozOWqbxQSKW",
+                "view": "viwhC4J7v5DLtzJkW",
+                "table": "tblXri72m8ZKgBicu",
+                "formula": "AND(\r\n  {Status} = \"Written\"\r\n)",
+                "maxRecords": "5",
+                "useColumnId": false
+            },
+            "metadata": {
+                "designer": {
+                    "x": 0,
+                    "y": 0
+                },
+                "restore": {
+                    "expect": {
+                        "base": {
+                            "mode": "chose",
+                            "label": "Montanum Content OS"
+                        },
+                        "sort": {
+                            "mode": "chose"
+                        },
+                        "view": {
+                            "mode": "chose",
+                            "label": "Grid view"
+                        },
+                        "table": {
+                            "mode": "chose",
+                            "label": "Content"
+                        },
+                        "fields": {
+                            "mode": "chose"
+                        },
+                        "useColumnId": {
+                            "mode": "chose"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "airtable3"
+                            },
+                            "label": "My Airtable OAuth connection (User ID: usrlE0q7D37KRFgoT)"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:airtable3,airtable2",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "base",
+                        "type": "select",
+                        "label": "Base",
+                        "required": true
+                    },
+                    {
+                        "name": "useColumnId",
+                        "type": "boolean",
+                        "label": "Use Column ID",
+                        "required": true
+                    },
+                    {
+                        "name": "table",
+                        "type": "select",
+                        "label": "Table",
+                        "required": true
+                    },
+                    {
+                        "name": "formula",
+                        "type": "text",
+                        "label": "Formula"
+                    },
+                    {
+                        "name": "maxRecords",
+                        "type": "integer",
+                        "label": "Limit"
+                    },
+                    {
+                        "name": "sort",
+                        "spec": [
+                            {
+                                "name": "field",
+                                "type": "select",
+                                "label": "Field",
+                                "dynamic": true,
+                                "options": []
+                            },
+                            {
+                                "name": "direction",
+                                "type": "select",
+                                "label": "Direction",
+                                "options": [
+                                    {
+                                        "label": "Descending",
+                                        "value": "desc"
+                                    },
+                                    {
+                                        "label": "Ascending",
+                                        "value": "asc"
+                                    }
+                                ]
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Sort"
+                    },
+                    {
+                        "name": "view",
+                        "type": "select",
+                        "label": "View"
+                    },
+                    {
+                        "name": "fields",
+                        "type": "select",
+                        "label": "Output Fields",
+                        "multiple": true
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "__IMTLENGTH__",
+                        "type": "uinteger",
+                        "label": "Total number of bundles"
+                    },
+                    {
+                        "name": "__IMTINDEX__",
+                        "type": "uinteger",
+                        "label": "Bundle order position"
+                    },
+                    {
+                        "name": "id",
+                        "type": "text",
+                        "label": "ID"
+                    },
+                    {
+                        "name": "createdTime",
+                        "type": "date",
+                        "label": "Created Time"
+                    },
+                    {
+                        "name": "Title",
+                        "type": "text",
+                        "label": "Title"
+                    },
+                    {
+                        "name": "Project",
+                        "spec": {
+                            "label": "Record ID"
+                        },
+                        "type": "array",
+                        "label": "Project"
+                    },
+                    {
+                        "name": "Topic",
+                        "type": "text",
+                        "label": "Topic"
+                    },
+                    {
+                        "name": "Status",
+                        "type": "text",
+                        "label": "Status"
+                    },
+                    {
+                        "name": "Content Category",
+                        "type": "text",
+                        "label": "Content Category"
+                    },
+                    {
+                        "name": "Post Type",
+                        "type": "text",
+                        "label": "Post Type"
+                    },
+                    {
+                        "name": "Priority",
+                        "type": "text",
+                        "label": "Priority"
+                    },
+                    {
+                        "name": "Hook",
+                        "type": "text",
+                        "label": "Hook",
+                        "multiline": true
+                    },
+                    {
+                        "name": "One-sentence content angle",
+                        "type": "text",
+                        "label": "One-sentence content angle",
+                        "multiline": true
+                    },
+                    {
+                        "name": "CTA",
+                        "type": "text",
+                        "label": "CTA",
+                        "multiline": true
+                    },
+                    {
+                        "name": "Publish Date",
+                        "time": false,
+                        "type": "date",
+                        "label": "Publish Date"
+                    },
+                    {
+                        "name": "Publish Month",
+                        "type": "text",
+                        "label": "Publish Month"
+                    },
+                    {
+                        "name": "Media",
+                        "spec": [
+                            {
+                                "name": "id",
+                                "type": "text",
+                                "label": "ID"
+                            },
+                            {
+                                "name": "width",
+                                "type": "uinteger",
+                                "label": "Width"
+                            },
+                            {
+                                "name": "height",
+                                "type": "uinteger",
+                                "label": "Height"
+                            },
+                            {
+                                "name": "url",
+                                "type": "url",
+                                "label": "URL"
+                            },
+                            {
+                                "name": "filename",
+                                "type": "filename",
+                                "label": "File name"
+                            },
+                            {
+                                "name": "size",
+                                "type": "uinteger",
+                                "label": "Size"
+                            },
+                            {
+                                "name": "type",
+                                "type": "text",
+                                "label": "MIME type"
+                            },
+                            {
+                                "name": "thumbnails",
+                                "spec": [
+                                    {
+                                        "name": "small",
+                                        "spec": [
+                                            {
+                                                "name": "url",
+                                                "type": "url",
+                                                "label": "URL"
+                                            },
+                                            {
+                                                "name": "width",
+                                                "type": "uinteger",
+                                                "label": "Width"
+                                            },
+                                            {
+                                                "name": "height",
+                                                "type": "uinteger",
+                                                "label": "Height"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Small"
+                                    },
+                                    {
+                                        "name": "large",
+                                        "spec": [
+                                            {
+                                                "name": "url",
+                                                "type": "url",
+                                                "label": "URL"
+                                            },
+                                            {
+                                                "name": "width",
+                                                "type": "uinteger",
+                                                "label": "Width"
+                                            },
+                                            {
+                                                "name": "height",
+                                                "type": "uinteger",
+                                                "label": "Height"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Large"
+                                    },
+                                    {
+                                        "name": "full",
+                                        "spec": [
+                                            {
+                                                "name": "url",
+                                                "type": "url",
+                                                "label": "URL"
+                                            },
+                                            {
+                                                "name": "width",
+                                                "type": "uinteger",
+                                                "label": "Width"
+                                            },
+                                            {
+                                                "name": "height",
+                                                "type": "uinteger",
+                                                "label": "Height"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Full"
+                                    }
+                                ],
+                                "type": "collection",
+                                "label": "Thumbnails"
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Media"
+                    },
+                    {
+                        "name": "Content Score",
+                        "type": "number",
+                        "label": "Content Score"
+                    },
+                    {
+                        "name": "Content Pillar",
+                        "type": "text",
+                        "label": "Content Pillar"
+                    },
+                    {
+                        "name": "Content Bundles",
+                        "spec": {
+                            "label": "Record ID"
+                        },
+                        "type": "array",
+                        "label": "Content Bundles"
+                    },
+                    {
+                        "name": "Caption",
+                        "type": "text",
+                        "label": "Caption",
+                        "multiline": true
+                    },
+                    {
+                        "name": "Carousel Slides",
+                        "type": "text",
+                        "label": "Carousel Slides",
+                        "multiline": true
+                    },
+                    {
+                        "name": "Reel Script",
+                        "type": "text",
+                        "label": "Reel Script",
+                        "multiline": true
+                    },
+                    {
+                        "name": "Stories",
+                        "type": "text",
+                        "label": "Stories",
+                        "multiline": true
+                    }
+                ]
+            }
+        },
+        {
+            "id": 4,
+            "module": "builtin:BasicRouter",
+            "version": 1,
+            "filter": null,
+            "mapper": null,
+            "metadata": {
+                "designer": {
+                    "x": 330,
+                    "y": -10
+                }
+            },
+            "routes": [
+                {
+                    "flow": [
+                        {
+                            "id": 2,
+                            "module": "airtable:ActionUpdateRecords",
+                            "version": 3,
+                            "parameters": {
+                                "__IMTCONN__": 7879047
+                            },
+                            "filter": {
+                                "name": "Reel",
+                                "conditions": [
+                                    [
+                                        {
+                                            "a": "{{1.`Post Type`}}",
+                                            "b": "Reel",
+                                            "o": "text:equal"
+                                        }
+                                    ]
+                                ]
+                            },
+                            "mapper": {
+                                "id": "{{1.id}}",
+                                "base": "appGVBozOWqbxQSKW",
+                                "table": "tblXri72m8ZKgBicu",
+                                "record": {
+                                    "fld1IHk40ilNFklR7": "{{formatDate(addDays(now; 2); \"YYYY-MM-DD\")}}",
+                                    "fldliejxpoBdXQKgs": "Scheduled"
+                                },
+                                "typecast": false,
+                                "useColumnId": false
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 719,
+                                    "y": -32
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "base": {
+                                            "label": "Montanum Content OS"
+                                        },
+                                        "table": {
+                                            "label": "Content"
+                                        },
+                                        "record": {
+                                            "nested": {
+                                                "fld7nuHd6rOWCzfro": {
+                                                    "mode": "chose",
+                                                    "label": "Empty"
+                                                },
+                                                "fldBaLM7r9zE1wLPV": {
+                                                    "mode": "chose"
+                                                },
+                                                "fldGQWKxtdxlHCMcv": {
+                                                    "mode": "chose",
+                                                    "label": "Empty"
+                                                },
+                                                "fldVfT8Bu8620ZJ1n": {
+                                                    "mode": "chose"
+                                                },
+                                                "fldVlxXnlOdXG1FZY": {
+                                                    "mode": "chose",
+                                                    "label": "Empty"
+                                                },
+                                                "fldiSWAG3LnKJfo0Q": {
+                                                    "mode": "chose"
+                                                },
+                                                "fldliejxpoBdXQKgs": {
+                                                    "mode": "chose",
+                                                    "label": "Scheduled"
+                                                },
+                                                "fldsILOeia7L3qGbI": {
+                                                    "mode": "chose",
+                                                    "label": "Empty"
+                                                }
+                                            }
+                                        },
+                                        "typecast": {
+                                            "mode": "chose"
+                                        },
+                                        "useColumnId": {
+                                            "mode": "chose"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "__IMTCONN__": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "airtable3"
+                                            },
+                                            "label": "My Airtable OAuth connection (User ID: usrlE0q7D37KRFgoT)"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "__IMTCONN__",
+                                        "type": "account:airtable3,airtable2",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "base",
+                                        "type": "select",
+                                        "label": "Base",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "typecast",
+                                        "type": "boolean",
+                                        "label": "Smart links",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "useColumnId",
+                                        "type": "boolean",
+                                        "label": "Use Column ID",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "table",
+                                        "type": "select",
+                                        "label": "Table",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "id",
+                                        "type": "text",
+                                        "label": "Record ID",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "record",
+                                        "spec": [
+                                            {
+                                                "name": "fldi44Fm2aSbhVFLj",
+                                                "type": "text",
+                                                "label": "Title"
+                                            },
+                                            {
+                                                "name": "fldiSWAG3LnKJfo0Q",
+                                                "spec": {
+                                                    "name": "value",
+                                                    "label": "Record ID"
+                                                },
+                                                "type": "array",
+                                                "label": "Project"
+                                            },
+                                            {
+                                                "name": "fld61eeHKLMhRGoOY",
+                                                "type": "text",
+                                                "label": "Topic"
+                                            },
+                                            {
+                                                "mode": "edit",
+                                                "name": "fldliejxpoBdXQKgs",
+                                                "type": "select",
+                                                "label": "Status"
+                                            },
+                                            {
+                                                "mode": "edit",
+                                                "name": "fldsILOeia7L3qGbI",
+                                                "type": "select",
+                                                "label": "Content Category"
+                                            },
+                                            {
+                                                "mode": "edit",
+                                                "name": "fldGQWKxtdxlHCMcv",
+                                                "type": "select",
+                                                "label": "Post Type"
+                                            },
+                                            {
+                                                "mode": "edit",
+                                                "name": "fld7nuHd6rOWCzfro",
+                                                "type": "select",
+                                                "label": "Priority"
+                                            },
+                                            {
+                                                "name": "fld8sU2zACxEiE8xt",
+                                                "type": "text",
+                                                "label": "Hook"
+                                            },
+                                            {
+                                                "name": "fldXDMsj4IdOFfEaq",
+                                                "type": "text",
+                                                "label": "One-sentence content angle"
+                                            },
+                                            {
+                                                "name": "fld80fuL1dAAKtxaG",
+                                                "type": "text",
+                                                "label": "CTA"
+                                            },
+                                            {
+                                                "name": "fld1IHk40ilNFklR7",
+                                                "time": false,
+                                                "type": "date",
+                                                "label": "Publish Date"
+                                            },
+                                            {
+                                                "name": "fldVfT8Bu8620ZJ1n",
+                                                "spec": [
+                                                    {
+                                                        "name": "url",
+                                                        "type": "text",
+                                                        "label": "File URL"
+                                                    },
+                                                    {
+                                                        "name": "filename",
+                                                        "type": "filename",
+                                                        "label": "File name"
+                                                    }
+                                                ],
+                                                "type": "array",
+                                                "label": "Media"
+                                            },
+                                            {
+                                                "name": "fld9sFWYlNBpruXqW",
+                                                "type": "number",
+                                                "label": "Content Score"
+                                            },
+                                            {
+                                                "mode": "edit",
+                                                "name": "fldVlxXnlOdXG1FZY",
+                                                "type": "select",
+                                                "label": "Content Pillar"
+                                            },
+                                            {
+                                                "name": "fldBaLM7r9zE1wLPV",
+                                                "spec": {
+                                                    "name": "value",
+                                                    "label": "Record ID"
+                                                },
+                                                "type": "array",
+                                                "label": "Content Bundles"
+                                            },
+                                            {
+                                                "name": "fld4cVUxkeE0yiFBG",
+                                                "type": "text",
+                                                "label": "Caption"
+                                            },
+                                            {
+                                                "name": "fldKrqlP97eqLoktn",
+                                                "type": "text",
+                                                "label": "Carousel Slides"
+                                            },
+                                            {
+                                                "name": "fldUxRhDSjPEEo54g",
+                                                "type": "text",
+                                                "label": "Reel Script"
+                                            },
+                                            {
+                                                "name": "fldf6a0bJ6bcjPoOf",
+                                                "type": "text",
+                                                "label": "Stories"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Record"
+                                    }
+                                ],
+                                "interface": [
+                                    {
+                                        "name": "id",
+                                        "type": "text",
+                                        "label": "ID"
+                                    },
+                                    {
+                                        "name": "createdTime",
+                                        "type": "date",
+                                        "label": "Created Time"
+                                    },
+                                    {
+                                        "name": "Title",
+                                        "type": "text",
+                                        "label": "Title"
+                                    },
+                                    {
+                                        "name": "Project",
+                                        "spec": {
+                                            "label": "Record ID"
+                                        },
+                                        "type": "array",
+                                        "label": "Project"
+                                    },
+                                    {
+                                        "name": "Topic",
+                                        "type": "text",
+                                        "label": "Topic"
+                                    },
+                                    {
+                                        "name": "Status",
+                                        "type": "text",
+                                        "label": "Status"
+                                    },
+                                    {
+                                        "name": "Content Category",
+                                        "type": "text",
+                                        "label": "Content Category"
+                                    },
+                                    {
+                                        "name": "Post Type",
+                                        "type": "text",
+                                        "label": "Post Type"
+                                    },
+                                    {
+                                        "name": "Priority",
+                                        "type": "text",
+                                        "label": "Priority"
+                                    },
+                                    {
+                                        "name": "Hook",
+                                        "type": "text",
+                                        "label": "Hook",
+                                        "multiline": true
+                                    },
+                                    {
+                                        "name": "One-sentence content angle",
+                                        "type": "text",
+                                        "label": "One-sentence content angle",
+                                        "multiline": true
+                                    },
+                                    {
+                                        "name": "CTA",
+                                        "type": "text",
+                                        "label": "CTA",
+                                        "multiline": true
+                                    },
+                                    {
+                                        "name": "Publish Date",
+                                        "time": false,
+                                        "type": "date",
+                                        "label": "Publish Date"
+                                    },
+                                    {
+                                        "name": "Publish Month",
+                                        "type": "text",
+                                        "label": "Publish Month"
+                                    },
+                                    {
+                                        "name": "Media",
+                                        "spec": [
+                                            {
+                                                "name": "id",
+                                                "type": "text",
+                                                "label": "ID"
+                                            },
+                                            {
+                                                "name": "width",
+                                                "type": "uinteger",
+                                                "label": "Width"
+                                            },
+                                            {
+                                                "name": "height",
+                                                "type": "uinteger",
+                                                "label": "Height"
+                                            },
+                                            {
+                                                "name": "url",
+                                                "type": "url",
+                                                "label": "URL"
+                                            },
+                                            {
+                                                "name": "filename",
+                                                "type": "filename",
+                                                "label": "File name"
+                                            },
+                                            {
+                                                "name": "size",
+                                                "type": "uinteger",
+                                                "label": "Size"
+                                            },
+                                            {
+                                                "name": "type",
+                                                "type": "text",
+                                                "label": "MIME type"
+                                            },
+                                            {
+                                                "name": "thumbnails",
+                                                "spec": [
+                                                    {
+                                                        "name": "small",
+                                                        "spec": [
+                                                            {
+                                                                "name": "url",
+                                                                "type": "url",
+                                                                "label": "URL"
+                                                            },
+                                                            {
+                                                                "name": "width",
+                                                                "type": "uinteger",
+                                                                "label": "Width"
+                                                            },
+                                                            {
+                                                                "name": "height",
+                                                                "type": "uinteger",
+                                                                "label": "Height"
+                                                            }
+                                                        ],
+                                                        "type": "collection",
+                                                        "label": "Small"
+                                                    },
+                                                    {
+                                                        "name": "large",
+                                                        "spec": [
+                                                            {
+                                                                "name": "url",
+                                                                "type": "url",
+                                                                "label": "URL"
+                                                            },
+                                                            {
+                                                                "name": "width",
+                                                                "type": "uinteger",
+                                                                "label": "Width"
+                                                            },
+                                                            {
+                                                                "name": "height",
+                                                                "type": "uinteger",
+                                                                "label": "Height"
+                                                            }
+                                                        ],
+                                                        "type": "collection",
+                                                        "label": "Large"
+                                                    },
+                                                    {
+                                                        "name": "full",
+                                                        "spec": [
+                                                            {
+                                                                "name": "url",
+                                                                "type": "url",
+                                                                "label": "URL"
+                                                            },
+                                                            {
+                                                                "name": "width",
+                                                                "type": "uinteger",
+                                                                "label": "Width"
+                                                            },
+                                                            {
+                                                                "name": "height",
+                                                                "type": "uinteger",
+                                                                "label": "Height"
+                                                            }
+                                                        ],
+                                                        "type": "collection",
+                                                        "label": "Full"
+                                                    }
+                                                ],
+                                                "type": "collection",
+                                                "label": "Thumbnails"
+                                            }
+                                        ],
+                                        "type": "array",
+                                        "label": "Media"
+                                    },
+                                    {
+                                        "name": "Content Score",
+                                        "type": "number",
+                                        "label": "Content Score"
+                                    },
+                                    {
+                                        "name": "Content Pillar",
+                                        "type": "text",
+                                        "label": "Content Pillar"
+                                    },
+                                    {
+                                        "name": "Content Bundles",
+                                        "spec": {
+                                            "label": "Record ID"
+                                        },
+                                        "type": "array",
+                                        "label": "Content Bundles"
+                                    },
+                                    {
+                                        "name": "Caption",
+                                        "type": "text",
+                                        "label": "Caption",
+                                        "multiline": true
+                                    },
+                                    {
+                                        "name": "Carousel Slides",
+                                        "type": "text",
+                                        "label": "Carousel Slides",
+                                        "multiline": true
+                                    },
+                                    {
+                                        "name": "Reel Script",
+                                        "type": "text",
+                                        "label": "Reel Script",
+                                        "multiline": true
+                                    },
+                                    {
+                                        "name": "Stories",
+                                        "type": "text",
+                                        "label": "Stories",
+                                        "multiline": true
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "flow": [
+                        {
+                            "id": 5,
+                            "module": "airtable:ActionSearchRecords",
+                            "version": 3,
+                            "parameters": {
+                                "__IMTCONN__": 7879047
+                            },
+                            "filter": {
+                                "name": "Feed / Carusel",
+                                "conditions": [
+                                    [
+                                        {
+                                            "a": "{{1.`Post Type`}}",
+                                            "b": "Feed Post",
+                                            "o": "text:equal"
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            "a": "{{1.`Post Type`}}",
+                                            "b": "Carousel",
+                                            "o": "text:equal"
+                                        }
+                                    ]
+                                ]
+                            },
+                            "mapper": {
+                                "base": "appGVBozOWqbxQSKW",
+                                "view": "viwmIwrtcz2Aq28OO",
+                                "table": "tblXri72m8ZKgBicu",
+                                "formula": "AND(\r\n    {Status} = \"Scheduled\",\r\n    IS_SAME({Publish Date}, TODAY(), 'day'),\r\n    OR(\r\n        {Post Type} = \"Feed Post\",\r\n        {Post Type} = \"Carousel\"\r\n    )\r\n)",
+                                "maxRecords": "2",
+                                "useColumnId": false
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 658,
+                                    "y": 272
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "base": {
+                                            "mode": "chose",
+                                            "label": "Montanum Content OS"
+                                        },
+                                        "sort": {
+                                            "mode": "chose"
+                                        },
+                                        "view": {
+                                            "mode": "chose",
+                                            "label": "Sceduled Content"
+                                        },
+                                        "table": {
+                                            "mode": "chose",
+                                            "label": "Content"
+                                        },
+                                        "fields": {
+                                            "mode": "chose"
+                                        },
+                                        "useColumnId": {
+                                            "mode": "chose"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "__IMTCONN__": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "airtable3"
+                                            },
+                                            "label": "My Airtable OAuth connection (User ID: usrlE0q7D37KRFgoT)"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "__IMTCONN__",
+                                        "type": "account:airtable3,airtable2",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "base",
+                                        "type": "select",
+                                        "label": "Base",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "useColumnId",
+                                        "type": "boolean",
+                                        "label": "Use Column ID",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "table",
+                                        "type": "select",
+                                        "label": "Table",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "formula",
+                                        "type": "text",
+                                        "label": "Formula"
+                                    },
+                                    {
+                                        "name": "maxRecords",
+                                        "type": "integer",
+                                        "label": "Limit"
+                                    },
+                                    {
+                                        "name": "sort",
+                                        "spec": [
+                                            {
+                                                "name": "field",
+                                                "type": "select",
+                                                "label": "Field",
+                                                "dynamic": true,
+                                                "options": []
+                                            },
+                                            {
+                                                "name": "direction",
+                                                "type": "select",
+                                                "label": "Direction",
+                                                "options": [
+                                                    {
+                                                        "label": "Descending",
+                                                        "value": "desc"
+                                                    },
+                                                    {
+                                                        "label": "Ascending",
+                                                        "value": "asc"
+                                                    }
+                                                ]
+                                            }
+                                        ],
+                                        "type": "array",
+                                        "label": "Sort"
+                                    },
+                                    {
+                                        "name": "view",
+                                        "type": "select",
+                                        "label": "View"
+                                    },
+                                    {
+                                        "name": "fields",
+                                        "type": "select",
+                                        "label": "Output Fields",
+                                        "multiple": true
+                                    }
+                                ],
+                                "interface": [
+                                    {
+                                        "name": "__IMTLENGTH__",
+                                        "type": "uinteger",
+                                        "label": "Total number of bundles"
+                                    },
+                                    {
+                                        "name": "__IMTINDEX__",
+                                        "type": "uinteger",
+                                        "label": "Bundle order position"
+                                    },
+                                    {
+                                        "name": "id",
+                                        "type": "text",
+                                        "label": "ID"
+                                    },
+                                    {
+                                        "name": "createdTime",
+                                        "type": "date",
+                                        "label": "Created Time"
+                                    },
+                                    {
+                                        "name": "Title",
+                                        "type": "text",
+                                        "label": "Title"
+                                    },
+                                    {
+                                        "name": "Project",
+                                        "spec": {
+                                            "label": "Record ID"
+                                        },
+                                        "type": "array",
+                                        "label": "Project"
+                                    },
+                                    {
+                                        "name": "Topic",
+                                        "type": "text",
+                                        "label": "Topic"
+                                    },
+                                    {
+                                        "name": "Status",
+                                        "type": "text",
+                                        "label": "Status"
+                                    },
+                                    {
+                                        "name": "Content Category",
+                                        "type": "text",
+                                        "label": "Content Category"
+                                    },
+                                    {
+                                        "name": "Post Type",
+                                        "type": "text",
+                                        "label": "Post Type"
+                                    },
+                                    {
+                                        "name": "Priority",
+                                        "type": "text",
+                                        "label": "Priority"
+                                    },
+                                    {
+                                        "name": "Hook",
+                                        "type": "text",
+                                        "label": "Hook",
+                                        "multiline": true
+                                    },
+                                    {
+                                        "name": "One-sentence content angle",
+                                        "type": "text",
+                                        "label": "One-sentence content angle",
+                                        "multiline": true
+                                    },
+                                    {
+                                        "name": "CTA",
+                                        "type": "text",
+                                        "label": "CTA",
+                                        "multiline": true
+                                    },
+                                    {
+                                        "name": "Publish Date",
+                                        "time": false,
+                                        "type": "date",
+                                        "label": "Publish Date"
+                                    },
+                                    {
+                                        "name": "Publish Month",
+                                        "type": "text",
+                                        "label": "Publish Month"
+                                    },
+                                    {
+                                        "name": "Media",
+                                        "spec": [
+                                            {
+                                                "name": "id",
+                                                "type": "text",
+                                                "label": "ID"
+                                            },
+                                            {
+                                                "name": "width",
+                                                "type": "uinteger",
+                                                "label": "Width"
+                                            },
+                                            {
+                                                "name": "height",
+                                                "type": "uinteger",
+                                                "label": "Height"
+                                            },
+                                            {
+                                                "name": "url",
+                                                "type": "url",
+                                                "label": "URL"
+                                            },
+                                            {
+                                                "name": "filename",
+                                                "type": "filename",
+                                                "label": "File name"
+                                            },
+                                            {
+                                                "name": "size",
+                                                "type": "uinteger",
+                                                "label": "Size"
+                                            },
+                                            {
+                                                "name": "type",
+                                                "type": "text",
+                                                "label": "MIME type"
+                                            },
+                                            {
+                                                "name": "thumbnails",
+                                                "spec": [
+                                                    {
+                                                        "name": "small",
+                                                        "spec": [
+                                                            {
+                                                                "name": "url",
+                                                                "type": "url",
+                                                                "label": "URL"
+                                                            },
+                                                            {
+                                                                "name": "width",
+                                                                "type": "uinteger",
+                                                                "label": "Width"
+                                                            },
+                                                            {
+                                                                "name": "height",
+                                                                "type": "uinteger",
+                                                                "label": "Height"
+                                                            }
+                                                        ],
+                                                        "type": "collection",
+                                                        "label": "Small"
+                                                    },
+                                                    {
+                                                        "name": "large",
+                                                        "spec": [
+                                                            {
+                                                                "name": "url",
+                                                                "type": "url",
+                                                                "label": "URL"
+                                                            },
+                                                            {
+                                                                "name": "width",
+                                                                "type": "uinteger",
+                                                                "label": "Width"
+                                                            },
+                                                            {
+                                                                "name": "height",
+                                                                "type": "uinteger",
+                                                                "label": "Height"
+                                                            }
+                                                        ],
+                                                        "type": "collection",
+                                                        "label": "Large"
+                                                    },
+                                                    {
+                                                        "name": "full",
+                                                        "spec": [
+                                                            {
+                                                                "name": "url",
+                                                                "type": "url",
+                                                                "label": "URL"
+                                                            },
+                                                            {
+                                                                "name": "width",
+                                                                "type": "uinteger",
+                                                                "label": "Width"
+                                                            },
+                                                            {
+                                                                "name": "height",
+                                                                "type": "uinteger",
+                                                                "label": "Height"
+                                                            }
+                                                        ],
+                                                        "type": "collection",
+                                                        "label": "Full"
+                                                    }
+                                                ],
+                                                "type": "collection",
+                                                "label": "Thumbnails"
+                                            }
+                                        ],
+                                        "type": "array",
+                                        "label": "Media"
+                                    },
+                                    {
+                                        "name": "Content Score",
+                                        "type": "number",
+                                        "label": "Content Score"
+                                    },
+                                    {
+                                        "name": "Content Pillar",
+                                        "type": "text",
+                                        "label": "Content Pillar"
+                                    },
+                                    {
+                                        "name": "Content Bundles",
+                                        "spec": {
+                                            "label": "Record ID"
+                                        },
+                                        "type": "array",
+                                        "label": "Content Bundles"
+                                    },
+                                    {
+                                        "name": "Caption",
+                                        "type": "text",
+                                        "label": "Caption",
+                                        "multiline": true
+                                    },
+                                    {
+                                        "name": "Carousel Slides",
+                                        "type": "text",
+                                        "label": "Carousel Slides",
+                                        "multiline": true
+                                    },
+                                    {
+                                        "name": "Reel Script",
+                                        "type": "text",
+                                        "label": "Reel Script",
+                                        "multiline": true
+                                    },
+                                    {
+                                        "name": "Stories",
+                                        "type": "text",
+                                        "label": "Stories",
+                                        "multiline": true
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "id": 7,
+                            "module": "builtin:BasicRouter",
+                            "version": 1,
+                            "mapper": null,
+                            "metadata": {
+                                "designer": {
+                                    "x": 992,
+                                    "y": 270
+                                }
+                            },
+                            "routes": [
+                                {
+                                    "flow": [
+                                        {
+                                            "id": 8,
+                                            "module": "airtable:ActionUpdateRecords",
+                                            "version": 3,
+                                            "parameters": {
+                                                "__IMTCONN__": 7879047
+                                            },
+                                            "filter": {
+                                                "name": "Today Available",
+                                                "conditions": [
+                                                    [
+                                                        {
+                                                            "a": "{{5.`__IMTLENGTH__`}}",
+                                                            "b": "2",
+                                                            "o": "number:less"
+                                                        }
+                                                    ]
+                                                ]
+                                            },
+                                            "mapper": {
+                                                "id": "{{1.id}}",
+                                                "base": "appGVBozOWqbxQSKW",
+                                                "table": "tblXri72m8ZKgBicu",
+                                                "record": {
+                                                    "fld1IHk40ilNFklR7": "{{formatDate(now; \"YYYY-MM-DD\")}}",
+                                                    "fldliejxpoBdXQKgs": "Scheduled"
+                                                },
+                                                "typecast": false,
+                                                "useColumnId": false
+                                            },
+                                            "metadata": {
+                                                "designer": {
+                                                    "x": 1282,
+                                                    "y": 63
+                                                },
+                                                "restore": {
+                                                    "expect": {
+                                                        "base": {
+                                                            "label": "Montanum Content OS"
+                                                        },
+                                                        "table": {
+                                                            "label": "Content"
+                                                        },
+                                                        "record": {
+                                                            "nested": {
+                                                                "fld7nuHd6rOWCzfro": {
+                                                                    "mode": "chose",
+                                                                    "label": "Empty"
+                                                                },
+                                                                "fldBaLM7r9zE1wLPV": {
+                                                                    "mode": "chose"
+                                                                },
+                                                                "fldGQWKxtdxlHCMcv": {
+                                                                    "mode": "chose",
+                                                                    "label": "Empty"
+                                                                },
+                                                                "fldVfT8Bu8620ZJ1n": {
+                                                                    "mode": "chose"
+                                                                },
+                                                                "fldVlxXnlOdXG1FZY": {
+                                                                    "mode": "chose",
+                                                                    "label": "Empty"
+                                                                },
+                                                                "fldiSWAG3LnKJfo0Q": {
+                                                                    "mode": "chose"
+                                                                },
+                                                                "fldliejxpoBdXQKgs": {
+                                                                    "mode": "chose",
+                                                                    "label": "Scheduled"
+                                                                },
+                                                                "fldsILOeia7L3qGbI": {
+                                                                    "mode": "chose",
+                                                                    "label": "Empty"
+                                                                }
+                                                            }
+                                                        },
+                                                        "typecast": {
+                                                            "mode": "chose"
+                                                        },
+                                                        "useColumnId": {
+                                                            "mode": "chose"
+                                                        }
+                                                    },
+                                                    "parameters": {
+                                                        "__IMTCONN__": {
+                                                            "data": {
+                                                                "scoped": "true",
+                                                                "connection": "airtable3"
+                                                            },
+                                                            "label": "My Airtable OAuth connection (User ID: usrlE0q7D37KRFgoT)"
+                                                        }
+                                                    }
+                                                },
+                                                "parameters": [
+                                                    {
+                                                        "name": "__IMTCONN__",
+                                                        "type": "account:airtable3,airtable2",
+                                                        "label": "Connection",
+                                                        "required": true
+                                                    }
+                                                ],
+                                                "expect": [
+                                                    {
+                                                        "name": "base",
+                                                        "type": "select",
+                                                        "label": "Base",
+                                                        "required": true
+                                                    },
+                                                    {
+                                                        "name": "typecast",
+                                                        "type": "boolean",
+                                                        "label": "Smart links",
+                                                        "required": true
+                                                    },
+                                                    {
+                                                        "name": "useColumnId",
+                                                        "type": "boolean",
+                                                        "label": "Use Column ID",
+                                                        "required": true
+                                                    },
+                                                    {
+                                                        "name": "table",
+                                                        "type": "select",
+                                                        "label": "Table",
+                                                        "required": true
+                                                    },
+                                                    {
+                                                        "name": "id",
+                                                        "type": "text",
+                                                        "label": "Record ID",
+                                                        "required": true
+                                                    },
+                                                    {
+                                                        "name": "record",
+                                                        "spec": [
+                                                            {
+                                                                "name": "fldi44Fm2aSbhVFLj",
+                                                                "type": "text",
+                                                                "label": "Title"
+                                                            },
+                                                            {
+                                                                "name": "fldiSWAG3LnKJfo0Q",
+                                                                "spec": {
+                                                                    "name": "value",
+                                                                    "label": "Record ID"
+                                                                },
+                                                                "type": "array",
+                                                                "label": "Project"
+                                                            },
+                                                            {
+                                                                "name": "fld61eeHKLMhRGoOY",
+                                                                "type": "text",
+                                                                "label": "Topic"
+                                                            },
+                                                            {
+                                                                "mode": "edit",
+                                                                "name": "fldliejxpoBdXQKgs",
+                                                                "type": "select",
+                                                                "label": "Status"
+                                                            },
+                                                            {
+                                                                "mode": "edit",
+                                                                "name": "fldsILOeia7L3qGbI",
+                                                                "type": "select",
+                                                                "label": "Content Category"
+                                                            },
+                                                            {
+                                                                "mode": "edit",
+                                                                "name": "fldGQWKxtdxlHCMcv",
+                                                                "type": "select",
+                                                                "label": "Post Type"
+                                                            },
+                                                            {
+                                                                "mode": "edit",
+                                                                "name": "fld7nuHd6rOWCzfro",
+                                                                "type": "select",
+                                                                "label": "Priority"
+                                                            },
+                                                            {
+                                                                "name": "fld8sU2zACxEiE8xt",
+                                                                "type": "text",
+                                                                "label": "Hook"
+                                                            },
+                                                            {
+                                                                "name": "fldXDMsj4IdOFfEaq",
+                                                                "type": "text",
+                                                                "label": "One-sentence content angle"
+                                                            },
+                                                            {
+                                                                "name": "fld80fuL1dAAKtxaG",
+                                                                "type": "text",
+                                                                "label": "CTA"
+                                                            },
+                                                            {
+                                                                "name": "fld1IHk40ilNFklR7",
+                                                                "time": false,
+                                                                "type": "date",
+                                                                "label": "Publish Date"
+                                                            },
+                                                            {
+                                                                "name": "fldVfT8Bu8620ZJ1n",
+                                                                "spec": [
+                                                                    {
+                                                                        "name": "url",
+                                                                        "type": "text",
+                                                                        "label": "File URL"
+                                                                    },
+                                                                    {
+                                                                        "name": "filename",
+                                                                        "type": "filename",
+                                                                        "label": "File name"
+                                                                    }
+                                                                ],
+                                                                "type": "array",
+                                                                "label": "Media"
+                                                            },
+                                                            {
+                                                                "name": "fld9sFWYlNBpruXqW",
+                                                                "type": "number",
+                                                                "label": "Content Score"
+                                                            },
+                                                            {
+                                                                "mode": "edit",
+                                                                "name": "fldVlxXnlOdXG1FZY",
+                                                                "type": "select",
+                                                                "label": "Content Pillar"
+                                                            },
+                                                            {
+                                                                "name": "fldBaLM7r9zE1wLPV",
+                                                                "spec": {
+                                                                    "name": "value",
+                                                                    "label": "Record ID"
+                                                                },
+                                                                "type": "array",
+                                                                "label": "Content Bundles"
+                                                            },
+                                                            {
+                                                                "name": "fld4cVUxkeE0yiFBG",
+                                                                "type": "text",
+                                                                "label": "Caption"
+                                                            },
+                                                            {
+                                                                "name": "fldKrqlP97eqLoktn",
+                                                                "type": "text",
+                                                                "label": "Carousel Slides"
+                                                            },
+                                                            {
+                                                                "name": "fldUxRhDSjPEEo54g",
+                                                                "type": "text",
+                                                                "label": "Reel Script"
+                                                            },
+                                                            {
+                                                                "name": "fldf6a0bJ6bcjPoOf",
+                                                                "type": "text",
+                                                                "label": "Stories"
+                                                            }
+                                                        ],
+                                                        "type": "collection",
+                                                        "label": "Record"
+                                                    }
+                                                ],
+                                                "interface": [
+                                                    {
+                                                        "name": "id",
+                                                        "type": "text",
+                                                        "label": "ID"
+                                                    },
+                                                    {
+                                                        "name": "createdTime",
+                                                        "type": "date",
+                                                        "label": "Created Time"
+                                                    },
+                                                    {
+                                                        "name": "Title",
+                                                        "type": "text",
+                                                        "label": "Title"
+                                                    },
+                                                    {
+                                                        "name": "Project",
+                                                        "spec": {
+                                                            "label": "Record ID"
+                                                        },
+                                                        "type": "array",
+                                                        "label": "Project"
+                                                    },
+                                                    {
+                                                        "name": "Topic",
+                                                        "type": "text",
+                                                        "label": "Topic"
+                                                    },
+                                                    {
+                                                        "name": "Status",
+                                                        "type": "text",
+                                                        "label": "Status"
+                                                    },
+                                                    {
+                                                        "name": "Content Category",
+                                                        "type": "text",
+                                                        "label": "Content Category"
+                                                    },
+                                                    {
+                                                        "name": "Post Type",
+                                                        "type": "text",
+                                                        "label": "Post Type"
+                                                    },
+                                                    {
+                                                        "name": "Priority",
+                                                        "type": "text",
+                                                        "label": "Priority"
+                                                    },
+                                                    {
+                                                        "name": "Hook",
+                                                        "type": "text",
+                                                        "label": "Hook",
+                                                        "multiline": true
+                                                    },
+                                                    {
+                                                        "name": "One-sentence content angle",
+                                                        "type": "text",
+                                                        "label": "One-sentence content angle",
+                                                        "multiline": true
+                                                    },
+                                                    {
+                                                        "name": "CTA",
+                                                        "type": "text",
+                                                        "label": "CTA",
+                                                        "multiline": true
+                                                    },
+                                                    {
+                                                        "name": "Publish Date",
+                                                        "time": false,
+                                                        "type": "date",
+                                                        "label": "Publish Date"
+                                                    },
+                                                    {
+                                                        "name": "Publish Month",
+                                                        "type": "text",
+                                                        "label": "Publish Month"
+                                                    },
+                                                    {
+                                                        "name": "Media",
+                                                        "spec": [
+                                                            {
+                                                                "name": "id",
+                                                                "type": "text",
+                                                                "label": "ID"
+                                                            },
+                                                            {
+                                                                "name": "width",
+                                                                "type": "uinteger",
+                                                                "label": "Width"
+                                                            },
+                                                            {
+                                                                "name": "height",
+                                                                "type": "uinteger",
+                                                                "label": "Height"
+                                                            },
+                                                            {
+                                                                "name": "url",
+                                                                "type": "url",
+                                                                "label": "URL"
+                                                            },
+                                                            {
+                                                                "name": "filename",
+                                                                "type": "filename",
+                                                                "label": "File name"
+                                                            },
+                                                            {
+                                                                "name": "size",
+                                                                "type": "uinteger",
+                                                                "label": "Size"
+                                                            },
+                                                            {
+                                                                "name": "type",
+                                                                "type": "text",
+                                                                "label": "MIME type"
+                                                            },
+                                                            {
+                                                                "name": "thumbnails",
+                                                                "spec": [
+                                                                    {
+                                                                        "name": "small",
+                                                                        "spec": [
+                                                                            {
+                                                                                "name": "url",
+                                                                                "type": "url",
+                                                                                "label": "URL"
+                                                                            },
+                                                                            {
+                                                                                "name": "width",
+                                                                                "type": "uinteger",
+                                                                                "label": "Width"
+                                                                            },
+                                                                            {
+                                                                                "name": "height",
+                                                                                "type": "uinteger",
+                                                                                "label": "Height"
+                                                                            }
+                                                                        ],
+                                                                        "type": "collection",
+                                                                        "label": "Small"
+                                                                    },
+                                                                    {
+                                                                        "name": "large",
+                                                                        "spec": [
+                                                                            {
+                                                                                "name": "url",
+                                                                                "type": "url",
+                                                                                "label": "URL"
+                                                                            },
+                                                                            {
+                                                                                "name": "width",
+                                                                                "type": "uinteger",
+                                                                                "label": "Width"
+                                                                            },
+                                                                            {
+                                                                                "name": "height",
+                                                                                "type": "uinteger",
+                                                                                "label": "Height"
+                                                                            }
+                                                                        ],
+                                                                        "type": "collection",
+                                                                        "label": "Large"
+                                                                    },
+                                                                    {
+                                                                        "name": "full",
+                                                                        "spec": [
+                                                                            {
+                                                                                "name": "url",
+                                                                                "type": "url",
+                                                                                "label": "URL"
+                                                                            },
+                                                                            {
+                                                                                "name": "width",
+                                                                                "type": "uinteger",
+                                                                                "label": "Width"
+                                                                            },
+                                                                            {
+                                                                                "name": "height",
+                                                                                "type": "uinteger",
+                                                                                "label": "Height"
+                                                                            }
+                                                                        ],
+                                                                        "type": "collection",
+                                                                        "label": "Full"
+                                                                    }
+                                                                ],
+                                                                "type": "collection",
+                                                                "label": "Thumbnails"
+                                                            }
+                                                        ],
+                                                        "type": "array",
+                                                        "label": "Media"
+                                                    },
+                                                    {
+                                                        "name": "Content Score",
+                                                        "type": "number",
+                                                        "label": "Content Score"
+                                                    },
+                                                    {
+                                                        "name": "Content Pillar",
+                                                        "type": "text",
+                                                        "label": "Content Pillar"
+                                                    },
+                                                    {
+                                                        "name": "Content Bundles",
+                                                        "spec": {
+                                                            "label": "Record ID"
+                                                        },
+                                                        "type": "array",
+                                                        "label": "Content Bundles"
+                                                    },
+                                                    {
+                                                        "name": "Caption",
+                                                        "type": "text",
+                                                        "label": "Caption",
+                                                        "multiline": true
+                                                    },
+                                                    {
+                                                        "name": "Carousel Slides",
+                                                        "type": "text",
+                                                        "label": "Carousel Slides",
+                                                        "multiline": true
+                                                    },
+                                                    {
+                                                        "name": "Reel Script",
+                                                        "type": "text",
+                                                        "label": "Reel Script",
+                                                        "multiline": true
+                                                    },
+                                                    {
+                                                        "name": "Stories",
+                                                        "type": "text",
+                                                        "label": "Stories",
+                                                        "multiline": true
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "flow": [
+                                        {
+                                            "id": 9,
+                                            "module": "airtable:ActionUpdateRecords",
+                                            "version": 3,
+                                            "parameters": {
+                                                "__IMTCONN__": 7879047
+                                            },
+                                            "filter": {
+                                                "name": "Tomorrow",
+                                                "conditions": [
+                                                    [
+                                                        {
+                                                            "a": "{{5.`__IMTLENGTH__`}}",
+                                                            "b": "2",
+                                                            "o": "number:greaterorequal"
+                                                        }
+                                                    ]
+                                                ]
+                                            },
+                                            "mapper": {
+                                                "id": "{{1.id}}",
+                                                "base": "appGVBozOWqbxQSKW",
+                                                "table": "tblXri72m8ZKgBicu",
+                                                "record": {
+                                                    "fld1IHk40ilNFklR7": "{{formatDate(addDays(now; 1); \"YYYY-MM-DD\")}}",
+                                                    "fldliejxpoBdXQKgs": "Scheduled"
+                                                },
+                                                "typecast": false,
+                                                "useColumnId": false
+                                            },
+                                            "metadata": {
+                                                "designer": {
+                                                    "x": 1346,
+                                                    "y": 426
+                                                },
+                                                "restore": {
+                                                    "expect": {
+                                                        "base": {
+                                                            "label": "Montanum Content OS"
+                                                        },
+                                                        "table": {
+                                                            "label": "Content"
+                                                        },
+                                                        "record": {
+                                                            "nested": {
+                                                                "fld7nuHd6rOWCzfro": {
+                                                                    "mode": "chose",
+                                                                    "label": "Empty"
+                                                                },
+                                                                "fldBaLM7r9zE1wLPV": {
+                                                                    "mode": "chose"
+                                                                },
+                                                                "fldGQWKxtdxlHCMcv": {
+                                                                    "mode": "chose",
+                                                                    "label": "Empty"
+                                                                },
+                                                                "fldVfT8Bu8620ZJ1n": {
+                                                                    "mode": "chose"
+                                                                },
+                                                                "fldVlxXnlOdXG1FZY": {
+                                                                    "mode": "edit"
+                                                                },
+                                                                "fldiSWAG3LnKJfo0Q": {
+                                                                    "mode": "chose"
+                                                                },
+                                                                "fldliejxpoBdXQKgs": {
+                                                                    "mode": "chose",
+                                                                    "label": "Scheduled"
+                                                                },
+                                                                "fldsILOeia7L3qGbI": {
+                                                                    "mode": "chose",
+                                                                    "label": "Empty"
+                                                                }
+                                                            }
+                                                        },
+                                                        "typecast": {
+                                                            "mode": "chose"
+                                                        },
+                                                        "useColumnId": {
+                                                            "mode": "chose"
+                                                        }
+                                                    },
+                                                    "parameters": {
+                                                        "__IMTCONN__": {
+                                                            "data": {
+                                                                "scoped": "true",
+                                                                "connection": "airtable3"
+                                                            },
+                                                            "label": "My Airtable OAuth connection (User ID: usrlE0q7D37KRFgoT)"
+                                                        }
+                                                    }
+                                                },
+                                                "parameters": [
+                                                    {
+                                                        "name": "__IMTCONN__",
+                                                        "type": "account:airtable3,airtable2",
+                                                        "label": "Connection",
+                                                        "required": true
+                                                    }
+                                                ],
+                                                "expect": [
+                                                    {
+                                                        "name": "base",
+                                                        "type": "select",
+                                                        "label": "Base",
+                                                        "required": true
+                                                    },
+                                                    {
+                                                        "name": "typecast",
+                                                        "type": "boolean",
+                                                        "label": "Smart links",
+                                                        "required": true
+                                                    },
+                                                    {
+                                                        "name": "useColumnId",
+                                                        "type": "boolean",
+                                                        "label": "Use Column ID",
+                                                        "required": true
+                                                    },
+                                                    {
+                                                        "name": "table",
+                                                        "type": "select",
+                                                        "label": "Table",
+                                                        "required": true
+                                                    },
+                                                    {
+                                                        "name": "id",
+                                                        "type": "text",
+                                                        "label": "Record ID",
+                                                        "required": true
+                                                    },
+                                                    {
+                                                        "name": "record",
+                                                        "spec": [
+                                                            {
+                                                                "name": "fldi44Fm2aSbhVFLj",
+                                                                "type": "text",
+                                                                "label": "Title"
+                                                            },
+                                                            {
+                                                                "name": "fldiSWAG3LnKJfo0Q",
+                                                                "spec": {
+                                                                    "name": "value",
+                                                                    "label": "Record ID"
+                                                                },
+                                                                "type": "array",
+                                                                "label": "Project"
+                                                            },
+                                                            {
+                                                                "name": "fld61eeHKLMhRGoOY",
+                                                                "type": "text",
+                                                                "label": "Topic"
+                                                            },
+                                                            {
+                                                                "mode": "edit",
+                                                                "name": "fldliejxpoBdXQKgs",
+                                                                "type": "select",
+                                                                "label": "Status"
+                                                            },
+                                                            {
+                                                                "mode": "edit",
+                                                                "name": "fldsILOeia7L3qGbI",
+                                                                "type": "select",
+                                                                "label": "Content Category"
+                                                            },
+                                                            {
+                                                                "mode": "edit",
+                                                                "name": "fldGQWKxtdxlHCMcv",
+                                                                "type": "select",
+                                                                "label": "Post Type"
+                                                            },
+                                                            {
+                                                                "mode": "edit",
+                                                                "name": "fld7nuHd6rOWCzfro",
+                                                                "type": "select",
+                                                                "label": "Priority"
+                                                            },
+                                                            {
+                                                                "name": "fld8sU2zACxEiE8xt",
+                                                                "type": "text",
+                                                                "label": "Hook"
+                                                            },
+                                                            {
+                                                                "name": "fldXDMsj4IdOFfEaq",
+                                                                "type": "text",
+                                                                "label": "One-sentence content angle"
+                                                            },
+                                                            {
+                                                                "name": "fld80fuL1dAAKtxaG",
+                                                                "type": "text",
+                                                                "label": "CTA"
+                                                            },
+                                                            {
+                                                                "name": "fld1IHk40ilNFklR7",
+                                                                "time": false,
+                                                                "type": "date",
+                                                                "label": "Publish Date"
+                                                            },
+                                                            {
+                                                                "name": "fldVfT8Bu8620ZJ1n",
+                                                                "spec": [
+                                                                    {
+                                                                        "name": "url",
+                                                                        "type": "text",
+                                                                        "label": "File URL"
+                                                                    },
+                                                                    {
+                                                                        "name": "filename",
+                                                                        "type": "filename",
+                                                                        "label": "File name"
+                                                                    }
+                                                                ],
+                                                                "type": "array",
+                                                                "label": "Media"
+                                                            },
+                                                            {
+                                                                "name": "fld9sFWYlNBpruXqW",
+                                                                "type": "number",
+                                                                "label": "Content Score"
+                                                            },
+                                                            {
+                                                                "mode": "edit",
+                                                                "name": "fldVlxXnlOdXG1FZY",
+                                                                "type": "select",
+                                                                "label": "Content Pillar"
+                                                            },
+                                                            {
+                                                                "name": "fldBaLM7r9zE1wLPV",
+                                                                "spec": {
+                                                                    "name": "value",
+                                                                    "label": "Record ID"
+                                                                },
+                                                                "type": "array",
+                                                                "label": "Content Bundles"
+                                                            },
+                                                            {
+                                                                "name": "fld4cVUxkeE0yiFBG",
+                                                                "type": "text",
+                                                                "label": "Caption"
+                                                            },
+                                                            {
+                                                                "name": "fldKrqlP97eqLoktn",
+                                                                "type": "text",
+                                                                "label": "Carousel Slides"
+                                                            },
+                                                            {
+                                                                "name": "fldUxRhDSjPEEo54g",
+                                                                "type": "text",
+                                                                "label": "Reel Script"
+                                                            },
+                                                            {
+                                                                "name": "fldf6a0bJ6bcjPoOf",
+                                                                "type": "text",
+                                                                "label": "Stories"
+                                                            }
+                                                        ],
+                                                        "type": "collection",
+                                                        "label": "Record"
+                                                    }
+                                                ],
+                                                "interface": [
+                                                    {
+                                                        "name": "id",
+                                                        "type": "text",
+                                                        "label": "ID"
+                                                    },
+                                                    {
+                                                        "name": "createdTime",
+                                                        "type": "date",
+                                                        "label": "Created Time"
+                                                    },
+                                                    {
+                                                        "name": "Title",
+                                                        "type": "text",
+                                                        "label": "Title"
+                                                    },
+                                                    {
+                                                        "name": "Project",
+                                                        "spec": {
+                                                            "label": "Record ID"
+                                                        },
+                                                        "type": "array",
+                                                        "label": "Project"
+                                                    },
+                                                    {
+                                                        "name": "Topic",
+                                                        "type": "text",
+                                                        "label": "Topic"
+                                                    },
+                                                    {
+                                                        "name": "Status",
+                                                        "type": "text",
+                                                        "label": "Status"
+                                                    },
+                                                    {
+                                                        "name": "Content Category",
+                                                        "type": "text",
+                                                        "label": "Content Category"
+                                                    },
+                                                    {
+                                                        "name": "Post Type",
+                                                        "type": "text",
+                                                        "label": "Post Type"
+                                                    },
+                                                    {
+                                                        "name": "Priority",
+                                                        "type": "text",
+                                                        "label": "Priority"
+                                                    },
+                                                    {
+                                                        "name": "Hook",
+                                                        "type": "text",
+                                                        "label": "Hook",
+                                                        "multiline": true
+                                                    },
+                                                    {
+                                                        "name": "One-sentence content angle",
+                                                        "type": "text",
+                                                        "label": "One-sentence content angle",
+                                                        "multiline": true
+                                                    },
+                                                    {
+                                                        "name": "CTA",
+                                                        "type": "text",
+                                                        "label": "CTA",
+                                                        "multiline": true
+                                                    },
+                                                    {
+                                                        "name": "Publish Date",
+                                                        "time": false,
+                                                        "type": "date",
+                                                        "label": "Publish Date"
+                                                    },
+                                                    {
+                                                        "name": "Publish Month",
+                                                        "type": "text",
+                                                        "label": "Publish Month"
+                                                    },
+                                                    {
+                                                        "name": "Media",
+                                                        "spec": [
+                                                            {
+                                                                "name": "id",
+                                                                "type": "text",
+                                                                "label": "ID"
+                                                            },
+                                                            {
+                                                                "name": "width",
+                                                                "type": "uinteger",
+                                                                "label": "Width"
+                                                            },
+                                                            {
+                                                                "name": "height",
+                                                                "type": "uinteger",
+                                                                "label": "Height"
+                                                            },
+                                                            {
+                                                                "name": "url",
+                                                                "type": "url",
+                                                                "label": "URL"
+                                                            },
+                                                            {
+                                                                "name": "filename",
+                                                                "type": "filename",
+                                                                "label": "File name"
+                                                            },
+                                                            {
+                                                                "name": "size",
+                                                                "type": "uinteger",
+                                                                "label": "Size"
+                                                            },
+                                                            {
+                                                                "name": "type",
+                                                                "type": "text",
+                                                                "label": "MIME type"
+                                                            },
+                                                            {
+                                                                "name": "thumbnails",
+                                                                "spec": [
+                                                                    {
+                                                                        "name": "small",
+                                                                        "spec": [
+                                                                            {
+                                                                                "name": "url",
+                                                                                "type": "url",
+                                                                                "label": "URL"
+                                                                            },
+                                                                            {
+                                                                                "name": "width",
+                                                                                "type": "uinteger",
+                                                                                "label": "Width"
+                                                                            },
+                                                                            {
+                                                                                "name": "height",
+                                                                                "type": "uinteger",
+                                                                                "label": "Height"
+                                                                            }
+                                                                        ],
+                                                                        "type": "collection",
+                                                                        "label": "Small"
+                                                                    },
+                                                                    {
+                                                                        "name": "large",
+                                                                        "spec": [
+                                                                            {
+                                                                                "name": "url",
+                                                                                "type": "url",
+                                                                                "label": "URL"
+                                                                            },
+                                                                            {
+                                                                                "name": "width",
+                                                                                "type": "uinteger",
+                                                                                "label": "Width"
+                                                                            },
+                                                                            {
+                                                                                "name": "height",
+                                                                                "type": "uinteger",
+                                                                                "label": "Height"
+                                                                            }
+                                                                        ],
+                                                                        "type": "collection",
+                                                                        "label": "Large"
+                                                                    },
+                                                                    {
+                                                                        "name": "full",
+                                                                        "spec": [
+                                                                            {
+                                                                                "name": "url",
+                                                                                "type": "url",
+                                                                                "label": "URL"
+                                                                            },
+                                                                            {
+                                                                                "name": "width",
+                                                                                "type": "uinteger",
+                                                                                "label": "Width"
+                                                                            },
+                                                                            {
+                                                                                "name": "height",
+                                                                                "type": "uinteger",
+                                                                                "label": "Height"
+                                                                            }
+                                                                        ],
+                                                                        "type": "collection",
+                                                                        "label": "Full"
+                                                                    }
+                                                                ],
+                                                                "type": "collection",
+                                                                "label": "Thumbnails"
+                                                            }
+                                                        ],
+                                                        "type": "array",
+                                                        "label": "Media"
+                                                    },
+                                                    {
+                                                        "name": "Content Score",
+                                                        "type": "number",
+                                                        "label": "Content Score"
+                                                    },
+                                                    {
+                                                        "name": "Content Pillar",
+                                                        "type": "text",
+                                                        "label": "Content Pillar"
+                                                    },
+                                                    {
+                                                        "name": "Content Bundles",
+                                                        "spec": {
+                                                            "label": "Record ID"
+                                                        },
+                                                        "type": "array",
+                                                        "label": "Content Bundles"
+                                                    },
+                                                    {
+                                                        "name": "Caption",
+                                                        "type": "text",
+                                                        "label": "Caption",
+                                                        "multiline": true
+                                                    },
+                                                    {
+                                                        "name": "Carousel Slides",
+                                                        "type": "text",
+                                                        "label": "Carousel Slides",
+                                                        "multiline": true
+                                                    },
+                                                    {
+                                                        "name": "Reel Script",
+                                                        "type": "text",
+                                                        "label": "Reel Script",
+                                                        "multiline": true
+                                                    },
+                                                    {
+                                                        "name": "Stories",
+                                                        "type": "text",
+                                                        "label": "Stories",
+                                                        "multiline": true
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "flow": [
+                        {
+                            "id": 10,
+                            "module": "airtable:ActionUpdateRecords",
+                            "version": 3,
+                            "parameters": {
+                                "__IMTCONN__": 7879047
+                            },
+                            "filter": {
+                                "name": "Story",
+                                "conditions": [
+                                    [
+                                        {
+                                            "a": "{{1.`Post Type`}}",
+                                            "b": "Story",
+                                            "o": "text:equal"
+                                        }
+                                    ]
+                                ]
+                            },
+                            "mapper": {
+                                "id": "{{1.id}}",
+                                "base": "appGVBozOWqbxQSKW",
+                                "table": "tblXri72m8ZKgBicu",
+                                "record": {
+                                    "fld1IHk40ilNFklR7": "{{formatDate(now; \"YYYY-MM-DD\")}}",
+                                    "fldliejxpoBdXQKgs": "Scheduled"
+                                },
+                                "typecast": false,
+                                "useColumnId": false
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 318,
+                                    "y": -408
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "base": {
+                                            "label": "Montanum Content OS"
+                                        },
+                                        "table": {
+                                            "label": "Content"
+                                        },
+                                        "record": {
+                                            "nested": {
+                                                "fld7nuHd6rOWCzfro": {
+                                                    "mode": "chose",
+                                                    "label": "Empty"
+                                                },
+                                                "fldBaLM7r9zE1wLPV": {
+                                                    "mode": "chose"
+                                                },
+                                                "fldGQWKxtdxlHCMcv": {
+                                                    "mode": "chose",
+                                                    "label": "Empty"
+                                                },
+                                                "fldVfT8Bu8620ZJ1n": {
+                                                    "mode": "chose"
+                                                },
+                                                "fldVlxXnlOdXG1FZY": {
+                                                    "mode": "chose",
+                                                    "label": "Empty"
+                                                },
+                                                "fldiSWAG3LnKJfo0Q": {
+                                                    "mode": "chose"
+                                                },
+                                                "fldliejxpoBdXQKgs": {
+                                                    "mode": "chose",
+                                                    "label": "Scheduled"
+                                                },
+                                                "fldsILOeia7L3qGbI": {
+                                                    "mode": "chose",
+                                                    "label": "Empty"
+                                                }
+                                            }
+                                        },
+                                        "typecast": {
+                                            "mode": "chose"
+                                        },
+                                        "useColumnId": {
+                                            "mode": "chose"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "__IMTCONN__": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "airtable3"
+                                            },
+                                            "label": "My Airtable OAuth connection (User ID: usrlE0q7D37KRFgoT)"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "__IMTCONN__",
+                                        "type": "account:airtable3,airtable2",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "base",
+                                        "type": "select",
+                                        "label": "Base",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "typecast",
+                                        "type": "boolean",
+                                        "label": "Smart links",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "useColumnId",
+                                        "type": "boolean",
+                                        "label": "Use Column ID",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "table",
+                                        "type": "select",
+                                        "label": "Table",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "id",
+                                        "type": "text",
+                                        "label": "Record ID",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "record",
+                                        "spec": [
+                                            {
+                                                "name": "fldi44Fm2aSbhVFLj",
+                                                "type": "text",
+                                                "label": "Title"
+                                            },
+                                            {
+                                                "name": "fldiSWAG3LnKJfo0Q",
+                                                "spec": {
+                                                    "name": "value",
+                                                    "label": "Record ID"
+                                                },
+                                                "type": "array",
+                                                "label": "Project"
+                                            },
+                                            {
+                                                "name": "fld61eeHKLMhRGoOY",
+                                                "type": "text",
+                                                "label": "Topic"
+                                            },
+                                            {
+                                                "mode": "edit",
+                                                "name": "fldliejxpoBdXQKgs",
+                                                "type": "select",
+                                                "label": "Status"
+                                            },
+                                            {
+                                                "mode": "edit",
+                                                "name": "fldsILOeia7L3qGbI",
+                                                "type": "select",
+                                                "label": "Content Category"
+                                            },
+                                            {
+                                                "mode": "edit",
+                                                "name": "fldGQWKxtdxlHCMcv",
+                                                "type": "select",
+                                                "label": "Post Type"
+                                            },
+                                            {
+                                                "mode": "edit",
+                                                "name": "fld7nuHd6rOWCzfro",
+                                                "type": "select",
+                                                "label": "Priority"
+                                            },
+                                            {
+                                                "name": "fld8sU2zACxEiE8xt",
+                                                "type": "text",
+                                                "label": "Hook"
+                                            },
+                                            {
+                                                "name": "fldXDMsj4IdOFfEaq",
+                                                "type": "text",
+                                                "label": "One-sentence content angle"
+                                            },
+                                            {
+                                                "name": "fld80fuL1dAAKtxaG",
+                                                "type": "text",
+                                                "label": "CTA"
+                                            },
+                                            {
+                                                "name": "fld1IHk40ilNFklR7",
+                                                "time": false,
+                                                "type": "date",
+                                                "label": "Publish Date"
+                                            },
+                                            {
+                                                "name": "fldVfT8Bu8620ZJ1n",
+                                                "spec": [
+                                                    {
+                                                        "name": "url",
+                                                        "type": "text",
+                                                        "label": "File URL"
+                                                    },
+                                                    {
+                                                        "name": "filename",
+                                                        "type": "filename",
+                                                        "label": "File name"
+                                                    }
+                                                ],
+                                                "type": "array",
+                                                "label": "Media"
+                                            },
+                                            {
+                                                "name": "fld9sFWYlNBpruXqW",
+                                                "type": "number",
+                                                "label": "Content Score"
+                                            },
+                                            {
+                                                "mode": "edit",
+                                                "name": "fldVlxXnlOdXG1FZY",
+                                                "type": "select",
+                                                "label": "Content Pillar"
+                                            },
+                                            {
+                                                "name": "fldBaLM7r9zE1wLPV",
+                                                "spec": {
+                                                    "name": "value",
+                                                    "label": "Record ID"
+                                                },
+                                                "type": "array",
+                                                "label": "Content Bundles"
+                                            },
+                                            {
+                                                "name": "fld4cVUxkeE0yiFBG",
+                                                "type": "text",
+                                                "label": "Caption"
+                                            },
+                                            {
+                                                "name": "fldKrqlP97eqLoktn",
+                                                "type": "text",
+                                                "label": "Carousel Slides"
+                                            },
+                                            {
+                                                "name": "fldUxRhDSjPEEo54g",
+                                                "type": "text",
+                                                "label": "Reel Script"
+                                            },
+                                            {
+                                                "name": "fldf6a0bJ6bcjPoOf",
+                                                "type": "text",
+                                                "label": "Stories"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Record"
+                                    }
+                                ],
+                                "interface": [
+                                    {
+                                        "name": "id",
+                                        "type": "text",
+                                        "label": "ID"
+                                    },
+                                    {
+                                        "name": "createdTime",
+                                        "type": "date",
+                                        "label": "Created Time"
+                                    },
+                                    {
+                                        "name": "Title",
+                                        "type": "text",
+                                        "label": "Title"
+                                    },
+                                    {
+                                        "name": "Project",
+                                        "spec": {
+                                            "label": "Record ID"
+                                        },
+                                        "type": "array",
+                                        "label": "Project"
+                                    },
+                                    {
+                                        "name": "Topic",
+                                        "type": "text",
+                                        "label": "Topic"
+                                    },
+                                    {
+                                        "name": "Status",
+                                        "type": "text",
+                                        "label": "Status"
+                                    },
+                                    {
+                                        "name": "Content Category",
+                                        "type": "text",
+                                        "label": "Content Category"
+                                    },
+                                    {
+                                        "name": "Post Type",
+                                        "type": "text",
+                                        "label": "Post Type"
+                                    },
+                                    {
+                                        "name": "Priority",
+                                        "type": "text",
+                                        "label": "Priority"
+                                    },
+                                    {
+                                        "name": "Hook",
+                                        "type": "text",
+                                        "label": "Hook",
+                                        "multiline": true
+                                    },
+                                    {
+                                        "name": "One-sentence content angle",
+                                        "type": "text",
+                                        "label": "One-sentence content angle",
+                                        "multiline": true
+                                    },
+                                    {
+                                        "name": "CTA",
+                                        "type": "text",
+                                        "label": "CTA",
+                                        "multiline": true
+                                    },
+                                    {
+                                        "name": "Publish Date",
+                                        "time": false,
+                                        "type": "date",
+                                        "label": "Publish Date"
+                                    },
+                                    {
+                                        "name": "Publish Month",
+                                        "type": "text",
+                                        "label": "Publish Month"
+                                    },
+                                    {
+                                        "name": "Media",
+                                        "spec": [
+                                            {
+                                                "name": "id",
+                                                "type": "text",
+                                                "label": "ID"
+                                            },
+                                            {
+                                                "name": "width",
+                                                "type": "uinteger",
+                                                "label": "Width"
+                                            },
+                                            {
+                                                "name": "height",
+                                                "type": "uinteger",
+                                                "label": "Height"
+                                            },
+                                            {
+                                                "name": "url",
+                                                "type": "url",
+                                                "label": "URL"
+                                            },
+                                            {
+                                                "name": "filename",
+                                                "type": "filename",
+                                                "label": "File name"
+                                            },
+                                            {
+                                                "name": "size",
+                                                "type": "uinteger",
+                                                "label": "Size"
+                                            },
+                                            {
+                                                "name": "type",
+                                                "type": "text",
+                                                "label": "MIME type"
+                                            },
+                                            {
+                                                "name": "thumbnails",
+                                                "spec": [
+                                                    {
+                                                        "name": "small",
+                                                        "spec": [
+                                                            {
+                                                                "name": "url",
+                                                                "type": "url",
+                                                                "label": "URL"
+                                                            },
+                                                            {
+                                                                "name": "width",
+                                                                "type": "uinteger",
+                                                                "label": "Width"
+                                                            },
+                                                            {
+                                                                "name": "height",
+                                                                "type": "uinteger",
+                                                                "label": "Height"
+                                                            }
+                                                        ],
+                                                        "type": "collection",
+                                                        "label": "Small"
+                                                    },
+                                                    {
+                                                        "name": "large",
+                                                        "spec": [
+                                                            {
+                                                                "name": "url",
+                                                                "type": "url",
+                                                                "label": "URL"
+                                                            },
+                                                            {
+                                                                "name": "width",
+                                                                "type": "uinteger",
+                                                                "label": "Width"
+                                                            },
+                                                            {
+                                                                "name": "height",
+                                                                "type": "uinteger",
+                                                                "label": "Height"
+                                                            }
+                                                        ],
+                                                        "type": "collection",
+                                                        "label": "Large"
+                                                    },
+                                                    {
+                                                        "name": "full",
+                                                        "spec": [
+                                                            {
+                                                                "name": "url",
+                                                                "type": "url",
+                                                                "label": "URL"
+                                                            },
+                                                            {
+                                                                "name": "width",
+                                                                "type": "uinteger",
+                                                                "label": "Width"
+                                                            },
+                                                            {
+                                                                "name": "height",
+                                                                "type": "uinteger",
+                                                                "label": "Height"
+                                                            }
+                                                        ],
+                                                        "type": "collection",
+                                                        "label": "Full"
+                                                    }
+                                                ],
+                                                "type": "collection",
+                                                "label": "Thumbnails"
+                                            }
+                                        ],
+                                        "type": "array",
+                                        "label": "Media"
+                                    },
+                                    {
+                                        "name": "Content Score",
+                                        "type": "number",
+                                        "label": "Content Score"
+                                    },
+                                    {
+                                        "name": "Content Pillar",
+                                        "type": "text",
+                                        "label": "Content Pillar"
+                                    },
+                                    {
+                                        "name": "Content Bundles",
+                                        "spec": {
+                                            "label": "Record ID"
+                                        },
+                                        "type": "array",
+                                        "label": "Content Bundles"
+                                    },
+                                    {
+                                        "name": "Caption",
+                                        "type": "text",
+                                        "label": "Caption",
+                                        "multiline": true
+                                    },
+                                    {
+                                        "name": "Carousel Slides",
+                                        "type": "text",
+                                        "label": "Carousel Slides",
+                                        "multiline": true
+                                    },
+                                    {
+                                        "name": "Reel Script",
+                                        "type": "text",
+                                        "label": "Reel Script",
+                                        "multiline": true
+                                    },
+                                    {
+                                        "name": "Stories",
+                                        "type": "text",
+                                        "label": "Stories",
+                                        "multiline": true
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "metadata": {
+        "instant": false,
+        "version": 1,
+        "scenario": {
+            "roundtrips": 1,
+            "maxErrors": 3,
+            "autoCommit": true,
+            "autoCommitTriggerLast": true,
+            "sequential": false,
+            "slots": null,
+            "confidential": false,
+            "dataloss": false,
+            "dlq": false,
+            "freshVariables": false
+        },
+        "designer": {
+            "orphans": []
+        },
+        "zone": "eu1.make.com",
+        "notes": []
+    }
+}

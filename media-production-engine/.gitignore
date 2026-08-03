@@ -1,0 +1,7 @@
+data/
+logs/
+output/
+*.mp4
+*.wav
+*.srt
+*.jsonl

@@ -1,0 +1,21 @@
+# Dependencies and generated caches
+node_modules/
+.pnpm-store/
+media-production-engine/node_modules/
+
+# Local runtime output
+media-production-engine/data/
+media-production-engine/output/
+media-production-engine/logs/
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example.md
+*.pem
+*.key
+
+# Editor and operating-system files
+.DS_Store
+Thumbs.db
+.vscode/

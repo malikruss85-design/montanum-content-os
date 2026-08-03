@@ -1,0 +1,44 @@
+{
+  "target_profile": "instagram_reel_9x16",
+  "content_section": "Projects",
+  "reel_type": "Project Showcase",
+  "language": "English",
+  "bundle": {
+    "bundle_airtable_record_id": "recBundleExample001",
+    "bundle_display_id": "B042",
+    "user_message": "This is a boutique hospitality concept in Bali. The sequence from arrival to courtyard matters.",
+    "voice_transcript": "The courtyard acts as the real lobby. We protected privacy while making arrival feel open."
+  },
+  "project": {
+    "project_name": "Anusara",
+    "project_context": "Boutique hospitality development in Ubud, Bali."
+  },
+  "media_manifest": [
+    {
+      "bundle_media_record_id": "recMediaExampleVideo001",
+      "media_type": "Video",
+      "filename": "arrival-sequence.mp4",
+      "file_url": "https://example.invalid/arrival-sequence.mp4",
+      "duration_seconds": 8,
+      "description": "Arrival approach and first view toward a landscaped courtyard."
+    },
+    {
+      "bundle_media_record_id": "recMediaExamplePhoto001",
+      "media_type": "Photo",
+      "filename": "courtyard-render.jpg",
+      "file_url": "https://example.invalid/courtyard-render.jpg",
+      "width": 1600,
+      "height": 900,
+      "description": "Courtyard with shaded circulation and hospitality seating."
+    },
+    {
+      "bundle_media_record_id": "recMediaExamplePhoto002",
+      "media_type": "Photo",
+      "filename": "privacy-render.jpg",
+      "file_url": "https://example.invalid/privacy-render.jpg",
+      "width": 1600,
+      "height": 900,
+      "description": "Guest route screened from adjacent rooms by landscape and building geometry."
+    }
+  ]
+}

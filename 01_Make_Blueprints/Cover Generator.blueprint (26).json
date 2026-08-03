@@ -1,0 +1,2661 @@
+{
+    "name": "Cover Generator",
+    "flow": [
+        {
+            "id": 1,
+            "module": "airtable:ActionSearchRecords",
+            "version": 3,
+            "parameters": {
+                "__IMTCONN__": 7879047
+            },
+            "mapper": {
+                "base": "appGVBozOWqbxQSKW",
+                "table": "tblXri72m8ZKgBicu",
+                "formula": "AND(\r\n  {Status}=\"Written\",\r\n  {Post Type}=\"Carousel\",\r\n  {Carousel Slides}!=\"\"\r\n)",
+                "maxRecords": "1",
+                "useColumnId": false
+            },
+            "metadata": {
+                "designer": {
+                    "x": -100,
+                    "y": 1
+                },
+                "restore": {
+                    "expect": {
+                        "base": {
+                            "mode": "chose",
+                            "label": "Montanum Content OS"
+                        },
+                        "sort": {
+                            "mode": "chose"
+                        },
+                        "view": {
+                            "mode": "chose"
+                        },
+                        "table": {
+                            "mode": "chose",
+                            "label": "Content"
+                        },
+                        "fields": {
+                            "mode": "chose"
+                        },
+                        "useColumnId": {
+                            "mode": "chose"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "airtable3"
+                            },
+                            "label": "My Airtable OAuth connection (User ID: usrlE0q7D37KRFgoT)"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:airtable3,airtable2",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "base",
+                        "type": "select",
+                        "label": "Base",
+                        "required": true
+                    },
+                    {
+                        "name": "useColumnId",
+                        "type": "boolean",
+                        "label": "Use Column ID",
+                        "required": true
+                    },
+                    {
+                        "name": "table",
+                        "type": "select",
+                        "label": "Table",
+                        "required": true
+                    },
+                    {
+                        "name": "formula",
+                        "type": "text",
+                        "label": "Formula"
+                    },
+                    {
+                        "name": "maxRecords",
+                        "type": "integer",
+                        "label": "Limit"
+                    },
+                    {
+                        "name": "sort",
+                        "spec": [
+                            {
+                                "name": "field",
+                                "type": "select",
+                                "label": "Field",
+                                "dynamic": true,
+                                "options": []
+                            },
+                            {
+                                "name": "direction",
+                                "type": "select",
+                                "label": "Direction",
+                                "options": [
+                                    {
+                                        "label": "Descending",
+                                        "value": "desc"
+                                    },
+                                    {
+                                        "label": "Ascending",
+                                        "value": "asc"
+                                    }
+                                ]
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Sort"
+                    },
+                    {
+                        "name": "view",
+                        "type": "select",
+                        "label": "View"
+                    },
+                    {
+                        "name": "fields",
+                        "type": "select",
+                        "label": "Output Fields",
+                        "multiple": true
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "__IMTLENGTH__",
+                        "type": "uinteger",
+                        "label": "Total number of bundles"
+                    },
+                    {
+                        "name": "__IMTINDEX__",
+                        "type": "uinteger",
+                        "label": "Bundle order position"
+                    },
+                    {
+                        "name": "id",
+                        "type": "text",
+                        "label": "ID"
+                    },
+                    {
+                        "name": "createdTime",
+                        "type": "date",
+                        "label": "Created Time"
+                    },
+                    {
+                        "name": "Title",
+                        "type": "text",
+                        "label": "Title"
+                    },
+                    {
+                        "name": "Project",
+                        "spec": {
+                            "label": "Record ID"
+                        },
+                        "type": "array",
+                        "label": "Project"
+                    },
+                    {
+                        "name": "Topic",
+                        "type": "text",
+                        "label": "Topic"
+                    },
+                    {
+                        "name": "Status",
+                        "type": "text",
+                        "label": "Status"
+                    },
+                    {
+                        "name": "Content Category",
+                        "type": "text",
+                        "label": "Content Category"
+                    },
+                    {
+                        "name": "Post Type",
+                        "type": "text",
+                        "label": "Post Type"
+                    },
+                    {
+                        "name": "Priority",
+                        "type": "text",
+                        "label": "Priority"
+                    },
+                    {
+                        "name": "Hook",
+                        "type": "text",
+                        "label": "Hook",
+                        "multiline": true
+                    },
+                    {
+                        "name": "One-sentence content angle",
+                        "type": "text",
+                        "label": "One-sentence content angle",
+                        "multiline": true
+                    },
+                    {
+                        "name": "CTA",
+                        "type": "text",
+                        "label": "CTA",
+                        "multiline": true
+                    },
+                    {
+                        "name": "Publish Date",
+                        "time": false,
+                        "type": "date",
+                        "label": "Publish Date"
+                    },
+                    {
+                        "name": "Publish Month",
+                        "type": "text",
+                        "label": "Publish Month"
+                    },
+                    {
+                        "name": "Media",
+                        "spec": [
+                            {
+                                "name": "id",
+                                "type": "text",
+                                "label": "ID"
+                            },
+                            {
+                                "name": "width",
+                                "type": "uinteger",
+                                "label": "Width"
+                            },
+                            {
+                                "name": "height",
+                                "type": "uinteger",
+                                "label": "Height"
+                            },
+                            {
+                                "name": "url",
+                                "type": "url",
+                                "label": "URL"
+                            },
+                            {
+                                "name": "filename",
+                                "type": "filename",
+                                "label": "File name"
+                            },
+                            {
+                                "name": "size",
+                                "type": "uinteger",
+                                "label": "Size"
+                            },
+                            {
+                                "name": "type",
+                                "type": "text",
+                                "label": "MIME type"
+                            },
+                            {
+                                "name": "thumbnails",
+                                "spec": [
+                                    {
+                                        "name": "small",
+                                        "spec": [
+                                            {
+                                                "name": "url",
+                                                "type": "url",
+                                                "label": "URL"
+                                            },
+                                            {
+                                                "name": "width",
+                                                "type": "uinteger",
+                                                "label": "Width"
+                                            },
+                                            {
+                                                "name": "height",
+                                                "type": "uinteger",
+                                                "label": "Height"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Small"
+                                    },
+                                    {
+                                        "name": "large",
+                                        "spec": [
+                                            {
+                                                "name": "url",
+                                                "type": "url",
+                                                "label": "URL"
+                                            },
+                                            {
+                                                "name": "width",
+                                                "type": "uinteger",
+                                                "label": "Width"
+                                            },
+                                            {
+                                                "name": "height",
+                                                "type": "uinteger",
+                                                "label": "Height"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Large"
+                                    },
+                                    {
+                                        "name": "full",
+                                        "spec": [
+                                            {
+                                                "name": "url",
+                                                "type": "url",
+                                                "label": "URL"
+                                            },
+                                            {
+                                                "name": "width",
+                                                "type": "uinteger",
+                                                "label": "Width"
+                                            },
+                                            {
+                                                "name": "height",
+                                                "type": "uinteger",
+                                                "label": "Height"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Full"
+                                    }
+                                ],
+                                "type": "collection",
+                                "label": "Thumbnails"
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Media"
+                    },
+                    {
+                        "name": "Content Score",
+                        "type": "number",
+                        "label": "Content Score"
+                    },
+                    {
+                        "name": "Content Pillar",
+                        "type": "text",
+                        "label": "Content Pillar"
+                    },
+                    {
+                        "name": "Content Bundles",
+                        "spec": {
+                            "label": "Record ID"
+                        },
+                        "type": "array",
+                        "label": "Content Bundles"
+                    },
+                    {
+                        "name": "Caption",
+                        "type": "text",
+                        "label": "Caption",
+                        "multiline": true
+                    },
+                    {
+                        "name": "Carousel Slides",
+                        "type": "text",
+                        "label": "Carousel Slides",
+                        "multiline": true
+                    },
+                    {
+                        "name": "Reel Script",
+                        "type": "text",
+                        "label": "Reel Script",
+                        "multiline": true
+                    },
+                    {
+                        "name": "Stories",
+                        "type": "text",
+                        "label": "Stories",
+                        "multiline": true
+                    },
+                    {
+                        "name": "Hashtags",
+                        "type": "text",
+                        "label": "Hashtags",
+                        "multiline": true
+                    },
+                    {
+                        "name": "Final Caption",
+                        "type": "text",
+                        "label": "Final Caption",
+                        "multiline": true
+                    },
+                    {
+                        "name": "Cover Image URL",
+                        "type": "text",
+                        "label": "Cover Image URL"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 2,
+            "module": "airtable:ActionGetRecord",
+            "version": 3,
+            "parameters": {
+                "__IMTCONN__": 7879047
+            },
+            "filter": {
+                "name": "",
+                "conditions": [
+                    [
+                        {
+                            "a": "Total number of bundles",
+                            "b": "0",
+                            "o": "time:greater"
+                        }
+                    ]
+                ]
+            },
+            "mapper": {
+                "id": "{{1.`Content Bundles`}}",
+                "base": "appGVBozOWqbxQSKW",
+                "table": "tblasaNxDh0hSJ2lW",
+                "useColumnId": false
+            },
+            "metadata": {
+                "designer": {
+                    "x": 300,
+                    "y": 0
+                },
+                "restore": {
+                    "expect": {
+                        "base": {
+                            "mode": "chose",
+                            "label": "Montanum Content OS"
+                        },
+                        "table": {
+                            "mode": "chose",
+                            "label": "Content Bundles"
+                        },
+                        "useColumnId": {
+                            "mode": "chose"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "airtable3"
+                            },
+                            "label": "My Airtable OAuth connection (User ID: usrlE0q7D37KRFgoT)"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:airtable3,airtable2",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "base",
+                        "type": "select",
+                        "label": "Base",
+                        "required": true
+                    },
+                    {
+                        "name": "useColumnId",
+                        "type": "boolean",
+                        "label": "Use Column ID",
+                        "required": true
+                    },
+                    {
+                        "name": "table",
+                        "type": "select",
+                        "label": "Table",
+                        "required": true
+                    },
+                    {
+                        "name": "id",
+                        "type": "text",
+                        "label": "Record ID",
+                        "required": true
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "id",
+                        "type": "text",
+                        "label": "ID"
+                    },
+                    {
+                        "name": "createdTime",
+                        "type": "date",
+                        "label": "Created Time"
+                    },
+                    {
+                        "name": "Bundle ID",
+                        "type": "text",
+                        "label": "Bundle ID"
+                    },
+                    {
+                        "name": "Status",
+                        "type": "text",
+                        "label": "Status"
+                    },
+                    {
+                        "name": "Telegram Chat ID",
+                        "type": "text",
+                        "label": "Telegram Chat ID"
+                    },
+                    {
+                        "name": "User Message",
+                        "type": "text",
+                        "label": "User Message",
+                        "multiline": true
+                    },
+                    {
+                        "name": "Voice Transcript",
+                        "type": "text",
+                        "label": "Voice Transcript",
+                        "multiline": true
+                    },
+                    {
+                        "name": "Media",
+                        "spec": [
+                            {
+                                "name": "id",
+                                "type": "text",
+                                "label": "ID"
+                            },
+                            {
+                                "name": "width",
+                                "type": "uinteger",
+                                "label": "Width"
+                            },
+                            {
+                                "name": "height",
+                                "type": "uinteger",
+                                "label": "Height"
+                            },
+                            {
+                                "name": "url",
+                                "type": "url",
+                                "label": "URL"
+                            },
+                            {
+                                "name": "filename",
+                                "type": "filename",
+                                "label": "File name"
+                            },
+                            {
+                                "name": "size",
+                                "type": "uinteger",
+                                "label": "Size"
+                            },
+                            {
+                                "name": "type",
+                                "type": "text",
+                                "label": "MIME type"
+                            },
+                            {
+                                "name": "thumbnails",
+                                "spec": [
+                                    {
+                                        "name": "small",
+                                        "spec": [
+                                            {
+                                                "name": "url",
+                                                "type": "url",
+                                                "label": "URL"
+                                            },
+                                            {
+                                                "name": "width",
+                                                "type": "uinteger",
+                                                "label": "Width"
+                                            },
+                                            {
+                                                "name": "height",
+                                                "type": "uinteger",
+                                                "label": "Height"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Small"
+                                    },
+                                    {
+                                        "name": "large",
+                                        "spec": [
+                                            {
+                                                "name": "url",
+                                                "type": "url",
+                                                "label": "URL"
+                                            },
+                                            {
+                                                "name": "width",
+                                                "type": "uinteger",
+                                                "label": "Width"
+                                            },
+                                            {
+                                                "name": "height",
+                                                "type": "uinteger",
+                                                "label": "Height"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Large"
+                                    },
+                                    {
+                                        "name": "full",
+                                        "spec": [
+                                            {
+                                                "name": "url",
+                                                "type": "url",
+                                                "label": "URL"
+                                            },
+                                            {
+                                                "name": "width",
+                                                "type": "uinteger",
+                                                "label": "Width"
+                                            },
+                                            {
+                                                "name": "height",
+                                                "type": "uinteger",
+                                                "label": "Height"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Full"
+                                    }
+                                ],
+                                "type": "collection",
+                                "label": "Thumbnails"
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Media"
+                    },
+                    {
+                        "name": "Media Count",
+                        "type": "number",
+                        "label": "Media Count"
+                    },
+                    {
+                        "name": "Media Type",
+                        "type": "array",
+                        "label": "Media Type",
+                        "dynamic": true,
+                        "editable": true
+                    },
+                    {
+                        "name": "Created Time",
+                        "type": "date",
+                        "label": "Created Time"
+                    },
+                    {
+                        "name": "Last Updated",
+                        "type": "date",
+                        "label": "Last Updated"
+                    },
+                    {
+                        "name": "Linked Content",
+                        "spec": {
+                            "label": "Record ID"
+                        },
+                        "type": "array",
+                        "label": "Linked Content"
+                    },
+                    {
+                        "name": "Bundle Media",
+                        "spec": {
+                            "label": "Record ID"
+                        },
+                        "type": "array",
+                        "label": "Bundle Media"
+                    },
+                    {
+                        "name": "GPT Status",
+                        "type": "text",
+                        "label": "GPT Status"
+                    },
+                    {
+                        "name": "GPT Output",
+                        "type": "text",
+                        "label": "GPT Output",
+                        "multiline": true
+                    },
+                    {
+                        "name": "Content Generated",
+                        "type": "boolean",
+                        "label": "Content Generated"
+                    },
+                    {
+                        "name": "Project",
+                        "spec": {
+                            "label": "Record ID"
+                        },
+                        "type": "array",
+                        "label": "Project"
+                    },
+                    {
+                        "name": "Bandle number",
+                        "type": "number",
+                        "label": "Bandle number"
+                    },
+                    {
+                        "name": "Bundle ID Auto",
+                        "type": "text",
+                        "label": "Bundle ID Auto"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 3,
+            "module": "airtable:ActionSearchRecords",
+            "version": 3,
+            "parameters": {
+                "__IMTCONN__": 7879047
+            },
+            "mapper": {
+                "base": "appGVBozOWqbxQSKW",
+                "sort": [
+                    {
+                        "field": "Created Time",
+                        "direction": "asc"
+                    }
+                ],
+                "table": "tblYQ7TotBGh4MksP",
+                "formula": "AND(\n {Bundle ID Text}=\"{{2.`Bundle ID Auto`}}\",\n {Media Type}=\"Photo\"\n)",
+                "maxRecords": "1",
+                "useColumnId": false
+            },
+            "metadata": {
+                "designer": {
+                    "x": 549,
+                    "y": 4,
+                    "name": " Cover Photo"
+                },
+                "restore": {
+                    "expect": {
+                        "base": {
+                            "mode": "chose",
+                            "label": "Montanum Content OS"
+                        },
+                        "sort": {
+                            "mode": "chose",
+                            "items": [
+                                {
+                                    "field": {
+                                        "mode": "chose",
+                                        "label": "Created Time"
+                                    },
+                                    "direction": {
+                                        "mode": "chose",
+                                        "label": "Ascending"
+                                    }
+                                }
+                            ]
+                        },
+                        "view": {
+                            "mode": "chose"
+                        },
+                        "table": {
+                            "mode": "chose",
+                            "label": "Bundle Media"
+                        },
+                        "fields": {
+                            "mode": "chose"
+                        },
+                        "useColumnId": {
+                            "mode": "chose"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "airtable3"
+                            },
+                            "label": "My Airtable OAuth connection (User ID: usrlE0q7D37KRFgoT)"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:airtable3,airtable2",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "base",
+                        "type": "select",
+                        "label": "Base",
+                        "required": true
+                    },
+                    {
+                        "name": "useColumnId",
+                        "type": "boolean",
+                        "label": "Use Column ID",
+                        "required": true
+                    },
+                    {
+                        "name": "table",
+                        "type": "select",
+                        "label": "Table",
+                        "required": true
+                    },
+                    {
+                        "name": "formula",
+                        "type": "text",
+                        "label": "Formula"
+                    },
+                    {
+                        "name": "maxRecords",
+                        "type": "integer",
+                        "label": "Limit"
+                    },
+                    {
+                        "name": "sort",
+                        "spec": [
+                            {
+                                "name": "field",
+                                "type": "select",
+                                "label": "Field",
+                                "dynamic": true,
+                                "options": []
+                            },
+                            {
+                                "name": "direction",
+                                "type": "select",
+                                "label": "Direction",
+                                "options": [
+                                    {
+                                        "label": "Descending",
+                                        "value": "desc"
+                                    },
+                                    {
+                                        "label": "Ascending",
+                                        "value": "asc"
+                                    }
+                                ]
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Sort"
+                    },
+                    {
+                        "name": "view",
+                        "type": "select",
+                        "label": "View"
+                    },
+                    {
+                        "name": "fields",
+                        "type": "select",
+                        "label": "Output Fields",
+                        "multiple": true
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "__IMTLENGTH__",
+                        "type": "uinteger",
+                        "label": "Total number of bundles"
+                    },
+                    {
+                        "name": "__IMTINDEX__",
+                        "type": "uinteger",
+                        "label": "Bundle order position"
+                    },
+                    {
+                        "name": "id",
+                        "type": "text",
+                        "label": "ID"
+                    },
+                    {
+                        "name": "createdTime",
+                        "type": "date",
+                        "label": "Created Time"
+                    },
+                    {
+                        "name": "File Name",
+                        "type": "text",
+                        "label": "File Name"
+                    },
+                    {
+                        "name": "Bundle",
+                        "spec": {
+                            "label": "Record ID"
+                        },
+                        "type": "array",
+                        "label": "Bundle"
+                    },
+                    {
+                        "name": "Telegram Chat ID",
+                        "type": "text",
+                        "label": "Telegram Chat ID"
+                    },
+                    {
+                        "name": "Media Type",
+                        "type": "text",
+                        "label": "Media Type"
+                    },
+                    {
+                        "name": "File URL",
+                        "type": "text",
+                        "label": "File URL"
+                    },
+                    {
+                        "name": "Attachment",
+                        "spec": [
+                            {
+                                "name": "id",
+                                "type": "text",
+                                "label": "ID"
+                            },
+                            {
+                                "name": "width",
+                                "type": "uinteger",
+                                "label": "Width"
+                            },
+                            {
+                                "name": "height",
+                                "type": "uinteger",
+                                "label": "Height"
+                            },
+                            {
+                                "name": "url",
+                                "type": "url",
+                                "label": "URL"
+                            },
+                            {
+                                "name": "filename",
+                                "type": "filename",
+                                "label": "File name"
+                            },
+                            {
+                                "name": "size",
+                                "type": "uinteger",
+                                "label": "Size"
+                            },
+                            {
+                                "name": "type",
+                                "type": "text",
+                                "label": "MIME type"
+                            },
+                            {
+                                "name": "thumbnails",
+                                "spec": [
+                                    {
+                                        "name": "small",
+                                        "spec": [
+                                            {
+                                                "name": "url",
+                                                "type": "url",
+                                                "label": "URL"
+                                            },
+                                            {
+                                                "name": "width",
+                                                "type": "uinteger",
+                                                "label": "Width"
+                                            },
+                                            {
+                                                "name": "height",
+                                                "type": "uinteger",
+                                                "label": "Height"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Small"
+                                    },
+                                    {
+                                        "name": "large",
+                                        "spec": [
+                                            {
+                                                "name": "url",
+                                                "type": "url",
+                                                "label": "URL"
+                                            },
+                                            {
+                                                "name": "width",
+                                                "type": "uinteger",
+                                                "label": "Width"
+                                            },
+                                            {
+                                                "name": "height",
+                                                "type": "uinteger",
+                                                "label": "Height"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Large"
+                                    },
+                                    {
+                                        "name": "full",
+                                        "spec": [
+                                            {
+                                                "name": "url",
+                                                "type": "url",
+                                                "label": "URL"
+                                            },
+                                            {
+                                                "name": "width",
+                                                "type": "uinteger",
+                                                "label": "Width"
+                                            },
+                                            {
+                                                "name": "height",
+                                                "type": "uinteger",
+                                                "label": "Height"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Full"
+                                    }
+                                ],
+                                "type": "collection",
+                                "label": "Thumbnails"
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Attachment"
+                    },
+                    {
+                        "name": "Order",
+                        "type": "number",
+                        "label": "Order"
+                    },
+                    {
+                        "name": "Telegram Message ID",
+                        "type": "text",
+                        "label": "Telegram Message ID"
+                    },
+                    {
+                        "name": "Created Time",
+                        "type": "date",
+                        "label": "Created Time"
+                    },
+                    {
+                        "name": "Bundle ID Text",
+                        "type": "array",
+                        "label": "Bundle ID Text"
+                    },
+                    {
+                        "name": "Slider order",
+                        "type": "text",
+                        "label": "Slider order"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 18,
+            "module": "html-css-to-image:Image",
+            "version": 1,
+            "parameters": {
+                "__IMTCONN__": 8184753
+            },
+            "mapper": {
+                "css": "body{\r\n  margin:0;\r\n  padding:0;\r\n}\r\n\r\n.slide{\r\n  position:relative;\r\n  width:1080px;\r\n  height:1350px;\r\n  overflow:hidden;\r\n  font-family:'Inter',sans-serif;\r\n  background:#0b0f14;\r\n}\r\n\r\n.bg{\r\n  position:absolute;\r\n  inset:0;\r\n  width:100%;\r\n  height:100%;\r\n  object-fit:cover;\r\n}\r\n\r\n.shade{\r\n  position:absolute;\r\n  left:0;\r\n  right:0;\r\n  bottom:0;\r\n  height:540px;\r\n  background:linear-gradient(\r\n    to top,\r\n    rgba(4,10,18,.98) 0%,\r\n    rgba(4,10,18,.88) 35%,\r\n    rgba(4,10,18,.45) 70%,\r\n    rgba(4,10,18,0) 100%\r\n  );\r\n}\r\n\r\n.panel{\r\n  position:absolute;\r\n  left:0;\r\n  right:0;\r\n  bottom:0;\r\n  padding:0 76px 155px 76px;\r\n  background:transparent;\r\n}\r\n\r\n.logo{\r\n  display:block;\r\n  width:190px;\r\n  height:auto;\r\n  margin:0 0 12px -12px;\r\n}\r\n\r\nh1{\r\n  margin:0;\r\n  max-width:860px;\r\n  font-size:50px;\r\n  line-height:1.08;\r\n  font-weight:700;\r\n  letter-spacing:-1.5px;\r\n  color:#ffffff;\r\n}\r\n\r\n.swipe{\r\n  position:absolute;\r\n  right:76px;\r\n  bottom:105px;\r\n  font-size:34px;\r\n  line-height:1;\r\n  letter-spacing:.5px;\r\n  color:#ffffff;\r\n  opacity:.92;\r\n}",
+                "html": "<div class=\"slide\">\r\n  <img class=\"bg\" src=\"{{3.`File URL`}}\" />\r\n\r\n  <div class=\"shade\"></div>\r\n\r\n  <div class=\"panel\">\r\n    <img class=\"logo\" src=\"https://res.cloudinary.com/dsmg07va6/image/upload/v1781414175/m12_fd6crt.png\" />\r\n\r\n<h1>{{1.Title}}</h1>\r\n<p>{{1.Hook}}</p>\r\n<div class=\"swipe\">Swipe →</div>\n\n</div>",
+                "device_scale": "2",
+                "google_fonts": "Inter",
+                "viewport_width": "1080",
+                "viewport_height": "1350"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 811,
+                    "y": 5,
+                    "name": "Cover Renderer"
+                },
+                "restore": {
+                    "expect": {
+                        "full_screen": {
+                            "mode": "chose"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "html-css-to-image"
+                            },
+                            "label": "My HTML/CSS to Image connection"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:html-css-to-image",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "html",
+                        "type": "text",
+                        "label": "HTML",
+                        "required": true
+                    },
+                    {
+                        "name": "css",
+                        "type": "text",
+                        "label": "CSS"
+                    },
+                    {
+                        "name": "google_fonts",
+                        "type": "text",
+                        "label": "Google Fonts"
+                    },
+                    {
+                        "name": "device_scale",
+                        "type": "integer",
+                        "label": "Device Scale"
+                    },
+                    {
+                        "name": "viewport_width",
+                        "type": "integer",
+                        "label": "Viewport Width"
+                    },
+                    {
+                        "name": "viewport_height",
+                        "type": "integer",
+                        "label": "Viewport Height"
+                    },
+                    {
+                        "name": "ms_delay",
+                        "type": "integer",
+                        "label": "Millisecond Delay"
+                    },
+                    {
+                        "name": "full_screen",
+                        "type": "boolean",
+                        "label": "Full Screen"
+                    },
+                    {
+                        "name": "selector",
+                        "type": "text",
+                        "label": "Selector"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 29,
+            "module": "cloudinary:UploadResource",
+            "version": 1,
+            "parameters": {
+                "__IMTCONN__": 7904168
+            },
+            "mapper": {
+                "file": "{{18.url}}",
+                "type": "upload",
+                "file_type": "url",
+                "resourceType": "image"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 1063,
+                    "y": -8
+                },
+                "restore": {
+                    "expect": {
+                        "type": {
+                            "mode": "chose",
+                            "label": "Upload"
+                        },
+                        "folder": {
+                            "mode": "chose"
+                        },
+                        "file_type": {
+                            "label": "URL Where The File Stored"
+                        },
+                        "resourceType": {
+                            "mode": "chose",
+                            "label": "image"
+                        },
+                        "use_filename": {
+                            "mode": "chose"
+                        },
+                        "upload_preset": {
+                            "mode": "chose"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "cloudinary"
+                            },
+                            "label": "My Cloudinary connection (dsmg07va6)"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:cloudinary",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "file_type",
+                        "type": "select",
+                        "label": "File Type",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "data",
+                                "url"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "resourceType",
+                        "type": "select",
+                        "label": "Resource Type",
+                        "required": true
+                    },
+                    {
+                        "name": "upload_preset",
+                        "type": "select",
+                        "label": "Upload Preset"
+                    },
+                    {
+                        "name": "public_id",
+                        "type": "text",
+                        "label": "Public ID"
+                    },
+                    {
+                        "name": "folder",
+                        "type": "select",
+                        "label": "Folder"
+                    },
+                    {
+                        "name": "use_filename",
+                        "type": "boolean",
+                        "label": "Use Filename"
+                    },
+                    {
+                        "name": "type",
+                        "type": "select",
+                        "label": "Type",
+                        "validate": {
+                            "enum": [
+                                "private",
+                                "upload",
+                                "authenticated"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "file",
+                        "type": "url",
+                        "label": "File",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        {
+            "id": 25,
+            "module": "util:SetVariable2",
+            "version": 1,
+            "parameters": {},
+            "filter": null,
+            "mapper": {
+                "name": "Slides JSON",
+                "scope": "roundtrip",
+                "value": "[{{1.`Carousel Slides`}}]"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 1317,
+                    "y": -11
+                },
+                "restore": {
+                    "expect": {
+                        "scope": {
+                            "label": "One cycle"
+                        }
+                    }
+                },
+                "expect": [
+                    {
+                        "name": "name",
+                        "type": "text",
+                        "label": "Variable name",
+                        "required": true
+                    },
+                    {
+                        "name": "scope",
+                        "type": "select",
+                        "label": "Variable lifetime",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "roundtrip",
+                                "execution"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "value",
+                        "type": "any",
+                        "label": "Variable value"
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "Slides JSON",
+                        "type": "any",
+                        "label": "Slides JSON"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 22,
+            "module": "json:ParseJSON",
+            "version": 1,
+            "parameters": {
+                "type": 455924
+            },
+            "mapper": {
+                "json": "{{25.`Slides JSON`}}"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 1569,
+                    "y": -19
+                },
+                "restore": {
+                    "parameters": {
+                        "type": {
+                            "label": "My data structure"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "type",
+                        "type": "udt",
+                        "label": "Data structure"
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "json",
+                        "type": "text",
+                        "label": "JSON string",
+                        "required": true
+                    }
+                ],
+                "interface": [
+                    {
+                        "help": "",
+                        "name": "title",
+                        "type": "text",
+                        "label": "Title",
+                        "default": null,
+                        "required": false,
+                        "multiline": false
+                    },
+                    {
+                        "help": "",
+                        "name": "text",
+                        "type": "text",
+                        "label": "Text",
+                        "default": null,
+                        "required": false,
+                        "multiline": false
+                    }
+                ]
+            }
+        },
+        {
+            "id": 36,
+            "module": "builtin:BasicAggregator",
+            "version": 1,
+            "parameters": {
+                "feeder": 22
+            },
+            "filter": null,
+            "mapper": {
+                "text": "{{22.text}}",
+                "title": "{{22.title}}"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 1870,
+                    "y": -24
+                },
+                "restore": {
+                    "extra": {
+                        "feeder": {
+                            "label": "JSON - Parse JSON [22]"
+                        },
+                        "target": {
+                            "label": "Custom"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "id": 26,
+            "module": "airtable:ActionSearchRecords",
+            "version": 3,
+            "parameters": {
+                "__IMTCONN__": 7879047
+            },
+            "mapper": {
+                "base": "appGVBozOWqbxQSKW",
+                "sort": [
+                    {
+                        "field": "Created Time",
+                        "direction": "asc"
+                    }
+                ],
+                "table": "tblYQ7TotBGh4MksP",
+                "formula": "AND(\r\n  {Bundle ID Text}=\"{{2.`Bundle ID Auto`}}\",\r\n  {Media Type}=\"Photo\"\r\n)",
+                "maxRecords": "10",
+                "useColumnId": false
+            },
+            "metadata": {
+                "designer": {
+                    "x": 2170,
+                    "y": -24
+                },
+                "restore": {
+                    "expect": {
+                        "base": {
+                            "mode": "chose",
+                            "label": "Montanum Content OS"
+                        },
+                        "sort": {
+                            "mode": "chose",
+                            "items": [
+                                {
+                                    "field": {
+                                        "mode": "chose",
+                                        "label": "Created Time"
+                                    },
+                                    "direction": {
+                                        "mode": "chose",
+                                        "label": "Ascending"
+                                    }
+                                }
+                            ]
+                        },
+                        "view": {
+                            "mode": "chose"
+                        },
+                        "table": {
+                            "mode": "chose",
+                            "label": "Bundle Media"
+                        },
+                        "fields": {
+                            "mode": "chose"
+                        },
+                        "useColumnId": {
+                            "mode": "chose"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "airtable3"
+                            },
+                            "label": "My Airtable OAuth connection (User ID: usrlE0q7D37KRFgoT)"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:airtable3,airtable2",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "base",
+                        "type": "select",
+                        "label": "Base",
+                        "required": true
+                    },
+                    {
+                        "name": "useColumnId",
+                        "type": "boolean",
+                        "label": "Use Column ID",
+                        "required": true
+                    },
+                    {
+                        "name": "table",
+                        "type": "select",
+                        "label": "Table",
+                        "required": true
+                    },
+                    {
+                        "name": "formula",
+                        "type": "text",
+                        "label": "Formula"
+                    },
+                    {
+                        "name": "maxRecords",
+                        "type": "integer",
+                        "label": "Limit"
+                    },
+                    {
+                        "name": "sort",
+                        "spec": [
+                            {
+                                "name": "field",
+                                "type": "select",
+                                "label": "Field",
+                                "dynamic": true,
+                                "options": []
+                            },
+                            {
+                                "name": "direction",
+                                "type": "select",
+                                "label": "Direction",
+                                "options": [
+                                    {
+                                        "label": "Descending",
+                                        "value": "desc"
+                                    },
+                                    {
+                                        "label": "Ascending",
+                                        "value": "asc"
+                                    }
+                                ]
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Sort"
+                    },
+                    {
+                        "name": "view",
+                        "type": "select",
+                        "label": "View"
+                    },
+                    {
+                        "name": "fields",
+                        "type": "select",
+                        "label": "Output Fields",
+                        "multiple": true
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "__IMTLENGTH__",
+                        "type": "uinteger",
+                        "label": "Total number of bundles"
+                    },
+                    {
+                        "name": "__IMTINDEX__",
+                        "type": "uinteger",
+                        "label": "Bundle order position"
+                    },
+                    {
+                        "name": "id",
+                        "type": "text",
+                        "label": "ID"
+                    },
+                    {
+                        "name": "createdTime",
+                        "type": "date",
+                        "label": "Created Time"
+                    },
+                    {
+                        "name": "File Name",
+                        "type": "text",
+                        "label": "File Name"
+                    },
+                    {
+                        "name": "Bundle",
+                        "spec": {
+                            "label": "Record ID"
+                        },
+                        "type": "array",
+                        "label": "Bundle"
+                    },
+                    {
+                        "name": "Telegram Chat ID",
+                        "type": "text",
+                        "label": "Telegram Chat ID"
+                    },
+                    {
+                        "name": "Media Type",
+                        "type": "text",
+                        "label": "Media Type"
+                    },
+                    {
+                        "name": "File URL",
+                        "type": "text",
+                        "label": "File URL"
+                    },
+                    {
+                        "name": "Attachment",
+                        "spec": [
+                            {
+                                "name": "id",
+                                "type": "text",
+                                "label": "ID"
+                            },
+                            {
+                                "name": "width",
+                                "type": "uinteger",
+                                "label": "Width"
+                            },
+                            {
+                                "name": "height",
+                                "type": "uinteger",
+                                "label": "Height"
+                            },
+                            {
+                                "name": "url",
+                                "type": "url",
+                                "label": "URL"
+                            },
+                            {
+                                "name": "filename",
+                                "type": "filename",
+                                "label": "File name"
+                            },
+                            {
+                                "name": "size",
+                                "type": "uinteger",
+                                "label": "Size"
+                            },
+                            {
+                                "name": "type",
+                                "type": "text",
+                                "label": "MIME type"
+                            },
+                            {
+                                "name": "thumbnails",
+                                "spec": [
+                                    {
+                                        "name": "small",
+                                        "spec": [
+                                            {
+                                                "name": "url",
+                                                "type": "url",
+                                                "label": "URL"
+                                            },
+                                            {
+                                                "name": "width",
+                                                "type": "uinteger",
+                                                "label": "Width"
+                                            },
+                                            {
+                                                "name": "height",
+                                                "type": "uinteger",
+                                                "label": "Height"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Small"
+                                    },
+                                    {
+                                        "name": "large",
+                                        "spec": [
+                                            {
+                                                "name": "url",
+                                                "type": "url",
+                                                "label": "URL"
+                                            },
+                                            {
+                                                "name": "width",
+                                                "type": "uinteger",
+                                                "label": "Width"
+                                            },
+                                            {
+                                                "name": "height",
+                                                "type": "uinteger",
+                                                "label": "Height"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Large"
+                                    },
+                                    {
+                                        "name": "full",
+                                        "spec": [
+                                            {
+                                                "name": "url",
+                                                "type": "url",
+                                                "label": "URL"
+                                            },
+                                            {
+                                                "name": "width",
+                                                "type": "uinteger",
+                                                "label": "Width"
+                                            },
+                                            {
+                                                "name": "height",
+                                                "type": "uinteger",
+                                                "label": "Height"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Full"
+                                    }
+                                ],
+                                "type": "collection",
+                                "label": "Thumbnails"
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Attachment"
+                    },
+                    {
+                        "name": "Order",
+                        "type": "number",
+                        "label": "Order"
+                    },
+                    {
+                        "name": "Telegram Message ID",
+                        "type": "text",
+                        "label": "Telegram Message ID"
+                    },
+                    {
+                        "name": "Created Time",
+                        "type": "date",
+                        "label": "Created Time"
+                    },
+                    {
+                        "name": "Bundle ID Text",
+                        "type": "array",
+                        "label": "Bundle ID Text"
+                    },
+                    {
+                        "name": "Slider order",
+                        "type": "text",
+                        "label": "Slider order"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 37,
+            "module": "util:SetVariables",
+            "version": 1,
+            "parameters": {},
+            "filter": {
+                "name": "Total number",
+                "conditions": [
+                    [
+                        {
+                            "a": "{{26.`__IMTLENGTH__`}}",
+                            "b": "0",
+                            "o": "number:greater"
+                        }
+                    ]
+                ]
+            },
+            "mapper": {
+                "scope": "roundtrip",
+                "variables": [
+                    {
+                        "name": "slide_title",
+                        "value": "{{get(get(36.array; 26.`__IMTINDEX__`); \"title\")}}"
+                    },
+                    {
+                        "name": "slide_text",
+                        "value": "{{get(get(36.array; 26.`__IMTINDEX__`); \"text\")}}"
+                    }
+                ]
+            },
+            "metadata": {
+                "designer": {
+                    "x": 2665,
+                    "y": -22
+                },
+                "restore": {
+                    "expect": {
+                        "scope": {
+                            "label": "One cycle"
+                        },
+                        "variables": {
+                            "items": [
+                                null,
+                                null
+                            ]
+                        }
+                    }
+                },
+                "expect": [
+                    {
+                        "name": "variables",
+                        "spec": [
+                            {
+                                "name": "name",
+                                "type": "text",
+                                "label": "Variable name",
+                                "required": true
+                            },
+                            {
+                                "name": "value",
+                                "type": "any",
+                                "label": "Variable value"
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Variables"
+                    },
+                    {
+                        "name": "scope",
+                        "type": "select",
+                        "label": "Variable lifetime",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "roundtrip",
+                                "execution"
+                            ]
+                        }
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "slide_title",
+                        "type": "any",
+                        "label": "slide_title"
+                    },
+                    {
+                        "name": "slide_text",
+                        "type": "any",
+                        "label": "slide_text"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 24,
+            "module": "html-css-to-image:Image",
+            "version": 1,
+            "parameters": {
+                "__IMTCONN__": 8184753
+            },
+            "mapper": {
+                "css": "body{\r\n  margin:0;\r\n  padding:0;\r\n}\r\n\r\n.slide{\r\n  position:relative;\r\n  width:1080px;\r\n  height:1350px;\r\n  overflow:hidden;\r\n  font-family:'Inter',sans-serif;\r\n  background:#0b0f14;\r\n}\r\n\r\n.bg{\r\n  position:absolute;\r\n  inset:0;\r\n  width:100%;\r\n  height:100%;\r\n  object-fit:cover;\r\n}\r\n\r\n.shade{\r\n  position:absolute;\r\n  left:0;\r\n  right:0;\r\n  bottom:0;\r\n  height:620px;\r\n  background:linear-gradient(\r\n    to top,\r\n    rgba(4,10,18,.98) 0%,\r\n    rgba(4,10,18,.88) 35%,\r\n    rgba(4,10,18,.45) 70%,\r\n    rgba(4,10,18,0) 100%\r\n  );\r\n}\r\n\r\n.panel{\r\n  position:absolute;\r\n  left:0;\r\n  right:0;\r\n  bottom:0;\r\n  padding:0 76px 155px 76px;\r\n}\r\n\r\nh1{\r\n  margin:0 0 24px 0;\r\n  max-width:860px;\r\n  font-size:50px;\r\n  line-height:1.08;\r\n  font-weight:700;\r\n  letter-spacing:-1.5px;\r\n  color:#ffffff;\r\n}\r\n\r\np{\r\n  margin:0;\r\n  max-width:860px;\r\n  font-size:40px;\r\n  line-height:1.38;\r\n  font-weight:400;\r\n  color:rgba(255,255,255,.9);\r\n}\r\n\r\n.swipe{\r\n  position:absolute;\r\n  right:76px;\r\n  bottom:105px;\r\n  font-size:40px;\r\n  color:#ffffff;\r\n  opacity:.9;\r\n}",
+                "html": "<div class=\"slide\">\n\n<img class=\"bg\" src=\"{{26.`File URL`}}\">\n\n<div class=\"shade\"></div>\n\n<div class=\"panel\">\n\n<h1>{{37.slide_title}}</h1>\n\n<p>{{37.slide_text}}</p>\n</div>",
+                "device_scale": "2",
+                "google_fonts": "Inter",
+                "viewport_width": "1080",
+                "viewport_height": "1350"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 2965,
+                    "y": -22
+                },
+                "restore": {
+                    "expect": {
+                        "full_screen": {
+                            "mode": "chose"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "html-css-to-image"
+                            },
+                            "label": "My HTML/CSS to Image connection"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:html-css-to-image",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "html",
+                        "type": "text",
+                        "label": "HTML",
+                        "required": true
+                    },
+                    {
+                        "name": "css",
+                        "type": "text",
+                        "label": "CSS"
+                    },
+                    {
+                        "name": "google_fonts",
+                        "type": "text",
+                        "label": "Google Fonts"
+                    },
+                    {
+                        "name": "device_scale",
+                        "type": "integer",
+                        "label": "Device Scale"
+                    },
+                    {
+                        "name": "viewport_width",
+                        "type": "integer",
+                        "label": "Viewport Width"
+                    },
+                    {
+                        "name": "viewport_height",
+                        "type": "integer",
+                        "label": "Viewport Height"
+                    },
+                    {
+                        "name": "ms_delay",
+                        "type": "integer",
+                        "label": "Millisecond Delay"
+                    },
+                    {
+                        "name": "full_screen",
+                        "type": "boolean",
+                        "label": "Full Screen"
+                    },
+                    {
+                        "name": "selector",
+                        "type": "text",
+                        "label": "Selector"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 17,
+            "module": "cloudinary:UploadResource",
+            "version": 1,
+            "parameters": {
+                "__IMTCONN__": 7904168
+            },
+            "mapper": {
+                "file": "{{24.url}}",
+                "type": "upload",
+                "file_type": "url",
+                "resourceType": "image"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 3234,
+                    "y": -28
+                },
+                "restore": {
+                    "expect": {
+                        "type": {
+                            "mode": "chose",
+                            "label": "Upload"
+                        },
+                        "folder": {
+                            "mode": "chose"
+                        },
+                        "file_type": {
+                            "label": "URL Where The File Stored"
+                        },
+                        "resourceType": {
+                            "mode": "chose",
+                            "label": "image"
+                        },
+                        "use_filename": {
+                            "mode": "chose"
+                        },
+                        "upload_preset": {
+                            "mode": "chose"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "cloudinary"
+                            },
+                            "label": "My Cloudinary connection (dsmg07va6)"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:cloudinary",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "file_type",
+                        "type": "select",
+                        "label": "File Type",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "data",
+                                "url"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "resourceType",
+                        "type": "select",
+                        "label": "Resource Type",
+                        "required": true
+                    },
+                    {
+                        "name": "upload_preset",
+                        "type": "select",
+                        "label": "Upload Preset"
+                    },
+                    {
+                        "name": "public_id",
+                        "type": "text",
+                        "label": "Public ID"
+                    },
+                    {
+                        "name": "folder",
+                        "type": "select",
+                        "label": "Folder"
+                    },
+                    {
+                        "name": "use_filename",
+                        "type": "boolean",
+                        "label": "Use Filename"
+                    },
+                    {
+                        "name": "type",
+                        "type": "select",
+                        "label": "Type",
+                        "validate": {
+                            "enum": [
+                                "private",
+                                "upload",
+                                "authenticated"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "file",
+                        "type": "url",
+                        "label": "File",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        {
+            "id": 31,
+            "module": "util:TextAggregator",
+            "version": 1,
+            "parameters": {
+                "feeder": 26,
+                "rowSeparator": "\n"
+            },
+            "mapper": {
+                "value": "{{17.secure_url}}"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 3516,
+                    "y": -38
+                },
+                "restore": {
+                    "extra": {
+                        "feeder": {
+                            "label": "Airtable - Search Records [26]"
+                        }
+                    },
+                    "parameters": {
+                        "rowSeparator": {
+                            "label": "New row"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "rowSeparator",
+                        "type": "select",
+                        "label": "Row separator",
+                        "validate": {
+                            "enum": [
+                                "\n",
+                                "\t",
+                                "other"
+                            ]
+                        }
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "value",
+                        "type": "text",
+                        "label": "Text"
+                    }
+                ],
+                "advanced": true
+            }
+        },
+        {
+            "id": 35,
+            "module": "airtable:ActionUpdateRecords",
+            "version": 3,
+            "parameters": {
+                "__IMTCONN__": 7879047
+            },
+            "mapper": {
+                "id": "{{1.id}}",
+                "base": "appGVBozOWqbxQSKW",
+                "table": "tblXri72m8ZKgBicu",
+                "record": {
+                    "fldFCkwqilalYPIhk": "{{29.secure_url}}",
+                    "fldLGyggaWaw24eWj": "{{31.text}}"
+                },
+                "typecast": false,
+                "useColumnId": false
+            },
+            "metadata": {
+                "designer": {
+                    "x": 3739,
+                    "y": -36
+                },
+                "restore": {
+                    "expect": {
+                        "base": {
+                            "label": "Montanum Content OS"
+                        },
+                        "table": {
+                            "label": "Content"
+                        },
+                        "record": {
+                            "nested": {
+                                "fld7nuHd6rOWCzfro": {
+                                    "mode": "edit"
+                                },
+                                "fldBaLM7r9zE1wLPV": {
+                                    "mode": "chose"
+                                },
+                                "fldGQWKxtdxlHCMcv": {
+                                    "mode": "edit"
+                                },
+                                "fldVfT8Bu8620ZJ1n": {
+                                    "mode": "chose"
+                                },
+                                "fldVlxXnlOdXG1FZY": {
+                                    "mode": "edit"
+                                },
+                                "fldiSWAG3LnKJfo0Q": {
+                                    "mode": "chose"
+                                },
+                                "fldliejxpoBdXQKgs": {
+                                    "mode": "edit"
+                                },
+                                "fldsILOeia7L3qGbI": {
+                                    "mode": "edit"
+                                }
+                            }
+                        },
+                        "typecast": {
+                            "mode": "chose"
+                        },
+                        "useColumnId": {
+                            "mode": "chose"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "airtable3"
+                            },
+                            "label": "My Airtable OAuth connection (User ID: usrlE0q7D37KRFgoT)"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:airtable3,airtable2",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "base",
+                        "type": "select",
+                        "label": "Base",
+                        "required": true
+                    },
+                    {
+                        "name": "typecast",
+                        "type": "boolean",
+                        "label": "Smart links",
+                        "required": true
+                    },
+                    {
+                        "name": "useColumnId",
+                        "type": "boolean",
+                        "label": "Use Column ID",
+                        "required": true
+                    },
+                    {
+                        "name": "table",
+                        "type": "select",
+                        "label": "Table",
+                        "required": true
+                    },
+                    {
+                        "name": "id",
+                        "type": "text",
+                        "label": "Record ID",
+                        "required": true
+                    },
+                    {
+                        "name": "record",
+                        "spec": [
+                            {
+                                "name": "fldi44Fm2aSbhVFLj",
+                                "type": "text",
+                                "label": "Title"
+                            },
+                            {
+                                "name": "fldiSWAG3LnKJfo0Q",
+                                "spec": {
+                                    "name": "value",
+                                    "label": "Record ID"
+                                },
+                                "type": "array",
+                                "label": "Project"
+                            },
+                            {
+                                "name": "fld61eeHKLMhRGoOY",
+                                "type": "text",
+                                "label": "Topic"
+                            },
+                            {
+                                "mode": "edit",
+                                "name": "fldliejxpoBdXQKgs",
+                                "type": "select",
+                                "label": "Status"
+                            },
+                            {
+                                "mode": "edit",
+                                "name": "fldsILOeia7L3qGbI",
+                                "type": "select",
+                                "label": "Content Category"
+                            },
+                            {
+                                "mode": "edit",
+                                "name": "fldGQWKxtdxlHCMcv",
+                                "type": "select",
+                                "label": "Post Type"
+                            },
+                            {
+                                "mode": "edit",
+                                "name": "fld7nuHd6rOWCzfro",
+                                "type": "select",
+                                "label": "Priority"
+                            },
+                            {
+                                "name": "fld8sU2zACxEiE8xt",
+                                "type": "text",
+                                "label": "Hook"
+                            },
+                            {
+                                "name": "fldXDMsj4IdOFfEaq",
+                                "type": "text",
+                                "label": "One-sentence content angle"
+                            },
+                            {
+                                "name": "fld80fuL1dAAKtxaG",
+                                "type": "text",
+                                "label": "CTA"
+                            },
+                            {
+                                "name": "fld1IHk40ilNFklR7",
+                                "time": false,
+                                "type": "date",
+                                "label": "Publish Date"
+                            },
+                            {
+                                "name": "fldVfT8Bu8620ZJ1n",
+                                "spec": [
+                                    {
+                                        "name": "url",
+                                        "type": "text",
+                                        "label": "File URL"
+                                    },
+                                    {
+                                        "name": "filename",
+                                        "type": "filename",
+                                        "label": "File name"
+                                    }
+                                ],
+                                "type": "array",
+                                "label": "Media"
+                            },
+                            {
+                                "name": "fld9sFWYlNBpruXqW",
+                                "type": "number",
+                                "label": "Content Score"
+                            },
+                            {
+                                "mode": "edit",
+                                "name": "fldVlxXnlOdXG1FZY",
+                                "type": "select",
+                                "label": "Content Pillar"
+                            },
+                            {
+                                "name": "fldBaLM7r9zE1wLPV",
+                                "spec": {
+                                    "name": "value",
+                                    "label": "Record ID"
+                                },
+                                "type": "array",
+                                "label": "Content Bundles"
+                            },
+                            {
+                                "name": "fld4cVUxkeE0yiFBG",
+                                "type": "text",
+                                "label": "Caption"
+                            },
+                            {
+                                "name": "fldKrqlP97eqLoktn",
+                                "type": "text",
+                                "label": "Carousel Slides"
+                            },
+                            {
+                                "name": "fldUxRhDSjPEEo54g",
+                                "type": "text",
+                                "label": "Reel Script"
+                            },
+                            {
+                                "name": "fldf6a0bJ6bcjPoOf",
+                                "type": "text",
+                                "label": "Stories"
+                            },
+                            {
+                                "name": "fldOA9v6aj4OfIjNN",
+                                "type": "text",
+                                "label": "Hashtags"
+                            },
+                            {
+                                "name": "fld0FDwjwEi1n0x7L",
+                                "type": "text",
+                                "label": "Final Caption"
+                            },
+                            {
+                                "name": "fldFCkwqilalYPIhk",
+                                "type": "text",
+                                "label": "Cover Image URL"
+                            },
+                            {
+                                "name": "fldLGyggaWaw24eWj",
+                                "type": "text",
+                                "label": "Carousel Image URLs"
+                            }
+                        ],
+                        "type": "collection",
+                        "label": "Record"
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "id",
+                        "type": "text",
+                        "label": "ID"
+                    },
+                    {
+                        "name": "createdTime",
+                        "type": "date",
+                        "label": "Created Time"
+                    },
+                    {
+                        "name": "Title",
+                        "type": "text",
+                        "label": "Title"
+                    },
+                    {
+                        "name": "Project",
+                        "spec": {
+                            "label": "Record ID"
+                        },
+                        "type": "array",
+                        "label": "Project"
+                    },
+                    {
+                        "name": "Topic",
+                        "type": "text",
+                        "label": "Topic"
+                    },
+                    {
+                        "name": "Status",
+                        "type": "text",
+                        "label": "Status"
+                    },
+                    {
+                        "name": "Content Category",
+                        "type": "text",
+                        "label": "Content Category"
+                    },
+                    {
+                        "name": "Post Type",
+                        "type": "text",
+                        "label": "Post Type"
+                    },
+                    {
+                        "name": "Priority",
+                        "type": "text",
+                        "label": "Priority"
+                    },
+                    {
+                        "name": "Hook",
+                        "type": "text",
+                        "label": "Hook",
+                        "multiline": true
+                    },
+                    {
+                        "name": "One-sentence content angle",
+                        "type": "text",
+                        "label": "One-sentence content angle",
+                        "multiline": true
+                    },
+                    {
+                        "name": "CTA",
+                        "type": "text",
+                        "label": "CTA",
+                        "multiline": true
+                    },
+                    {
+                        "name": "Publish Date",
+                        "time": false,
+                        "type": "date",
+                        "label": "Publish Date"
+                    },
+                    {
+                        "name": "Publish Month",
+                        "type": "text",
+                        "label": "Publish Month"
+                    },
+                    {
+                        "name": "Media",
+                        "spec": [
+                            {
+                                "name": "id",
+                                "type": "text",
+                                "label": "ID"
+                            },
+                            {
+                                "name": "width",
+                                "type": "uinteger",
+                                "label": "Width"
+                            },
+                            {
+                                "name": "height",
+                                "type": "uinteger",
+                                "label": "Height"
+                            },
+                            {
+                                "name": "url",
+                                "type": "url",
+                                "label": "URL"
+                            },
+                            {
+                                "name": "filename",
+                                "type": "filename",
+                                "label": "File name"
+                            },
+                            {
+                                "name": "size",
+                                "type": "uinteger",
+                                "label": "Size"
+                            },
+                            {
+                                "name": "type",
+                                "type": "text",
+                                "label": "MIME type"
+                            },
+                            {
+                                "name": "thumbnails",
+                                "spec": [
+                                    {
+                                        "name": "small",
+                                        "spec": [
+                                            {
+                                                "name": "url",
+                                                "type": "url",
+                                                "label": "URL"
+                                            },
+                                            {
+                                                "name": "width",
+                                                "type": "uinteger",
+                                                "label": "Width"
+                                            },
+                                            {
+                                                "name": "height",
+                                                "type": "uinteger",
+                                                "label": "Height"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Small"
+                                    },
+                                    {
+                                        "name": "large",
+                                        "spec": [
+                                            {
+                                                "name": "url",
+                                                "type": "url",
+                                                "label": "URL"
+                                            },
+                                            {
+                                                "name": "width",
+                                                "type": "uinteger",
+                                                "label": "Width"
+                                            },
+                                            {
+                                                "name": "height",
+                                                "type": "uinteger",
+                                                "label": "Height"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Large"
+                                    },
+                                    {
+                                        "name": "full",
+                                        "spec": [
+                                            {
+                                                "name": "url",
+                                                "type": "url",
+                                                "label": "URL"
+                                            },
+                                            {
+                                                "name": "width",
+                                                "type": "uinteger",
+                                                "label": "Width"
+                                            },
+                                            {
+                                                "name": "height",
+                                                "type": "uinteger",
+                                                "label": "Height"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Full"
+                                    }
+                                ],
+                                "type": "collection",
+                                "label": "Thumbnails"
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Media"
+                    },
+                    {
+                        "name": "Content Score",
+                        "type": "number",
+                        "label": "Content Score"
+                    },
+                    {
+                        "name": "Content Pillar",
+                        "type": "text",
+                        "label": "Content Pillar"
+                    },
+                    {
+                        "name": "Content Bundles",
+                        "spec": {
+                            "label": "Record ID"
+                        },
+                        "type": "array",
+                        "label": "Content Bundles"
+                    },
+                    {
+                        "name": "Caption",
+                        "type": "text",
+                        "label": "Caption",
+                        "multiline": true
+                    },
+                    {
+                        "name": "Carousel Slides",
+                        "type": "text",
+                        "label": "Carousel Slides",
+                        "multiline": true
+                    },
+                    {
+                        "name": "Reel Script",
+                        "type": "text",
+                        "label": "Reel Script",
+                        "multiline": true
+                    },
+                    {
+                        "name": "Stories",
+                        "type": "text",
+                        "label": "Stories",
+                        "multiline": true
+                    },
+                    {
+                        "name": "Hashtags",
+                        "type": "text",
+                        "label": "Hashtags",
+                        "multiline": true
+                    },
+                    {
+                        "name": "Final Caption",
+                        "type": "text",
+                        "label": "Final Caption",
+                        "multiline": true
+                    },
+                    {
+                        "name": "Cover Image URL",
+                        "type": "text",
+                        "label": "Cover Image URL"
+                    },
+                    {
+                        "name": "Carousel Image URLs",
+                        "type": "text",
+                        "label": "Carousel Image URLs",
+                        "multiline": true
+                    }
+                ]
+            }
+        }
+    ],
+    "metadata": {
+        "instant": false,
+        "version": 1,
+        "scenario": {
+            "roundtrips": 1,
+            "maxErrors": 3,
+            "autoCommit": true,
+            "autoCommitTriggerLast": true,
+            "sequential": false,
+            "slots": null,
+            "confidential": false,
+            "dataloss": false,
+            "dlq": false,
+            "freshVariables": false
+        },
+        "designer": {
+            "orphans": []
+        },
+        "zone": "eu1.make.com",
+        "notes": []
+    }
+}

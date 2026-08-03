@@ -1,0 +1,8 @@
+node_modules
+data
+logs
+output
+.env
+npm-debug.log
+test
+pnpm-workspace.yaml

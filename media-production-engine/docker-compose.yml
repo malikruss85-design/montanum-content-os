@@ -1,0 +1,21 @@
+services:
+  media-production-engine:
+    build: .
+    ports:
+      - "127.0.0.1:4317:4317"
+    environment:
+      MPE_API_TOKEN: ${MPE_API_TOKEN:?Set MPE_API_TOKEN in a local .env file}
+      MPE_CALLBACK_URL: ${MPE_CALLBACK_URL:-}
+      MPE_CALLBACK_TOKEN: ${MPE_CALLBACK_TOKEN:-}
+      MPE_CALLBACK_SIGNING_SECRET: ${MPE_CALLBACK_SIGNING_SECRET:-}
+      MPE_REQUEST_TIMEOUT_MS: ${MPE_REQUEST_TIMEOUT_MS:-30000}
+      MPE_MAX_REQUEST_BYTES: ${MPE_MAX_REQUEST_BYTES:-2000000}
+    volumes:
+      - mpe-data:/var/lib/mpe/data
+      - mpe-logs:/var/lib/mpe/logs
+      - mpe-output:/var/lib/mpe/output
+    restart: unless-stopped
+volumes:
+  mpe-data:
+  mpe-logs:
+  mpe-output:
