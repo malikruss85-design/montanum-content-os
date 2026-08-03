@@ -12,6 +12,7 @@ media-production-engine/logs/
 .env
 .env.*
 !.env.example.md
+!.env.example
 *.pem
 *.key
 

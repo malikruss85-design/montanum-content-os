@@ -1,10 +1,11 @@
 import { validateCommand } from '../contracts.js';
 import { inputSignature, stableRunId } from '../ids.js';
 import { MockTtsAdapter } from './mock-tts.js';
+import { OpenAiTtsAdapter } from './openai-tts.js';
 import { LocalReelRenderer } from './renderer.js';
 
 export class ProductionService {
-  constructor({ config, repository, logger }) { this.config = config; this.repository = repository; this.logger = logger; this.tts = new MockTtsAdapter(config); this.renderer = new LocalReelRenderer(config); }
+  constructor({ config, repository, logger }) { this.config = config; this.repository = repository; this.logger = logger; this.tts = config.ttsProvider === 'openai' ? new OpenAiTtsAdapter(config) : new MockTtsAdapter(config); this.renderer = new LocalReelRenderer(config); }
   async start(command) {
     const validated = validateCommand(command); const runId = stableRunId(validated.idempotencyKey); const signature = inputSignature(validated); const existing = await this.repository.findByRunId(runId);
     if (existing) { if (existing.inputSignature !== signature) throw new Error('Idempotency key was reused with different input'); return { run: existing, duplicate: true }; }
@@ -12,7 +13,7 @@ export class ProductionService {
     await this.repository.save(run); await this.logger.info('production_started', { runId, contentId: run.contentId });
     try {
       const durationSeconds = validated.scenes.reduce((sum, scene) => sum + (['original_photo', 'render'].includes(scene.sourceAssetType) ? scene.stillDuration : scene.trimEnd - scene.trimStart), 0);
-      const narration = await this.tts.synthesize({ requestId: runId, durationSeconds });
+      const narration = await this.tts.synthesize({ requestId: runId, durationSeconds, text: validated.voiceOverScript });
       const rendered = await this.renderer.render({ runId, scenes: validated.scenes, narration, subtitleText: validated.subtitleText });
       const validation = await this.renderer.validate(rendered.finalAsset.storageReference);
       Object.assign(run, { status: 'succeeded', completedAt: new Date().toISOString(), assets: [narration, rendered.subtitleAsset, rendered.finalAsset], validation }); await this.repository.save(run); await this.logger.info('production_succeeded', { runId, validation }); return { run, duplicate: false };
