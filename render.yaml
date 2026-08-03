@@ -9,7 +9,6 @@ services:
     dockerfilePath: ./media-production-engine/Dockerfile
     dockerContext: ./media-production-engine
     healthCheckPath: /ready
-    maxShutdownDelaySeconds: 300
     disk:
       name: mpe-data
       mountPath: /var/lib/mpe
