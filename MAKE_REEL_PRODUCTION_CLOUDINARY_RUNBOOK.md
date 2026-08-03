@@ -73,9 +73,9 @@ It must not include an API key, Telegram token, temporary Airtable attachment UR
 
 ## SRT / transformation-code decision
 
-The remaining deterministic step needs cumulative scene timing and a Cloudinary URL with an arbitrary number of splice layers. Make's basic aggregators cannot safely calculate both from the validated scene array alone. The official Make **Code** module can run that small JavaScript transformation inside this existing scenario, but it consumes Make Code credits. It is therefore **not installed or enabled** without the owner's explicit approval.
+The remaining deterministic step needs cumulative scene timing and a Cloudinary URL with an arbitrary number of splice layers. Make's basic aggregators cannot safely calculate both from the validated scene array alone. The official Make **Code** module runs that small JavaScript transformation inside this existing scenario and consumes Make Code credits. The owner approved it on 3 August 2026; the module is now saved after the validated Array Aggregator. The scenario itself remains inactive and has not been run.
 
-If approved, place one Make Code module after the validated Array Aggregator. Its sole inputs are the approved scene array, Cloudinary source URLs, narration public ID, and subtitle public ID. It must return `srt`, `finalReelUrl`, and `expectedDurationSeconds`, equivalent to the repository-tested `media-production-engine/src/services/cloudinary-reel-input.js` and `cloudinary-reel-url.js`. It must not call OpenAI, Cloudinary, Telegram, or Instagram itself. The following standard modules upload the returned SRT as `raw` and request the returned final Cloudinary URL.
+The saved module receives the Content record's `Scene Plan JSON`, the validated `Bundle Media` array, and the generated narration URL. It derives the narration folder/public ID and returns `srt`, a base64 SRT data URI, `subtitlesPublicId`, `finalReelUrl`, and `expectedDurationSeconds`. It must not call OpenAI, Cloudinary, Telegram, or Instagram itself. The following standard modules will upload the returned SRT as `raw` and request the returned final Cloudinary URL.
 
 ## One-record acceptance test
 
