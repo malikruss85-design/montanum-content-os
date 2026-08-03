@@ -4,12 +4,14 @@ import { postAuthenticatedCallback } from '../callbacks.js';
 import { MockTtsAdapter } from './mock-tts.js';
 import { OpenAiTtsAdapter } from './openai-tts.js';
 import { LocalReelRenderer } from './renderer.js';
+import { SourceMediaService } from './source-media.js';
 
 export class ProductionService {
-  constructor({ config, repository, logger }) { this.config = config; this.repository = repository; this.logger = logger; this.tts = config.ttsProvider === 'openai' ? new OpenAiTtsAdapter(config) : new MockTtsAdapter(config); this.renderer = new LocalReelRenderer(config); }
+  constructor({ config, repository, logger }) { this.config = config; this.repository = repository; this.logger = logger; this.tts = config.ttsProvider === 'openai' ? new OpenAiTtsAdapter(config) : new MockTtsAdapter(config); this.renderer = new LocalReelRenderer(config); this.sources = new SourceMediaService(config); }
+  publicAsset(asset) { const { storageReference, ...safeAsset } = asset; return { ...safeAsset, ...(this.config.publicBaseUrl ? { downloadUrl: `${this.config.publicBaseUrl}/v1/assets/${asset.assetId}` } : {}) }; }
   async notify(run, eventType, outputAssets = [], error = undefined) {
     if (!this.config.callbackUrl) return;
-    const payload = { eventId: stableAssetId(`${run.runId}:${eventType}`), eventType, productionRunId: run.runId, contentId: run.contentId, status: run.status, outputAssets, ...(error ? { error } : {}), occurredAt: new Date().toISOString() };
+    const payload = { eventId: stableAssetId(`${run.runId}:${eventType}`), eventType, productionRunId: run.runId, contentId: run.contentId, status: run.status, outputAssets: outputAssets.map(asset => this.publicAsset(asset)), ...(error ? { error } : {}), occurredAt: new Date().toISOString() };
     try { await postAuthenticatedCallback(this.config, payload); await this.logger.info('callback_delivered', { runId: run.runId, eventType }); }
     catch (callbackError) { await this.logger.error('callback_delivery_failed', { runId: run.runId, eventType, error: callbackError.message }); }
   }
@@ -19,10 +21,12 @@ export class ProductionService {
     const run = { runId, contentId: validated.contentId, bundleId: validated.bundleId, idempotencyKey: validated.idempotencyKey, inputSignature: signature, status: 'running', scenes: validated.scenes, createdAt: new Date().toISOString(), approval: { status: 'invalidated', reason: 'new production' }, assets: [] };
     await this.repository.save(run); await this.logger.info('production_started', { runId, contentId: run.contentId }); await this.notify(run, 'run_queued');
     try {
-      const durationSeconds = validated.scenes.reduce((sum, scene) => sum + (['original_photo', 'render'].includes(scene.sourceAssetType) ? scene.stillDuration : scene.trimEnd - scene.trimStart), 0);
+      const scenes = await this.sources.prepareScenes(runId, validated.scenes);
+      run.scenes = scenes; await this.repository.save(run);
+      const durationSeconds = scenes.reduce((sum, scene) => sum + (['original_photo', 'render'].includes(scene.sourceAssetType) ? scene.stillDuration : scene.trimEnd - scene.trimStart), 0);
       const narration = await this.tts.synthesize({ requestId: runId, durationSeconds, text: validated.voiceOverScript });
-      await this.notify(run, 'narration_ready', [narration]);
-      const rendered = await this.renderer.render({ runId, scenes: validated.scenes, narration, subtitleText: validated.subtitleText });
+      run.assets = [narration]; await this.repository.save(run); await this.notify(run, 'narration_ready', [narration]);
+      const rendered = await this.renderer.render({ runId, scenes, narration, subtitleText: validated.subtitleText });
       const validation = await this.renderer.validate(rendered.finalAsset.storageReference);
       Object.assign(run, { status: 'succeeded', completedAt: new Date().toISOString(), assets: [narration, rendered.subtitleAsset, rendered.finalAsset], validation }); await this.repository.save(run); await this.logger.info('production_succeeded', { runId, validation }); await this.notify(run, 'final_render_ready', run.assets); return { run, duplicate: false };
     } catch (error) { run.status = 'failed'; run.error = { message: error.message, retryable: true }; run.completedAt = new Date().toISOString(); await this.repository.save(run); await this.logger.error('production_failed', { runId, error: error.message }); await this.notify(run, 'run_failed', [], { code: 'production_failed', message: error.message, retryable: true }); throw error; }

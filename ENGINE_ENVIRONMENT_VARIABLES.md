@@ -11,6 +11,7 @@ The local development default uses Mock TTS. Production Reel narration uses Open
 | `MPE_CALLBACK_URL` | No | Empty | Future authenticated Make callback URL. |
 | `MPE_CALLBACK_TOKEN` | Required if callback URL set | Empty | Bearer token sent with Engine callbacks. |
 | `MPE_CALLBACK_SIGNING_SECRET` | Required if callback URL set | Empty | HMAC secret used to sign Engine callbacks. |
+| `MPE_CALLBACK_MAX_ATTEMPTS` | No | `3` | Delivery attempts for a temporary Make callback failure. |
 | `MPE_DATA_DIR` | No | `./data` | Local run/asset persistence directory. |
 | `MPE_LOG_DIR` | No | `./logs` | Structured log directory. |
 | `MPE_OUTPUT_DIR` | No | `./output` | Final/intermediate local render directory. |
@@ -21,6 +22,10 @@ The local development default uses Mock TTS. Production Reel narration uses Open
 | `OPENAI_API_KEY` | Yes for OpenAI TTS | Empty | OpenAI API key held only in the deployment secret manager. |
 | `OPENAI_TTS_MODEL` | No | `gpt-4o-mini-tts` | OpenAI speech model for English narration. |
 | `OPENAI_TTS_VOICE` | No | `coral` | OpenAI English voice. Change this later when the preferred voice is chosen. |
+| `MPE_PUBLIC_BASE_URL` | Yes for Make asset downloads | Empty | Public HTTPS base URL used to build authenticated asset download links in callbacks. |
+| `MPE_ALLOWED_SOURCE_HOSTS` | Yes in production | `res.cloudinary.com` | Comma-separated media hosts allowed for HTTPS source download. |
+| `MPE_SOURCE_DOWNLOAD_MAX_BYTES` | No | `200000000` | Maximum accepted size for one source video/photo download. |
+| `MPE_SOURCE_DOWNLOAD_TIMEOUT_MS` | No | `60000` | Time limit for one source download. |
 | `MPE_MAX_REQUEST_BYTES` | No | `2000000` | Maximum JSON command body size. |
 | `MPE_REQUEST_TIMEOUT_MS` | No | `30000` | Request and future callback timeout. |
 | `MPE_HEADERS_TIMEOUT_MS` | No | `35000` | Maximum HTTP header read time. |

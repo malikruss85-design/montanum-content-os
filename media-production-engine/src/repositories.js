@@ -7,4 +7,13 @@ export class FileRepository {
   path(runId) { return path.join(this.runsDir, `${runId}.json`); }
   async findByRunId(runId) { try { return JSON.parse(await fs.readFile(this.path(runId), 'utf8')); } catch (error) { if (error.code === 'ENOENT') return null; throw error; } }
   async save(run) { await this.init(); const target = this.path(run.runId); const temporary = `${target}.tmp`; await fs.writeFile(temporary, JSON.stringify(run, null, 2)); await fs.rename(temporary, target); return run; }
+  async findAsset(assetId) {
+    await this.init(); const names = await fs.readdir(this.runsDir);
+    for (const name of names.filter(name => name.endsWith('.json'))) {
+      const run = JSON.parse(await fs.readFile(path.join(this.runsDir, name), 'utf8'));
+      const asset = run.assets?.find(item => item.assetId === assetId);
+      if (asset) return { run, asset };
+    }
+    return null;
+  }
 }

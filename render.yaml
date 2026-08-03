@@ -21,6 +21,10 @@ services:
         value: 0.0.0.0
       - key: MPE_API_TOKEN
         generateValue: true
+      - key: MPE_PUBLIC_BASE_URL
+        value: https://montanum-media-production-engine.onrender.com
+      - key: MPE_ALLOWED_SOURCE_HOSTS
+        value: res.cloudinary.com
       - key: MPE_TTS_PROVIDER
         value: openai
       - key: OPENAI_API_KEY

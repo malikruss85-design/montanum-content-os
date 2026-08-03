@@ -1,24 +1,25 @@
 # Engine Implementation Status
 
-## Completed local MVP work
+## Completed local Reel-production work
 
-- Created isolated `media-production-engine/` codebase.
-- Added local authenticated HTTP API with `GET /health` and `POST /v1/productions`.
-- Added validated production commands, scene records, rendering profile, stable run/asset IDs, idempotency signatures, callback-event contract, local run persistence, and JSON-line logs.
-- Added provider-neutral interfaces in the approved architecture documents and a development-only Mock TTS implementation that uses a supplied local audio file or creates silent test narration.
-- Added FFmpeg-based local renderer for original video and still images/renders: 9:16 crop/fit, trim/hold duration, simple cuts, narration track, burned-in subtitles, final MP4, and ffprobe validation.
-- Added test fixture generator and automated contract, idempotency, approval, missing-asset, and renderer integration tests.
-- Added deployment readiness: Dockerfile, Docker Compose configuration, named persistent volumes, production environment validation, Bearer endpoint authentication, callback signing configuration, request limits/timeouts, FFmpeg readiness validation, and graceful shutdown.
-- Prepared the additive, non-live Reel Brief Generator integration package: strict schema, prompt, Make module map, idempotency/error-handling specification, samples, and test checklist. No Make/Airtable integration was applied.
+- Isolated `media-production-engine/` service with authenticated HTTP API, stable run/asset IDs, idempotency, local run persistence and structured logs.
+- Validated `start_production` command with ordered 9:16 scenes, English voice-over script and subtitle text.
+- OpenAI TTS adapter for `gpt-4o-mini-tts` with configurable English voice; Mock TTS remains available only for local tests.
+- FFmpeg Reel renderer: source video trims, still-image holds, 1080×1920 crop/fit, AAC narration, burned-in subtitles and output validation.
+- Secure source-media resolver for existing Cloudinary HTTPS URLs. It accepts only configured hosts, enforces media type/size/time limits and stores source inputs in the persistent run directory.
+- Authenticated `GET`/`HEAD /v1/assets/{assetId}` endpoint so Make can download a final MP4, narration or subtitle asset without exposing an internal filesystem path.
+- Signed Make callbacks for queued, narration-ready, final-render-ready and run-failed events, including retry for temporary delivery failures and authenticated `downloadUrl` values.
+- Dockerfile, Compose configuration, Render Blueprint, persistent storage, readiness checks, graceful shutdown and production secret configuration.
 
-## Deliberately not implemented
+## Intentionally not enabled yet
 
-- Make, Airtable, Telegram, and Instagram integration.
-- Real TTS or other provider connections.
-- AI image/video generation.
-- Automatic publication.
-- Future channels, music, advanced transitions, or multi-language output.
+- Live Render deployment, OpenAI API key entry and Make callback secret configuration.
+- Live Make/Airtable/Telegram/Instagram changes. The engine and exact contract are ready, but the existing scenarios remain untouched until the deployed endpoint exists.
+- Direct or automatic Instagram publication, generated images/video, advanced transitions, music and additional channels.
 
-## Local verification state
+## Verification state — 3 August 2026
 
-All twelve automated tests passed on 3 August 2026. The fixture created local synthetic video/image inputs, assembled a Reel with mock silent narration and burned-in subtitles, and validated a 1080×1920 MP4 with audio. Authenticated health/readiness verification also passed (`/health`, `/ready`, and an unauthenticated production request returned 401). FFmpeg is supplied as a project-local development dependency and is intentionally not installed system-wide or committed to the repository. Docker configuration was prepared but not run because Docker is unavailable in this workspace.
+- `node --test` with the project-local `ffmpeg-static` binary: 22 passed, 0 failed, 0 skipped.
+- Tests cover real FFmpeg assembly of a 1080×1920 MP4 with audio and burned-in subtitles, a complete Cloudinary URL → download → render path, OpenAI request shape without a live API call, authenticated asset delivery, signed callback retry, idempotency and approval invalidation.
+- A local server startup check passed for both `/health` and `/ready` using the project-local FFmpeg binary.
+- Docker Desktop is not installed in this workspace, so the container itself has not been run locally. The Render Docker deployment is prepared but awaits user authentication and secret entry.

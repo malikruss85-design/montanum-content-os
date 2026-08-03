@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const positiveInteger = (value, name) => { const number = Number(value); if (!Number.isInteger(number) || number <= 0) throw new Error(`${name} must be a positive integer`); return number; };
+const hostList = (value) => value.split(',').map(item => item.trim().toLowerCase()).filter(Boolean);
 
 export function loadConfig(env = process.env) {
   const environment = env.MPE_ENV || 'development';
@@ -16,7 +17,9 @@ export function loadConfig(env = process.env) {
     callbackUrl: env.MPE_CALLBACK_URL || '',
     callbackToken: env.MPE_CALLBACK_TOKEN || '',
     callbackSigningSecret: env.MPE_CALLBACK_SIGNING_SECRET || '',
+    callbackMaxAttempts: positiveInteger(env.MPE_CALLBACK_MAX_ATTEMPTS || 3, 'MPE_CALLBACK_MAX_ATTEMPTS'),
     dataDir: path.resolve(root, env.MPE_DATA_DIR || 'data'),
+    inputDir: path.resolve(root, env.MPE_INPUT_DIR || 'data/input'),
     logDir: path.resolve(root, env.MPE_LOG_DIR || 'logs'),
     outputDir: path.resolve(root, env.MPE_OUTPUT_DIR || 'output'),
     ffmpegPath,
@@ -26,6 +29,10 @@ export function loadConfig(env = process.env) {
     openAiApiKey: env.OPENAI_API_KEY || '',
     openAiTtsModel: env.OPENAI_TTS_MODEL || 'gpt-4o-mini-tts',
     openAiTtsVoice: env.OPENAI_TTS_VOICE || 'coral',
+    publicBaseUrl: (env.MPE_PUBLIC_BASE_URL || '').replace(/\/+$/, ''),
+    allowedSourceHosts: hostList(env.MPE_ALLOWED_SOURCE_HOSTS || 'res.cloudinary.com'),
+    sourceDownloadMaxBytes: positiveInteger(env.MPE_SOURCE_DOWNLOAD_MAX_BYTES || 200_000_000, 'MPE_SOURCE_DOWNLOAD_MAX_BYTES'),
+    sourceDownloadTimeoutMs: positiveInteger(env.MPE_SOURCE_DOWNLOAD_TIMEOUT_MS || 60_000, 'MPE_SOURCE_DOWNLOAD_TIMEOUT_MS'),
     maxRequestBytes: positiveInteger(env.MPE_MAX_REQUEST_BYTES || 2_000_000, 'MPE_MAX_REQUEST_BYTES'),
     requestTimeoutMs: positiveInteger(env.MPE_REQUEST_TIMEOUT_MS || 30_000, 'MPE_REQUEST_TIMEOUT_MS'),
     headersTimeoutMs: positiveInteger(env.MPE_HEADERS_TIMEOUT_MS || 35_000, 'MPE_HEADERS_TIMEOUT_MS'),
@@ -37,6 +44,7 @@ export function loadConfig(env = process.env) {
 export function validateConfig(config) {
   if (!['mock', 'openai'].includes(config.ttsProvider)) throw new Error('MPE_TTS_PROVIDER must be mock or openai');
   if (config.ttsProvider === 'openai' && !config.openAiApiKey) throw new Error('OPENAI_API_KEY is required when MPE_TTS_PROVIDER=openai');
+  if (config.environment === 'production' && config.allowedSourceHosts.length === 0) throw new Error('MPE_ALLOWED_SOURCE_HOSTS is required in production');
   if (config.environment === 'production' && !config.apiToken) throw new Error('MPE_API_TOKEN is required when MPE_ENV=production');
   if (config.callbackUrl && (!config.callbackToken || !config.callbackSigningSecret)) throw new Error('MPE_CALLBACK_TOKEN and MPE_CALLBACK_SIGNING_SECRET are required when MPE_CALLBACK_URL is set');
   if (config.environment === 'production' && config.host === '0.0.0.0' && !config.apiToken) throw new Error('Public production bind requires MPE_API_TOKEN');

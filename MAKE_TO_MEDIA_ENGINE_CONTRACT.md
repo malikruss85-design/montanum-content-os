@@ -43,14 +43,14 @@ The current engine exposes `POST /v1/productions` for this command and `POST /v1
   "contentId": "Airtable Content record ID",
   "status": "",
   "outputAssets": [
-    { "assetId": "", "assetClass": "narration|subtitle|final_publication", "storageReference": "" }
+    { "assetId": "", "assetClass": "narration|subtitle|final_publication", "downloadUrl": "authenticated engine URL" }
   ],
   "error": { "code": "", "message": "", "retryable": false },
   "occurredAt": "ISO-8601 timestamp"
 }
 ```
 
-Make records the event, updates the concise Reel production fields on the target Content record, and sends preview/approval notification only for a validated `final_render_ready` event.
+Make downloads `downloadUrl` with the Engine bearer token, uploads the resulting file through the existing media-storage connection, then records the durable URL in Airtable. It sends preview/approval notification only for a validated `final_render_ready` event.
 
 ## Authentication and verification
 

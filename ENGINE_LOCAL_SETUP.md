@@ -30,4 +30,4 @@ If FFmpeg is unavailable, contract/idempotency/approval tests still run; the ren
 - The server binds to localhost by default.
 - Configure `MPE_API_TOKEN` before exposing a non-health endpoint outside the local machine.
 - Keep FFmpeg, local data, logs, output, and any future secrets out of source control.
-- This local engine does not contact external providers or publish media.
+- With the default Mock TTS it does not contact external providers or publish media. Setting `MPE_TTS_PROVIDER=openai` and an `OPENAI_API_KEY` enables OpenAI narration; it still never publishes directly to Instagram.

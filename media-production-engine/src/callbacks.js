@@ -7,6 +7,15 @@ export function createCallbackHeaders({ callbackToken, callbackSigningSecret }, 
 
 export async function postAuthenticatedCallback(config, payload) {
   if (!config.callbackUrl) return { delivered: false, reason: 'callback_not_configured' };
-  const controller = new AbortController(); const timer = setTimeout(() => controller.abort(), config.requestTimeoutMs);
-  try { const response = await fetch(config.callbackUrl, { method: 'POST', headers: createCallbackHeaders(config, payload), body: JSON.stringify(payload), signal: controller.signal }); if (!response.ok) throw new Error(`Callback returned HTTP ${response.status}`); return { delivered: true, status: response.status }; } finally { clearTimeout(timer); }
+  let lastError;
+  for (let attempt = 1; attempt <= config.callbackMaxAttempts; attempt += 1) {
+    const controller = new AbortController(); const timer = setTimeout(() => controller.abort(), config.requestTimeoutMs);
+    try {
+      const response = await fetch(config.callbackUrl, { method: 'POST', headers: createCallbackHeaders(config, payload), body: JSON.stringify(payload), signal: controller.signal });
+      if (!response.ok) throw new Error(`Callback returned HTTP ${response.status}`);
+      return { delivered: true, status: response.status, attempt };
+    } catch (error) { lastError = error; if (attempt < config.callbackMaxAttempts) await new Promise(resolve => setTimeout(resolve, attempt * 250)); }
+    finally { clearTimeout(timer); }
+  }
+  throw lastError;
 }
