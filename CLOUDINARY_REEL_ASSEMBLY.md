@@ -37,6 +37,25 @@ Create one dedicated scenario named **Reel Production — Cloudinary Assembly**.
 7. Force Cloudinary to generate the derived rendition, then record its final HTTPS URL, subtitle URL, duration and validation result in Airtable.
 8. Set the Content record to **Approval Required / Pending Approval** and send the preview to Telegram. Do not create a publication or call Instagram.
 
+## Exact delivery transformation contract
+
+The Cloudinary delivery URL is the final assembly instruction; it does not require a Render API. The repository includes a tested reference builder at `media-production-engine/src/services/cloudinary-reel-url.js`. Make must generate an equivalent URL from the ordered approved scene assets.
+
+For a still-image first scene, the delivery path starts with `image/upload`. The final `f_mp4` instructs Cloudinary to make a video; this is how a photo-only Reel is supported. Every later scene is appended with `fl_splice`, video scenes retain their approved `so`/`eo` trim points, `ac_none` removes original sound, and the generated OpenAI narration is layered back as `l_audio`. The final layer is the uploaded English SRT file.
+
+Example shape (public IDs are illustrative):
+
+```text
+https://res.cloudinary.com/<cloud>/image/upload/
+ac_none,c_fill,g_auto,h_1920,w_1080,du_6/
+l_video:telegram:file_99,c_fill,g_auto,h_1920,w_1080,so_2,eo_6/fl_layer_apply,fl_splice/
+l_audio:reels:<content-id>:v1:narration/fl_layer_apply/
+l_subtitles:reels:<content-id>:v1:subtitles.en/fl_layer_apply/
+f_mp4/telegram/file_98.mp4
+```
+
+The scenario must never treat an Airtable attachment URL as a durable source ID. It first reads the existing Cloudinary delivery URL from ordered Bundle Media, derives the Cloudinary public ID, and writes final URLs back to these existing Content fields: `Narration Asset`, `Subtitle Asset`, `Final Reel Asset`, `Reel Duration Seconds`, `Reel Validation Summary`, `Reel Production Status` and `Reel Approval Status`.
+
 ## Approval and publishing boundary
 
 The existing Airtable calendar remains the source of truth for timing. Only a human changing the completed Reel record to `Approve` may advance it to `Scheduled`; only then may the existing Publisher be extended with a dedicated Reel route that uses **Final Reel Asset URL**. A failed or unapproved Reel can never enter the publishing path.
