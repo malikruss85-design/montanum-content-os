@@ -1,5 +1,10 @@
 # Engine Changelog
 
+## 2026-08-03 - Reel Brief Generator media-manifest fix
+
+- Corrected the live Make `Reel Brief Generator` prompt mapping from the nonexistent Array Aggregator field `4.media` to `4.Array[]`.
+- Verified from the saved module configuration that the OpenAI prompt now receives the complete Bundle Media array. No Telegram, calendar, carousel, or publishing scenario was changed.
+
 ## 2026-08-03 - Reel Brief Generator integration package
 
 - Added strict Project Showcase Reel Brief JSON schema and representative input/output samples.
