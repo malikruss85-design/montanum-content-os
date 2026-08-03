@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: montanum-media-production-engine
+    runtime: docker
+    plan: starter
+    region: singapore
+    branch: main
+    autoDeployTrigger: commit
+    dockerfilePath: ./media-production-engine/Dockerfile
+    dockerContext: ./media-production-engine
+    healthCheckPath: /ready
+    maxShutdownDelaySeconds: 300
+    disk:
+      name: mpe-data
+      mountPath: /var/lib/mpe
+      sizeGB: 10
+    envVars:
+      - key: MPE_ENV
+        value: production
+      - key: MPE_HOST
+        value: 0.0.0.0
+      - key: MPE_API_TOKEN
+        generateValue: true
+      - key: MPE_TTS_PROVIDER
+        value: openai
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_TTS_MODEL
+        value: gpt-4o-mini-tts
+      - key: OPENAI_TTS_VOICE
+        value: coral

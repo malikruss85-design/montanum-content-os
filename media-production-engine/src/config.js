@@ -11,7 +11,7 @@ export function loadConfig(env = process.env) {
     root,
     environment,
     host: env.MPE_HOST || '127.0.0.1',
-    port: positiveInteger(env.MPE_PORT || 4317, 'MPE_PORT'),
+    port: positiveInteger(env.MPE_PORT || env.PORT || 4317, 'MPE_PORT'),
     apiToken: env.MPE_API_TOKEN || '',
     callbackUrl: env.MPE_CALLBACK_URL || '',
     callbackToken: env.MPE_CALLBACK_TOKEN || '',
