@@ -31,7 +31,7 @@ AND(
 | # | Make module | Input / action | Airtable result |
 | --- | --- | --- | --- |
 | 1 | Airtable: Search Records | Find one eligible Content record using the formula above. | None. |
-| 2 | OpenAI: Generate speech from text | Existing `My OpenAI connection`; model `gpt-4o-mini-tts`; voice `coral`; response format MP3; text = `Voice-over Script`. | No Airtable write yet. |
+| 2 | OpenAI: Generate speech from text | Existing `My OpenAI connection`; model `gpt-4o-mini-tts`; voice `coral`; response format MP3; text = `Subtitle Script` (the approved English narration text). | No Airtable write yet. |
 | 3 | Cloudinary: Upload a resource | Existing `My Cloudinary connection`; upload the binary from #2 as resource type `video`; public ID `reels/<Content record ID>/v<Reel Brief Version>/narration`. | No Airtable write yet. |
 | 4 | Airtable: Update a Record | Write the Cloudinary `secure_url` to `Narration Asset` and set `Reel Production Status = Narration Ready`. | Prevents the source record from being selected again by the `Brief Ready` trigger. |
 | 5 | Airtable: Search Records | Read only the record's linked Bundle Media in `Order` order. The saved module filters `ARRAYJOIN({Bundle})` by the current record's `Content Bundles[1]`. Fail if no source is a `res.cloudinary.com` delivery URL. | On failure: `Production Failed` with safe summary. |
@@ -52,8 +52,9 @@ The Scene Plan parser uses the saved Make data structure `Reel Brief Scenes v1` 
 
 | Content field | Use |
 | --- | --- |
-| `Voice-over Script` | English source for OpenAI TTS. |
-| `Subtitle Script` / approved `Scene Plan JSON` | Source for SRT text and timed captions. `Scene Plan JSON` is also the authoritative `source_bundle_media_id` join input. |
+| `Voice-over Script` | Kept as the approved production brief field and eligibility check. |
+| `Subtitle Script` | Current English source for OpenAI TTS and for timed captions. |
+| Approved `Scene Plan JSON` | Authoritative source for timed-caption segments and the `source_bundle_media_id` join input. |
 | `Content Bundles` → `Bundle Media` | Ordered visual assets. |
 | `Reel Brief Version` | Part of deterministic Cloudinary public IDs and retry identity. |
 | `Narration Asset`, `Subtitle Asset`, `Final Reel Asset` | Cloudinary `secure_url` values only. |
@@ -93,7 +94,7 @@ The first controlled test is intentionally the next action: it will establish th
 
 ### Test status (3 August 2026)
 
-Two on-demand tests were requested and started while the scenario schedule remained disabled. Both were stopped by Make before any record processing with `Validation failed for 1 parameter(s)`. The first Airtable Search Records module had its Base incorrectly set to mapping mode; it was corrected to the static `Montanum Content OS` base and saved. The second attempt reported the same generic validation error, without identifying the parameter in Make's execution log. No OpenAI, Cloudinary, Airtable, Telegram, or publishing operation was reached. Do not weaken the search formula to work around this: first resolve the remaining first-module validation field while preserving the dedicated-record filter.
+Three on-demand tests were requested and started while the scenario schedule remained disabled. The first Airtable Search Records module had its Base incorrectly set to mapping mode; it was corrected to the static `Montanum Content OS` base and saved. The TTS mapping was then changed from `Voice-over Script` to `Subtitle Script`, which is the approved English source. The latest execution confirmed that the scenario configuration is valid, but Airtable returned **zero eligible Content records** for the dedicated formula. Make consequently supplied no input bundle to TTS and reported its standard required-input validation error. No OpenAI generation, Cloudinary upload, Airtable write, Telegram action, schedule, or publishing operation was reached. Do not weaken the eligibility formula: the next test requires one dedicated Content record that matches every condition and has real approved Cloudinary media.
 
 ## One-record acceptance test
 
