@@ -91,6 +91,10 @@ The scenario now has a saved **HTTP - Make a request** module configured as a mu
 
 The first controlled test is intentionally the next action: it will establish the HTTP response schema in Make and confirm that Cloudinary's returned `secure_url` is written to `Subtitle Asset` before the derived-video request and final media-plan update are enabled.
 
+### Test status (3 August 2026)
+
+Two on-demand tests were requested and started while the scenario schedule remained disabled. Both were stopped by Make before any record processing with `Validation failed for 1 parameter(s)`. The first Airtable Search Records module had its Base incorrectly set to mapping mode; it was corrected to the static `Montanum Content OS` base and saved. The second attempt reported the same generic validation error, without identifying the parameter in Make's execution log. No OpenAI, Cloudinary, Airtable, Telegram, or publishing operation was reached. Do not weaken the search formula to work around this: first resolve the remaining first-module validation field while preserving the dedicated-record filter.
+
 ## One-record acceptance test
 
 1. Create or select a dedicated test Content record with real, approved Cloudinary source media and status `Brief Ready` / readiness `Ready`.
