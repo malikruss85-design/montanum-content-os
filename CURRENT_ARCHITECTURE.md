@@ -93,4 +93,4 @@ New bundle -> validate input -> generate five ideas -> editor review -> approve 
 -> write content package -> calendar preview -> manual publishing confirmation
 ```
 
-Video generation, automatic Reel assembly, and expanded providers should remain outside this boundary until the loop is demonstrably reliable.
+Video generation and expanded providers remain outside this boundary. The selected Reel MVP is documented separately as the intended next route: source media already held in Cloudinary is assembled through an isolated `Reel Production — Cloudinary Assembly` Make scenario, with OpenAI TTS and an Airtable approval boundary. See [`CLOUDINARY_REEL_ASSEMBLY.md`](CLOUDINARY_REEL_ASSEMBLY.md) and [`MAKE_REEL_PRODUCTION_CLOUDINARY_RUNBOOK.md`](MAKE_REEL_PRODUCTION_CLOUDINARY_RUNBOOK.md). It must pass its one-record acceptance test before it is enabled or connected to the Publisher.
