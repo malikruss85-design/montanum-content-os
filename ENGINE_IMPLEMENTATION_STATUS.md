@@ -14,8 +14,8 @@
 ## Intentionally not enabled yet
 
 - Production Reel assembly now uses the existing Make Cloudinary connection rather than a Render-hosted service. The exact Make module sequence and Cloudinary asset contract are in `CLOUDINARY_REEL_ASSEMBLY.md`.
-- A separate, disabled Make scenario, `Reel Production — Cloudinary Assembly` (`6806011`), now persists the safe first production segment: Airtable eligible-Reel search → OpenAI `gpt-4o-mini-tts` with voice `coral` → Cloudinary MP3 upload under a deterministic public ID → Content update with the Cloudinary narration URL and `Narration Ready`. It has not been run, enabled, or connected to Telegram/Instagram.
-- Remaining live Make work is the source-scene aggregation, SRT upload, final Cloudinary transformation, preview update and one controlled acceptance run. Existing collector, approval and publisher routes stay unchanged until a final Cloudinary MP4 is acceptance-tested.
+- A separate, disabled Make scenario, `Reel Production — Cloudinary Assembly` (`6806011`), now persists the safe preparation segment: Airtable eligible-Reel search → OpenAI `gpt-4o-mini-tts` with voice `coral` → Cloudinary MP3 upload under a deterministic public ID → Content update with narration URL and `Narration Ready` → Bundle Media lookup → parse full `Scene Plan JSON` → iterate scenes → read each referenced Bundle Media record. It has not been run, enabled, or connected to Telegram/Instagram.
+- Remaining live Make work is the explicit Bundle-membership filter, source-scene aggregation, SRT upload, final Cloudinary transformation, preview update and one controlled acceptance run. Existing collector, approval and publisher routes stay unchanged until a final Cloudinary MP4 is acceptance-tested.
 - Direct or automatic Instagram publication, generated images/video, advanced transitions, music and additional channels.
 
 ## Verification state — 3 August 2026

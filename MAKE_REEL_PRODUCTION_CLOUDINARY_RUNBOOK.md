@@ -44,7 +44,9 @@ AND(
 
 ### Saved live segment
 
-The first safe segment is already saved in the disabled scenario: modules 2–5 currently implement the eligibility search, OpenAI `gpt-4o-mini-tts` (`coral`, MP3), Cloudinary narration upload, and Content update. The final update writes `Narration Asset` from Cloudinary's `Secure URL` and sets `Reel Production Status` to `Narration Ready`, preventing a second scheduled pass from generating another narration. No module has run.
+The disabled scenario now saves the safe preparation segment (Make module labels 2–9): eligibility search, OpenAI `gpt-4o-mini-tts` (`coral`, MP3), Cloudinary narration upload, Content update, linked Bundle Media search, full `Scene Plan JSON` parsing, scene iteration, and per-scene Bundle Media record read by `source_bundle_media_id`. The final narration update writes `Narration Asset` from Cloudinary's `Secure URL` and sets `Reel Production Status` to `Narration Ready`, preventing a second scheduled pass from generating another narration. No module has run.
+
+The Scene Plan parser uses the saved Make data structure `Reel Brief Scenes v1` and parses the actual top-level Brief object, then iterates its `scenes[]` array. It does **not** infer a scene from free text. The next module must add an explicit bundle-membership filter to the fetched Bundle Media record before any SRT or Cloudinary transformation is allowed.
 
 ## Required field mapping
 
