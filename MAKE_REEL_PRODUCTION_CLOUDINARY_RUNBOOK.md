@@ -87,7 +87,9 @@ The Cloudinary account now has the unsigned preset `montanum_reel_srt_raw`. The 
 POST https://api.cloudinary.com/v1_1/dsmg07va6/raw/upload
 ```
 
-with the Make Code outputs `srtDataUri` and `subtitlesPublicId`, plus `upload_preset=montanum_reel_srt_raw`. The Make HTTP form editor did not preserve this mapped body without validation errors, so the attempted unsaved HTTP module was cancelled rather than leaving the live scenario invalid. No SRT asset was uploaded and no scenario run was made. The next implementation step is to wire the raw request through a tested HTTP body configuration, then map its returned `secure_url` into `Subtitle Asset`.
+The scenario now has a saved **HTTP - Make a request** module configured as a multipart `POST` to that endpoint. Its `file` field receives Make Code's `srtDataUri`; `upload_preset` is `montanum_reel_srt_raw`; and `public_id` receives `subtitlesPublicId`. A following Airtable update targets the source Content record and stages the returned subtitle asset URL. No SRT asset was uploaded, no Airtable record was changed, and the scenario remains inactive.
+
+The first controlled test is intentionally the next action: it will establish the HTTP response schema in Make and confirm that Cloudinary's returned `secure_url` is written to `Subtitle Asset` before the derived-video request and final media-plan update are enabled.
 
 ## One-record acceptance test
 
