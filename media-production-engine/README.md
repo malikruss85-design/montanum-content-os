@@ -1,6 +1,6 @@
 # Montanum Media Production Engine
 
-Local MVP engine for assembling a reviewed Instagram Reel from original source media, narration, subtitles, and simple cuts. It supports OpenAI TTS when configured; Make, Airtable, Telegram, and Instagram handoffs remain the next integration layer.
+Optional local fallback engine for assembling a reviewed Instagram Reel from original source media, narration, subtitles, and simple cuts. Production MVP assembly uses Cloudinary through Make; this engine remains useful for controlled local tests and future compositions beyond Cloudinary transformations.
 
 ## OpenAI TTS
 
@@ -17,6 +17,6 @@ Without those variables the development engine keeps using its mock voice for lo
 
 ## Source media and final assets
 
-Scenes can use local paths for development or approved HTTPS source URLs. The production default permits existing Cloudinary source URLs only (`res.cloudinary.com`), downloads them into the persistent run directory, and refuses unapproved hosts. Callback assets include an authenticated `downloadUrl`; Make downloads the MP4/subtitle with the engine token and places the durable public copy in the existing media-storage flow.
+Scenes can use local paths for development or approved HTTPS source URLs. The local fallback permits existing Cloudinary source URLs only (`res.cloudinary.com`), downloads them into the persistent run directory, and refuses unapproved hosts. Do not deploy this service for the current MVP; follow `CLOUDINARY_REEL_ASSEMBLY.md` for the production path.
 
 See the project-root engine documents for architecture, setup, and the staged implementation scope.

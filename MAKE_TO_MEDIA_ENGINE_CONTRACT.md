@@ -1,4 +1,6 @@
-# Make to Media Engine Contract
+# Make to Media Engine Contract — optional local fallback
+
+> Production Reel assembly is Cloudinary-first and is defined in [`CLOUDINARY_REEL_ASSEMBLY.md`](CLOUDINARY_REEL_ASSEMBLY.md). This HTTP contract remains only for local FFmpeg verification or a future composition that Cloudinary cannot express. Do not create a Render service for this contract.
 
 ## Responsibility split
 

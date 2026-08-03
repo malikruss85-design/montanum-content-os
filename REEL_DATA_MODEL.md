@@ -25,7 +25,7 @@ The Reel phase extends the existing `Content` record and reuses its linked `Cont
 | Reel Production Status | Single select | See controlled values below. |
 | Reel Production Request ID | Single-line text | Immutable idempotency key linking TTS and render work. |
 | TTS Job ID | Single-line text | Provider-neutral external job reference. |
-| Assembly Job ID | Single-line text | Render service external job reference. |
+| Assembly Job ID | Single-line text | Cloudinary final-transformation request/reference for the production MVP; a local renderer run ID only when the optional fallback is used. |
 | Reel Production Error | Long text | Human-readable latest error; exclude secrets. |
 | Reel Preview Sent At | Date/time | When Telegram preview was delivered. |
 | Reel Approved At | Date/time | When manual approval occurred. |
