@@ -46,7 +46,7 @@ AND(
 
 The disabled scenario now saves the safe preparation segment (Make module labels 2–9): eligibility search, OpenAI `gpt-4o-mini-tts` (`coral`, MP3), Cloudinary narration upload, Content update, linked Bundle Media search, full `Scene Plan JSON` parsing, scene iteration, and per-scene Bundle Media record read by `source_bundle_media_id`. The final narration update writes `Narration Asset` from Cloudinary's `Secure URL` and sets `Reel Production Status` to `Narration Ready`, preventing a second scheduled pass from generating another narration. No module has run.
 
-The Scene Plan parser uses the saved Make data structure `Reel Brief Scenes v1` and parses the actual top-level Brief object, then iterates its `scenes[]` array. It does **not** infer a scene from free text. The next module must add an explicit bundle-membership filter to the fetched Bundle Media record before any SRT or Cloudinary transformation is allowed.
+The Scene Plan parser uses the saved Make data structure `Reel Brief Scenes v1` and parses the actual top-level Brief object, then iterates its `scenes[]` array. It does **not** infer a scene from free text. The per-scene Bundle Media read is now followed by the saved filter `Scene media belongs to Content Bundle`: `Bundle Media.Bundle[1] = Content.Content Bundles[1]`. Only filtered records enter the Array Aggregator, which retains the durable `ID` and `File URL` for the later Cloudinary plan.
 
 ## Required field mapping
 
