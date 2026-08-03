@@ -79,7 +79,15 @@ The saved module receives the Content record's `Scene Plan JSON`, the validated 
 
 ### Current Cloudinary connector limitation
 
-The available Make Cloudinary **Upload a Resource** module exposes only `image` and `video` resource types; it cannot upload the required SRT as Cloudinary `raw`. Do not upload the SRT as video: `l_subtitles` requires a raw `.srt` asset. The safe next integration is an HTTP request to Cloudinary's raw upload endpoint, using an unsigned upload preset restricted to SRT files. Creating that preset is an account-level Cloudinary action and is the only remaining manual setup item before the branch can be fully wired.
+The available Make Cloudinary **Upload a Resource** module exposes only `image` and `video` resource types; it cannot upload the required SRT as Cloudinary `raw`. Do not upload the SRT as video: `l_subtitles` requires a raw `.srt` asset.
+
+The Cloudinary account now has the unsigned preset `montanum_reel_srt_raw`. The remaining connector must use Cloudinary's raw endpoint:
+
+```text
+POST https://api.cloudinary.com/v1_1/dsmg07va6/raw/upload
+```
+
+with the Make Code outputs `srtDataUri` and `subtitlesPublicId`, plus `upload_preset=montanum_reel_srt_raw`. The Make HTTP form editor did not preserve this mapped body without validation errors, so the attempted unsaved HTTP module was cancelled rather than leaving the live scenario invalid. No SRT asset was uploaded and no scenario run was made. The next implementation step is to wire the raw request through a tested HTTP body configuration, then map its returned `secure_url` into `Subtitle Asset`.
 
 ## One-record acceptance test
 
