@@ -71,6 +71,12 @@ Reel Approval Status = Not Requested
 
 It must not include an API key, Telegram token, temporary Airtable attachment URL or raw provider response. A retry begins only after a human resets the record to `Brief Ready` and fixes the media/brief.
 
+## SRT / transformation-code decision
+
+The remaining deterministic step needs cumulative scene timing and a Cloudinary URL with an arbitrary number of splice layers. Make's basic aggregators cannot safely calculate both from the validated scene array alone. The official Make **Code** module can run that small JavaScript transformation inside this existing scenario, but it consumes Make Code credits. It is therefore **not installed or enabled** without the owner's explicit approval.
+
+If approved, place one Make Code module after the validated Array Aggregator. Its sole inputs are the approved scene array, Cloudinary source URLs, narration public ID, and subtitle public ID. It must return `srt`, `finalReelUrl`, and `expectedDurationSeconds`, equivalent to the repository-tested `media-production-engine/src/services/cloudinary-reel-input.js` and `cloudinary-reel-url.js`. It must not call OpenAI, Cloudinary, Telegram, or Instagram itself. The following standard modules upload the returned SRT as `raw` and request the returned final Cloudinary URL.
+
 ## One-record acceptance test
 
 1. Create or select a dedicated test Content record with real, approved Cloudinary source media and status `Brief Ready` / readiness `Ready`.
