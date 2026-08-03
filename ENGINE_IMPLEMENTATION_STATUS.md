@@ -23,6 +23,6 @@
 - `node --test` with the project-local `ffmpeg-static` binary: 32 passed, 0 failed, 0 skipped.
 - Tests cover real FFmpeg assembly of a 1080×1920 MP4 with audio and burned-in subtitles, a complete Cloudinary URL → download → render path, OpenAI request shape without a live API call, authenticated asset delivery, signed callback retry, idempotency and approval invalidation.
 - A local server startup check passed for both `/health` and `/ready` using the project-local FFmpeg binary.
-- Cloudinary URL planning tests verify transformed delivery-URL parsing, source type verification, ordered image/video splicing, narration and subtitle layer construction without calling a paid provider.
+- Cloudinary URL planning tests verify transformed delivery-URL parsing, Brief-to-Bundle-Media joining, source type verification, ordered image/video splicing, narration and raw `.srt` subtitle layer construction without calling a paid provider.
 - The `npm run plan:cloudinary` CLI smoke check generates a 9:16 final delivery URL and timed SRT from a photo/video fixture without a network call.
 - Docker Desktop is not installed in this workspace, so the optional container fallback has not been run locally. No Render service or paid disk is created or required.

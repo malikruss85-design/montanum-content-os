@@ -12,6 +12,14 @@ function requirePublicId(publicId, label) {
   return publicId.trim().replace(/^\/+|\/+$/g, '');
 }
 
+function requireSubtitlePublicId(publicId) {
+  const normalized = requirePublicId(publicId, 'subtitlesPublicId');
+  if (!/\.(srt|vtt)$/i.test(normalized)) {
+    throw new Error('subtitlesPublicId must include a .srt or .vtt extension');
+  }
+  return normalized;
+}
+
 function requireResourceType(resourceType, label) {
   if (!CLOUDINARY_RESOURCE_TYPES.has(resourceType)) throw new Error(`${label} must be image or video`);
   return resourceType;
@@ -91,6 +99,8 @@ export function createCloudinaryReelAssemblyPlan({ scenes, narrationPublicId, su
     cloudName: [...cloudNames][0],
     scenes: mapped,
     expectedDurationSeconds: mapped.reduce((total, scene) => total + scene.durationSeconds, 0),
+    narrationPublicId: requirePublicId(narrationPublicId, 'narrationPublicId'),
+    subtitlesPublicId: requireSubtitlePublicId(subtitlesPublicId),
     finalReelUrl: buildCloudinaryReelUrl({ cloudName: [...cloudNames][0], scenes: mapped, narrationPublicId, subtitlesPublicId }),
     ...(includeSrt ? { srt: buildSceneSrt(scenes) } : {})
   };
@@ -119,7 +129,7 @@ export function buildCloudinaryReelUrl({ cloudName, scenes, narrationPublicId, s
     `ac_none,c_fill,g_auto,h_1920,w_1080${baseTiming.length ? `,${baseTiming.join(',')}` : ''}`,
     ...ordered.slice(1).map(sceneTransformation),
     `l_audio:${toLayerPublicId(narrationPublicId)}/fl_layer_apply`,
-    `l_subtitles:${toLayerPublicId(subtitlesPublicId)}/fl_layer_apply`,
+    `l_subtitles:${toLayerPublicId(requireSubtitlePublicId(subtitlesPublicId))}/fl_layer_apply`,
     'f_mp4'
   ];
   return `https://res.cloudinary.com/${encodeURIComponent(cloudName.trim())}/${firstType}/upload/${transformations.join('/')}/${firstPublicId}.mp4`;

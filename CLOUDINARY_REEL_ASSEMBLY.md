@@ -26,7 +26,7 @@ Create one dedicated scenario named **Reel Production — Cloudinary Assembly**.
 2. Reject the run with `Needs Media` when there is no usable video or still asset. Never invent a visual asset.
 3. Ask OpenAI for a concise English voice-over and subtitle text from the approved Reel Brief.
 4. Use OpenAI TTS to create the English MP3. Upload it to Cloudinary as a `video` resource in `reels/<content-record-id>/narration/`.
-5. Build SRT from the approved scene caption segments and scene durations. The tested local command `npm run plan:cloudinary` outputs the exact UTF-8 SRT, so the Make route must preserve its timing convention. Upload it as a `raw` Cloudinary resource in `reels/<content-record-id>/subtitles/`.
+5. Join each `source_bundle_media_id` in `Scene Plan JSON` to a Bundle Media record from the same Content Bundle. Use only its durable Cloudinary `File URL`; reject a missing or out-of-bundle ID. Build SRT from the approved scene caption segments and scene durations. The tested local command `npm run plan:cloudinary` outputs the exact UTF-8 SRT, so the Make route must preserve its timing convention. Upload it as a `raw` Cloudinary resource with public ID `reels/<content-record-id>/v<brief-version>/subtitles.en.srt` (the `.srt` extension is required by the subtitle layer).
 6. Build a Cloudinary transformation from the ordered source public IDs:
    - normalize each asset to `1080x1920` before splicing;
    - trim video scenes to their approved start/end offsets;
@@ -50,11 +50,25 @@ https://res.cloudinary.com/<cloud>/image/upload/
 ac_none,c_fill,g_auto,h_1920,w_1080,du_6/
 l_video:telegram:file_99,c_fill,g_auto,h_1920,w_1080,so_2,eo_6/fl_layer_apply,fl_splice/
 l_audio:reels:<content-id>:v1:narration/fl_layer_apply/
-l_subtitles:reels:<content-id>:v1:subtitles.en/fl_layer_apply/
+l_subtitles:reels:<content-id>:v1:subtitles.en.srt/fl_layer_apply/
 f_mp4/telegram/file_98.mp4
 ```
 
 The scenario must never treat an Airtable attachment URL as a durable source ID. It first reads the existing Cloudinary delivery URL from ordered Bundle Media, derives the Cloudinary public ID, and writes final URLs back to these existing Content fields: `Narration Asset`, `Subtitle Asset`, `Final Reel Asset`, `Reel Duration Seconds`, `Reel Validation Summary`, `Reel Production Status` and `Reel Approval Status`.
+
+### Brief-to-media join contract
+
+`Scene Plan JSON` references media by `source_bundle_media_id`, while Airtable's `Bundle Media` table holds the durable URL. Before building a delivery URL, create one ordered scene for every Brief item:
+
+| Brief field | Bundle Media / Cloudinary result |
+| --- | --- |
+| `source_bundle_media_id` | Match to the Bundle Media record ID from the same linked Content Bundle. |
+| `source_asset_type` | `original_photo`/`render` must resolve to Cloudinary `image`; `original_video` must resolve to `video`. |
+| `duration_seconds` | Still duration; for a video with no explicit trim, use `so_0,eo_<duration_seconds>`. |
+| `trim_start_seconds`, `trim_end_seconds` (optional) | Explicit video trim, when the approved brief contains them. |
+| `subtitle_segment` | One SRT cue with accumulated scene timing. |
+
+`media-production-engine/src/services/cloudinary-reel-input.js` and `npm run plan:cloudinary` implement and test this join locally. Make must reproduce the result before its Cloudinary upload/transformation modules execute.
 
 ## Approval and publishing boundary
 

@@ -5,7 +5,7 @@ import { buildCloudinaryReelUrl, createCloudinaryReelAssemblyPlan, parseCloudina
 const baseInput = {
   cloudName: 'dsmg07va6',
   narrationPublicId: 'reels/rec123/v1/narration',
-  subtitlesPublicId: 'reels/rec123/v1/subtitles.en',
+  subtitlesPublicId: 'reels/rec123/v1/subtitles.en.srt',
   scenes: [
     { sequence: 1, resourceType: 'image', publicId: 'telegram/file_98', durationSeconds: 6 },
     { sequence: 2, resourceType: 'video', publicId: 'telegram/file_99', durationSeconds: 4, startSeconds: 2, endSeconds: 6 }
@@ -14,7 +14,7 @@ const baseInput = {
 
 test('builds an ordered 9:16 Cloudinary Reel with audio and burned subtitles', () => {
   const url = buildCloudinaryReelUrl(baseInput);
-  assert.equal(url, 'https://res.cloudinary.com/dsmg07va6/image/upload/ac_none,c_fill,g_auto,h_1920,w_1080,du_6/l_video:telegram:file_99,c_fill,g_auto,h_1920,w_1080,so_2,eo_6/fl_layer_apply,fl_splice/l_audio:reels:rec123:v1:narration/fl_layer_apply/l_subtitles:reels:rec123:v1:subtitles.en/fl_layer_apply/f_mp4/telegram/file_98.mp4');
+  assert.equal(url, 'https://res.cloudinary.com/dsmg07va6/image/upload/ac_none,c_fill,g_auto,h_1920,w_1080,du_6/l_video:telegram:file_99,c_fill,g_auto,h_1920,w_1080,so_2,eo_6/fl_layer_apply,fl_splice/l_audio:reels:rec123:v1:narration/fl_layer_apply/l_subtitles:reels:rec123:v1:subtitles.en.srt/fl_layer_apply/f_mp4/telegram/file_98.mp4');
 });
 
 test('rejects a gap in scene order before a delivery URL is made', () => {
@@ -33,28 +33,32 @@ test('parses a transformed Cloudinary delivery URL without using a temporary att
 
 test('creates the complete assembly plan directly from approved scene delivery URLs', () => {
   const plan = createCloudinaryReelAssemblyPlan({
-    narrationPublicId: 'reels/rec123/v1/narration', subtitlesPublicId: 'reels/rec123/v1/subtitles.en',
+    narrationPublicId: 'reels/rec123/v1/narration', subtitlesPublicId: 'reels/rec123/v1/subtitles.en.srt',
     scenes: [
       { sceneId: 'scene_1', sequence: 1, sourceAssetType: 'original_photo', sourcePath: 'https://res.cloudinary.com/dsmg07va6/image/upload/v1/folder/first.jpg', stillDuration: 3 },
       { sceneId: 'scene_2', sequence: 2, sourceAssetType: 'original_video', sourcePath: 'https://res.cloudinary.com/dsmg07va6/video/upload/v2/folder/second.mp4', trimStart: 1, trimEnd: 4 }
     ]
   });
   assert.equal(plan.expectedDurationSeconds, 6);
-  assert.match(plan.finalReelUrl, /l_video:folder:second.*l_audio:reels:rec123:v1:narration.*l_subtitles:reels:rec123:v1:subtitles.en/);
+  assert.match(plan.finalReelUrl, /l_video:folder:second.*l_audio:reels:rec123:v1:narration.*l_subtitles:reels:rec123:v1:subtitles.en\.srt/);
 });
 
 test('refuses a source URL whose Cloudinary resource type conflicts with the approved scene type', () => {
   assert.throws(() => createCloudinaryReelAssemblyPlan({
-    narrationPublicId: 'narration', subtitlesPublicId: 'subtitles',
+    narrationPublicId: 'narration', subtitlesPublicId: 'subtitles.srt',
     scenes: [{ sequence: 1, sourceAssetType: 'original_photo', sourcePath: 'https://res.cloudinary.com/dsmg07va6/video/upload/v1/file.mp4', stillDuration: 3 }]
   }), /source type does not match/);
 });
 
 test('allows a first video scene to use its complete source duration when no trim is approved', () => {
   const url = buildCloudinaryReelUrl({
-    cloudName: 'dsmg07va6', narrationPublicId: 'narration', subtitlesPublicId: 'subtitles',
+    cloudName: 'dsmg07va6', narrationPublicId: 'narration', subtitlesPublicId: 'subtitles.srt',
     scenes: [{ sequence: 1, resourceType: 'video', publicId: 'folder/source', durationSeconds: 8 }]
   });
   assert.match(url, /ac_none,c_fill,g_auto,h_1920,w_1080\/l_audio:narration/);
   assert.doesNotMatch(url, /w_1080,\//);
+});
+
+test('requires the raw subtitle filename extension Cloudinary uses to burn captions', () => {
+  assert.throws(() => buildCloudinaryReelUrl({ ...baseInput, subtitlesPublicId: 'reels/rec123/v1/subtitles.en' }), /\.srt or \.vtt/);
 });

@@ -33,6 +33,8 @@
           "scene_id": { "type": "string", "minLength": 1 },
           "sequence": { "type": "integer", "minimum": 1 },
           "duration_seconds": { "type": "number", "exclusiveMinimum": 0 },
+          "trim_start_seconds": { "type": "number", "minimum": 0 },
+          "trim_end_seconds": { "type": "number", "exclusiveMinimum": 0 },
           "source_bundle_media_id": { "type": "string", "minLength": 1 },
           "source_asset_type": { "enum": ["original_video", "original_photo", "render"] },
           "purpose": { "enum": ["hook", "context", "evidence", "development_logic", "close"] },

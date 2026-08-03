@@ -15,7 +15,7 @@ test('creates one approved timed caption per ordered scene', () => {
 
 test('adds scene-timed SRT to a Cloudinary assembly plan when requested', () => {
   const plan = createCloudinaryReelAssemblyPlan({
-    narrationPublicId: 'narration', subtitlesPublicId: 'subtitles', includeSrt: true,
+    narrationPublicId: 'narration', subtitlesPublicId: 'subtitles.srt', includeSrt: true,
     scenes: [{ sequence: 1, sourceAssetType: 'original_photo', sourcePath: 'https://res.cloudinary.com/dsmg07va6/image/upload/v1/source.jpg', stillDuration: 2, subtitleSegment: 'Approved English caption.' }]
   });
   assert.match(plan.srt, /00:00:00,000 --> 00:00:02,000/);

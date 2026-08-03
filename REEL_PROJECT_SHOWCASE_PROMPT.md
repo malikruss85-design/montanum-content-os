@@ -11,7 +11,7 @@ Write concise natural US English. Avoid generic architecture marketing language,
 
 The output is for a realistic 20-40 second vertical 9:16 Project Showcase Reel. Use only provided `bundle_media_record_id` values in scenes. Never reference unsupported media. If material is missing, add it to `missing_media` and set `rendering_readiness` to `needs_media` or `needs_review`; do not invent a replacement.
 
-Produce scenes whose duration seconds are positive and whose total does not exceed target_duration_seconds. Use only `original_video`, `original_photo`, or `render` as source_asset_type. Use `cut` as the only transition. Do not request AI-generated image/video, TTS, rendering, publishing, music, advanced transitions, or other channels.
+Produce scenes whose duration seconds are positive and whose total does not exceed target_duration_seconds. Use only `original_video`, `original_photo`, or `render` as source_asset_type. For a selected video, include `trim_start_seconds` and `trim_end_seconds` only when those exact offsets are supported by the provided media manifest; otherwise omit them and the production route will use the first approved `duration_seconds`. Use `cut` as the only transition. Do not request AI-generated image/video, TTS, rendering, publishing, music, advanced transitions, or other channels.
 
 Return only one JSON object that validates against the supplied Reel Brief JSON Schema. No markdown, comments, or text outside JSON.
 ```
